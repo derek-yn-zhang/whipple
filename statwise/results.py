@@ -770,3 +770,11 @@ These findings underscore the importance of sample size considerations in surgic
 # # jupyter-book clean . --all
 # # jupyter-book build .
 # # open _build/html/index.html
+
+# rm -rf docs
+# cp -r book/_build/html docs
+# touch docs/.nojekyll
+
+# git add docs
+# git commit -m "Update docs with new build"
+# git push

@@ -1,5 +1,0 @@
-format: jb-book
-root: intro
-chapters:
-  - file: analysis
-  - file: code_appendix

@@ -1,6 +1,7 @@
 # Repo-specific
 data/
 archive/
+book/
 *.zip
 
 # Byte-compiled / optimized / DLL files
