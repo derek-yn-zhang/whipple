@@ -1,0 +1,2876 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Analysis &#8212; INPWT Outcomes</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'analysis';</script>
+    <link rel="canonical" href="/whipple/analysis.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Code" href="code_appendix.html" />
+    <link rel="prev" title="Overview" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">INPWT Outcomes</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_appendix.html">Code</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/analysis.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Analysis</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-cleaning">Data Cleaning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-selection">Variable Selection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#univariate-selection">Univariate Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#elastic-net-selection">Elastic Net Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consensus-selection">Consensus Selection</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-modeling">Statistical Modeling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-size-and-model-specification">Sample Size and Model Specification</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#separation-and-convergence">Separation and Convergence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#binary-outcomes">Binary Outcomes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#count-outcomes">Count Outcomes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-reporting">Model Reporting</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-variable-selection-and-modeling">Overview of Variable Selection and Modeling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#surgical-length-of-stay">Surgical Length of Stay</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#postoperative-sepsis">Postoperative Sepsis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#postoperative-surgical-site-infection">Postoperative Surgical Site Infection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#readmission-related-to-primary-procedure">Readmission Related to Primary Procedure</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="analysis">
+<h1>Analysis<a class="headerlink" href="#analysis" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="c1"># Make local packages discoverable</span>
+<span class="n">package_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">()</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">package_path</span><span class="p">))</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">statwise.loading</span><span class="w"> </span><span class="kn">import</span> <span class="n">CSVDataLoader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">statwise.cleaning</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataCleaner</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">statwise.preparation</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataPreparer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">statwise.selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnivariateVariableSelection</span><span class="p">,</span> <span class="n">ElasticNetVariableSelection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">statwise.modeling</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegressionModel</span><span class="p">,</span> <span class="n">NegativeBinomialRegressionModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">statwise.results</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_results_section</span><span class="p">,</span> <span class="n">extract_treatment_effects</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.tools.sm_exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConvergenceWarning</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.base.model</span><span class="w"> </span><span class="kn">import</span> <span class="n">HessianInversionWarning</span>
+
+<span class="c1"># Suppress convergence-related warnings since we check convergence explicitly</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">ConvergenceWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">HessianInversionWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">RuntimeWarning</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="s1">&#39;statsmodels&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_rows&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set random seeds for reproducibility</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">SEED</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">SEED</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">SEED</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Random seed set to </span><span class="si">{</span><span class="n">SEED</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Random seed set to 42
+</pre></div>
+</div>
+</div>
+</div>
+<section id="data-cleaning">
+<h2>Data Cleaning<a class="headerlink" href="#data-cleaning" title="Link to this heading">#</a></h2>
+<p>We implemented a systematic data cleaning pipeline in Python. Administrative variables (patient identifiers, free-text fields) and clinically irrelevant timestamp variables were removed. Variables were selected based on clinical relevance to the research question.</p>
+<p>Height and weight were standardized to metric units. Binary composite outcomes were created when individual outcomes represented different severity levels of the same clinical event. Postoperative sepsis and septic shock were combined into a single “any sepsis” outcome, as both represent points on a severity continuum of the same infectious process. Superficial, deep, and organ/space surgical site infections were combined into a binary SSI indicator. This approach improved statistical power while maintaining clinical interpretability. Component variables were dropped after derivation to avoid redundancy.</p>
+<p>Final outcome variables were:</p>
+<ul class="simple">
+<li><p>Surgical length of stay</p></li>
+<li><p>Any postoperative sepsis occurrence</p></li>
+<li><p>Any surgical site infection</p></li>
+<li><p>Readmission related to primary procedure</p></li>
+</ul>
+<p>Predictor variables included patient demographics (age, sex, race/ethnicity), clinical characteristics (ASA classification, functional status, BMI), comorbidities (diabetes, hypertension), preoperative laboratory values (albumin, BUN, creatinine, sodium, bilirubin, hematocrit, WBC, INR, PTT), procedure-related variables (CPT code, incisional negative pressure wound therapy use), and administrative factors (primary payor status, discharge destination). Categorical predictors with sparse categories were consolidated. Variables with natural ordering (ASA classification, functional status) were coded as ordered categorical to preserve clinical relationships.</p>
+<p>We excluded variables with more than 20% missing data, as this level of missingness compromises statistical power and imputation reliability. For categorical variables, balance was assessed to ensure adequate representation across categories. We distinguished between truly categorical variables (including nominal text categories and low-cardinality integer codes) and continuous count variables based on their statistical properties. Integer variables were treated as categorical only if they had 10 or fewer unique values or if fewer than 10% of observations had unique values, indicating inherent categorization rather than a continuous scale. This approach correctly identified ordinal ratings and categorical codes while preserving genuine count variables for appropriate statistical handling.</p>
+<p>For variables classified as categorical or quasi-categorical, we assessed balance using the second-largest class rather than the smallest category. This criterion retained variables with long tails of rare events that could be collapsed during modeling while excluding those lacking adequate representation in clinically meaningful categories. Variables where the second-largest class had fewer than 10 observations were dropped. Continuous count variables were exempt from balance assessment, as their information content derives from the full distribution rather than discrete category sizes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;data/WHIPPLE_DEIDENTIFIED.csv&quot;</span>
+
+<span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">,</span> <span class="n">log_messages</span> <span class="o">=</span> <span class="n">CSVDataLoader</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Loading CSV file: data/WHIPPLE_DEIDENTIFIED.csv ===
+Initial shape: (165, 128)
+Parsed date/time columns: [&#39;Hospital Admission Date&#39;, &#39;Operation Date&#39;, &#39;Procedure/Surgery Start&#39;, &#39;Procedure/Surgery Finish&#39;, &#39;Serum Sodium Date&#39;, &#39;BUN Date&#39;, &#39;Serum Creatinine Date&#39;, &#39;Albumin Date&#39;, &#39;Total Bilirubin Date&#39;, &#39;AST/SGOT Date&#39;, &#39;Alkaline Phosphatase Date&#39;, &#39;WBC Date&#39;, &#39;Hemoglobin Date&#39;, &#39;Hematocrit Date&#39;, &#39;Platelet Count Date&#39;, &#39;INR Date&#39;, &#39;PTT Date&#39;, &#39;Hemoglobin A1c (HbA1c) Date&#39;, &#39;Acute Hospital Discharge Date&#39;, &#39;Date of Death&#39;, &#39;Date of First Readmission&#39;, &#39;Date of First Unplanned Return to OR&#39;, &#39;Date of Second unplanned return&#39;]
+Date parsing completed | Shape unchanged: (165, 128)
+Converted to Int64 (nullable integer): [&#39;INPWT (Yes=1)&#39;, &#39;Concurrent Procedures CPT&#39;, &#39;Serum Sodium&#39;, &#39;AST/SGOT&#39;, &#39;Alkaline Phosphatase&#39;, &#39;Platelet Count&#39;, &#39;Total Blood Transfused (in units)&#39;, &#39;Surgical Length of Stay&#39;, &#39;Hospital Length of Stay&#39;, &#39;Date of Death Unknown&#39;, &#39;Total # of Unplanned Returns to OR&#39;, &#39;First Unplanned Return CPT&#39;, &#39;First Unplanned Return Related to Primary Procedure&#39;, &#39;Second Unplanned Return CPT&#39;, &#39;Second Unplanned Return Related to Primary Procedure&#39;]
+Integer enforcement completed | Shape unchanged: (165, 128)
+Converted 41 object columns to categorical.
+Categorical conversion complete | Shape unchanged: (165, 128)
+=== CSV Loading Complete ===
+DEIDENTIFIED ID                                                        int64
+INPWT (Yes=1)                                                          Int64
+Age at Time of Surgery                                               float64
+Sex at Birth                                                        category
+Race/Ethnicity                                                      category
+CPT Code                                                               int64
+CPT Description                                                     category
+GS (&gt;75) Home Origin Status - Support                               category
+Primary Payor Status                                                category
+Hospital Admission Date                                       datetime64[ns]
+Operation Date                                                datetime64[ns]
+Principal Anesthesia Technique                                      category
+Attending/Staff Surgeon                                             category
+ASA Classification                                                  category
+Procedure/Surgery Start                                       datetime64[ns]
+Procedure/Surgery Finish                                      datetime64[ns]
+Duration of Surgical Procedure (in minutes)                            int64
+Other Procedures CPT                                                category
+Concurrent Procedures CPT                                              Int64
+Height                                                               float64
+Height Unit                                                         category
+Weight                                                               float64
+Weight Unit                                                         category
+BMI                                                                  float64
+Diabetes Mellitus                                                   category
+Tobacco/Nicotine Use                                                category
+Functional Heath Status                                             category
+Oxygen Support                                                      category
+Ventilator Dependent                                                category
+History of Severe COPD                                              category
+Ascites                                                             category
+Heart Failure                                                       category
+Hypertension requiring medication                                   category
+Preop Acute Kidney Injury                                           category
+Most Severe Preop Creatinine Increase                               category
+Preop Dialysis                                                      category
+Disseminated Cancer                                                 category
+Immunosuppressive Therapy                                           category
+Immunosuppressant Category                                          category
+Bleeding Disorder                                                   category
+Preop RBC Transfusions (72h)                                        category
+Sepsis (SIRS/Sepsis/Septic shock) (48h)                             category
+Serum Sodium                                                           Int64
+Serum Sodium Date                                             datetime64[ns]
+BUN                                                                  float64
+BUN Date                                                      datetime64[ns]
+Serum Creatinine                                                     float64
+Serum Creatinine Date                                         datetime64[ns]
+Albumin                                                              float64
+Albumin Date                                                  datetime64[ns]
+Total Bilirubin                                                      float64
+Total Bilirubin Date                                          datetime64[ns]
+AST/SGOT                                                               Int64
+AST/SGOT Date                                                 datetime64[ns]
+Alkaline Phosphatase                                                   Int64
+Alkaline Phosphatase Date                                     datetime64[ns]
+WBC                                                                  float64
+WBC Date                                                      datetime64[ns]
+Hemoglobin                                                           float64
+Hemoglobin Date                                               datetime64[ns]
+Hematocrit                                                           float64
+Hematocrit Date                                               datetime64[ns]
+Platelet Count                                                         Int64
+Platelet Count Date                                           datetime64[ns]
+INR                                                                  float64
+INR Date                                                      datetime64[ns]
+PTT                                                                  float64
+PTT Date                                                      datetime64[ns]
+Hemoglobin A1c (HbA1c)                                               float64
+Hemoglobin A1c (HbA1c) Date                                   datetime64[ns]
+# of Postop Superficial Incisional SSI                                 int64
+# of Postop Superficial Incisional SSI PATOS                           int64
+# of Postop Deep Incisional SSI                                        int64
+# of Postop Deep Incisional SSI PATOS                                  int64
+# of Postop Organ/Space SSI                                            int64
+# of Postop Organ/Space SSI PATOS                                      int64
+# of Postop Wound Disruption                                           int64
+# of Postop Pneumonia                                                  int64
+# of Postop Pneumonia PATOS                                            int64
+# of Postop Unplanned Intubation                                       int64
+# of Postop Pulmonary Embolism                                         int64
+# of Postop On Ventilator &gt; 48 hours                                   int64
+# of Postop On Ventilator &gt; 48 hours PATOS                             int64
+# of Postop Renal Insufficiency                                        int64
+# of Postop Dialysis                                                   int64
+# of Postop UTI                                                        int64
+# of Postop UTI PATOS                                                  int64
+# of Stroke/Cerebral Vascular Accident (CVA)                           int64
+# of Cardiac Arrest Requiring CPR                                      int64
+# of Myocardial Infarction                                             int64
+# of Postop Blood Transfusions (72h of surgery start time)             int64
+Total Blood Transfused (in units)                                      Int64
+# of Postop Venous Thrombosis Requiring Therapy                        int64
+# of Postop C. diff                                                    int64
+# of Postop Sepsis                                                     int64
+# of Postop Sepsis PATOS                                               int64
+# of Postop Septic Shock                                               int64
+# of Postop Septic Shock PATOS                                         int64
+# of Postop Other Occurrences                                          int64
+Acute Hospital Discharge Date                                 datetime64[ns]
+Surgical Length of Stay                                                Int64
+Hospital Length of Stay                                                Int64
+Hospital Discharge Destination                                      category
+GS (&gt;=75) Home Discharge - Services                                 category
+GS (&gt;=75) or EGS Functional Health Status on Discharge              category
+Postoperative ICD10 Code                                            category
+Postoperative ICD10 Description                                     category
+Still in Hospital &gt;30 Days                                          category
+Postop Death w/in 30 days of Procedure                              category
+Date of Death                                                 datetime64[ns]
+Date of Death Unknown                                                  Int64
+End of Life/Withdrawal of Care                                      category
+# of Readmissions w/in 30 days                                         int64
+Date of First Readmission                                     datetime64[ns]
+# of Unplanned Readmissions                                            int64
+# of Readmissions likely related to Primary Procedure                  int64
+# of Readmissions likely unrelated to Primary Procedure                int64
+Total # of Unplanned Returns to OR                                     Int64
+Date of First Unplanned Return to OR                          datetime64[ns]
+First Unplanned Return CPT                                             Int64
+First Unplanned Return Related to Primary Procedure                    Int64
+Date of Second unplanned return                               datetime64[ns]
+Second Unplanned Return CPT                                            Int64
+Second Unplanned Return Related to Primary Procedure                   Int64
+30 Day F/U Complete                                                 category
+Pancreatectomy T Stage                                              category
+Pancreatectomy N Stage                                              category
+Pancreatectomy M Stage                                              category
+dtype: object
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>DEIDENTIFIED ID</th>
+      <th>INPWT (Yes=1)</th>
+      <th>Age at Time of Surgery</th>
+      <th>Sex at Birth</th>
+      <th>Race/Ethnicity</th>
+      <th>CPT Code</th>
+      <th>CPT Description</th>
+      <th>GS (&gt;75) Home Origin Status - Support</th>
+      <th>Primary Payor Status</th>
+      <th>Hospital Admission Date</th>
+      <th>Operation Date</th>
+      <th>Principal Anesthesia Technique</th>
+      <th>Attending/Staff Surgeon</th>
+      <th>ASA Classification</th>
+      <th>Procedure/Surgery Start</th>
+      <th>Procedure/Surgery Finish</th>
+      <th>Duration of Surgical Procedure (in minutes)</th>
+      <th>Other Procedures CPT</th>
+      <th>Concurrent Procedures CPT</th>
+      <th>Height</th>
+      <th>Height Unit</th>
+      <th>Weight</th>
+      <th>Weight Unit</th>
+      <th>BMI</th>
+      <th>Diabetes Mellitus</th>
+      <th>Tobacco/Nicotine Use</th>
+      <th>Functional Heath Status</th>
+      <th>Oxygen Support</th>
+      <th>Ventilator Dependent</th>
+      <th>History of Severe COPD</th>
+      <th>Ascites</th>
+      <th>Heart Failure</th>
+      <th>Hypertension requiring medication</th>
+      <th>Preop Acute Kidney Injury</th>
+      <th>Most Severe Preop Creatinine Increase</th>
+      <th>Preop Dialysis</th>
+      <th>Disseminated Cancer</th>
+      <th>Immunosuppressive Therapy</th>
+      <th>Immunosuppressant Category</th>
+      <th>Bleeding Disorder</th>
+      <th>Preop RBC Transfusions (72h)</th>
+      <th>Sepsis (SIRS/Sepsis/Septic shock) (48h)</th>
+      <th>Serum Sodium</th>
+      <th>Serum Sodium Date</th>
+      <th>BUN</th>
+      <th>BUN Date</th>
+      <th>Serum Creatinine</th>
+      <th>Serum Creatinine Date</th>
+      <th>Albumin</th>
+      <th>Albumin Date</th>
+      <th>Total Bilirubin</th>
+      <th>Total Bilirubin Date</th>
+      <th>AST/SGOT</th>
+      <th>AST/SGOT Date</th>
+      <th>Alkaline Phosphatase</th>
+      <th>Alkaline Phosphatase Date</th>
+      <th>WBC</th>
+      <th>WBC Date</th>
+      <th>Hemoglobin</th>
+      <th>Hemoglobin Date</th>
+      <th>Hematocrit</th>
+      <th>Hematocrit Date</th>
+      <th>Platelet Count</th>
+      <th>Platelet Count Date</th>
+      <th>INR</th>
+      <th>INR Date</th>
+      <th>PTT</th>
+      <th>PTT Date</th>
+      <th>Hemoglobin A1c (HbA1c)</th>
+      <th>Hemoglobin A1c (HbA1c) Date</th>
+      <th># of Postop Superficial Incisional SSI</th>
+      <th># of Postop Superficial Incisional SSI PATOS</th>
+      <th># of Postop Deep Incisional SSI</th>
+      <th># of Postop Deep Incisional SSI PATOS</th>
+      <th># of Postop Organ/Space SSI</th>
+      <th># of Postop Organ/Space SSI PATOS</th>
+      <th># of Postop Wound Disruption</th>
+      <th># of Postop Pneumonia</th>
+      <th># of Postop Pneumonia PATOS</th>
+      <th># of Postop Unplanned Intubation</th>
+      <th># of Postop Pulmonary Embolism</th>
+      <th># of Postop On Ventilator &gt; 48 hours</th>
+      <th># of Postop On Ventilator &gt; 48 hours PATOS</th>
+      <th># of Postop Renal Insufficiency</th>
+      <th># of Postop Dialysis</th>
+      <th># of Postop UTI</th>
+      <th># of Postop UTI PATOS</th>
+      <th># of Stroke/Cerebral Vascular Accident (CVA)</th>
+      <th># of Cardiac Arrest Requiring CPR</th>
+      <th># of Myocardial Infarction</th>
+      <th># of Postop Blood Transfusions (72h of surgery start time)</th>
+      <th>Total Blood Transfused (in units)</th>
+      <th># of Postop Venous Thrombosis Requiring Therapy</th>
+      <th># of Postop C. diff</th>
+      <th># of Postop Sepsis</th>
+      <th># of Postop Sepsis PATOS</th>
+      <th># of Postop Septic Shock</th>
+      <th># of Postop Septic Shock PATOS</th>
+      <th># of Postop Other Occurrences</th>
+      <th>Acute Hospital Discharge Date</th>
+      <th>Surgical Length of Stay</th>
+      <th>Hospital Length of Stay</th>
+      <th>Hospital Discharge Destination</th>
+      <th>GS (&gt;=75) Home Discharge - Services</th>
+      <th>GS (&gt;=75) or EGS Functional Health Status on Discharge</th>
+      <th>Postoperative ICD10 Code</th>
+      <th>Postoperative ICD10 Description</th>
+      <th>Still in Hospital &gt;30 Days</th>
+      <th>Postop Death w/in 30 days of Procedure</th>
+      <th>Date of Death</th>
+      <th>Date of Death Unknown</th>
+      <th>End of Life/Withdrawal of Care</th>
+      <th># of Readmissions w/in 30 days</th>
+      <th>Date of First Readmission</th>
+      <th># of Unplanned Readmissions</th>
+      <th># of Readmissions likely related to Primary Procedure</th>
+      <th># of Readmissions likely unrelated to Primary Procedure</th>
+      <th>Total # of Unplanned Returns to OR</th>
+      <th>Date of First Unplanned Return to OR</th>
+      <th>First Unplanned Return CPT</th>
+      <th>First Unplanned Return Related to Primary Procedure</th>
+      <th>Date of Second unplanned return</th>
+      <th>Second Unplanned Return CPT</th>
+      <th>Second Unplanned Return Related to Primary Procedure</th>
+      <th>30 Day F/U Complete</th>
+      <th>Pancreatectomy T Stage</th>
+      <th>Pancreatectomy N Stage</th>
+      <th>Pancreatectomy M Stage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>84382030</td>
+      <td>0</td>
+      <td>78.71</td>
+      <td>Female</td>
+      <td>Unknown/Not Reported</td>
+      <td>48150</td>
+      <td>Pancreatectomy, proximal subtotal with total d...</td>
+      <td>NaN</td>
+      <td>Unknown</td>
+      <td>2017-01-18</td>
+      <td>2017-01-19</td>
+      <td>General</td>
+      <td>Nakhamiyayev,Vadim (8470717.00)</td>
+      <td>ASA IV - Severe systemic disease threat to life</td>
+      <td>2017-01-19 14:29:00</td>
+      <td>2017-01-19 21:13:00</td>
+      <td>404</td>
+      <td>NaN</td>
+      <td>&lt;NA&gt;</td>
+      <td>63.0</td>
+      <td>in</td>
+      <td>71.66</td>
+      <td>kg</td>
+      <td>27.99</td>
+      <td>Non-insulin</td>
+      <td>No</td>
+      <td>Independent</td>
+      <td>NaN</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>No</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>145</td>
+      <td>2017-01-19</td>
+      <td>19.0</td>
+      <td>2017-01-19</td>
+      <td>1.57</td>
+      <td>2017-01-19</td>
+      <td>3.4</td>
+      <td>2017-01-19</td>
+      <td>0.3</td>
+      <td>2017-01-19</td>
+      <td>18</td>
+      <td>2017-01-19</td>
+      <td>92</td>
+      <td>2017-01-19</td>
+      <td>7.5</td>
+      <td>2017-01-19</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>24.7</td>
+      <td>2017-01-19</td>
+      <td>316</td>
+      <td>2017-01-19</td>
+      <td>1.11</td>
+      <td>2017-01-19</td>
+      <td>26.4</td>
+      <td>2017-01-19</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>&lt;NA&gt;</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2017-02-03</td>
+      <td>15</td>
+      <td>16</td>
+      <td>Home</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C24.1</td>
+      <td>Malignant neoplasm of ampulla of Vater</td>
+      <td>NaN</td>
+      <td>No</td>
+      <td>NaT</td>
+      <td>&lt;NA&gt;</td>
+      <td>No</td>
+      <td>1</td>
+      <td>2017-02-13</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>&lt;NA&gt;</td>
+      <td>NaT</td>
+      <td>&lt;NA&gt;</td>
+      <td>&lt;NA&gt;</td>
+      <td>NaT</td>
+      <td>&lt;NA&gt;</td>
+      <td>&lt;NA&gt;</td>
+      <td>Yes</td>
+      <td>T4</td>
+      <td>N1</td>
+      <td>M0/Mx</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>73810768</td>
+      <td>0</td>
+      <td>60.20</td>
+      <td>Female</td>
+      <td>Unknown/Not Reported</td>
+      <td>48150</td>
+      <td>Pancreatectomy, proximal subtotal with total d...</td>
+      <td>NaN</td>
+      <td>Unknown</td>
+      <td>2017-01-24</td>
+      <td>2017-01-25</td>
+      <td>General</td>
+      <td>Shah,Sayed (   44519292.00)</td>
+      <td>ASA III - Severe systemic disease</td>
+      <td>2017-01-25 09:37:00</td>
+      <td>2017-01-26 01:25:00</td>
+      <td>948</td>
+      <td>NaN</td>
+      <td>&lt;NA&gt;</td>
+      <td>66.0</td>
+      <td>in</td>
+      <td>84.80</td>
+      <td>kg</td>
+      <td>30.17</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Independent</td>
+      <td>NaN</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>No</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>144</td>
+      <td>2017-01-25</td>
+      <td>15.0</td>
+      <td>2017-01-25</td>
+      <td>0.81</td>
+      <td>2017-01-25</td>
+      <td>3.5</td>
+      <td>2017-01-25</td>
+      <td>2.6</td>
+      <td>2017-01-25</td>
+      <td>31</td>
+      <td>2017-01-25</td>
+      <td>198</td>
+      <td>2017-01-25</td>
+      <td>8.8</td>
+      <td>2017-01-25</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>32.1</td>
+      <td>2017-01-25</td>
+      <td>244</td>
+      <td>2017-01-25</td>
+      <td>1.22</td>
+      <td>2017-01-25</td>
+      <td>32.1</td>
+      <td>2017-01-25</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>&lt;NA&gt;</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2017-02-04</td>
+      <td>9</td>
+      <td>11</td>
+      <td>Home</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C25.3</td>
+      <td>Malignant neoplasm of pancreatic duct</td>
+      <td>NaN</td>
+      <td>No</td>
+      <td>NaT</td>
+      <td>&lt;NA&gt;</td>
+      <td>No</td>
+      <td>0</td>
+      <td>NaT</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>&lt;NA&gt;</td>
+      <td>NaT</td>
+      <td>&lt;NA&gt;</td>
+      <td>&lt;NA&gt;</td>
+      <td>NaT</td>
+      <td>&lt;NA&gt;</td>
+      <td>&lt;NA&gt;</td>
+      <td>Yes</td>
+      <td>T3</td>
+      <td>N1</td>
+      <td>M0/Mx</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>20210364</td>
+      <td>0</td>
+      <td>56.56</td>
+      <td>Male</td>
+      <td>Unknown/Not Reported</td>
+      <td>48150</td>
+      <td>Pancreatectomy, proximal subtotal with total d...</td>
+      <td>NaN</td>
+      <td>Unknown</td>
+      <td>2017-02-02</td>
+      <td>2017-02-14</td>
+      <td>General</td>
+      <td>Nakhamiyayev,Vadim (8470717.00)</td>
+      <td>ASA III - Severe systemic disease</td>
+      <td>2017-02-14 15:24:00</td>
+      <td>2017-02-14 15:53:00</td>
+      <td>29</td>
+      <td>NaN</td>
+      <td>&lt;NA&gt;</td>
+      <td>65.0</td>
+      <td>in</td>
+      <td>92.90</td>
+      <td>kg</td>
+      <td>34.08</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>Independent</td>
+      <td>NaN</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>No</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>146</td>
+      <td>2017-02-14</td>
+      <td>9.0</td>
+      <td>2017-02-14</td>
+      <td>0.82</td>
+      <td>2017-02-14</td>
+      <td>1.5</td>
+      <td>2017-02-14</td>
+      <td>8.2</td>
+      <td>2017-02-14</td>
+      <td>241</td>
+      <td>2017-02-14</td>
+      <td>992</td>
+      <td>2017-02-14</td>
+      <td>13.0</td>
+      <td>2017-02-14</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>24.6</td>
+      <td>2017-02-14</td>
+      <td>425</td>
+      <td>2017-02-14</td>
+      <td>1.08</td>
+      <td>2017-02-13</td>
+      <td>31.8</td>
+      <td>2017-02-07</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2017-02-27</td>
+      <td>13</td>
+      <td>25</td>
+      <td>Home</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C25.3</td>
+      <td>Malignant neoplasm of pancreatic duct</td>
+      <td>NaN</td>
+      <td>No</td>
+      <td>NaT</td>
+      <td>&lt;NA&gt;</td>
+      <td>No</td>
+      <td>0</td>
+      <td>NaT</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>&lt;NA&gt;</td>
+      <td>NaT</td>
+      <td>&lt;NA&gt;</td>
+      <td>&lt;NA&gt;</td>
+      <td>NaT</td>
+      <td>&lt;NA&gt;</td>
+      <td>&lt;NA&gt;</td>
+      <td>Yes</td>
+      <td>T3</td>
+      <td>N1</td>
+      <td>M0/Mx</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="c1"># Load your metadata</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;data/column_metadata.json&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="c1"># Initialize cleaner with metadata</span>
+<span class="n">cleaner</span> <span class="o">=</span> <span class="n">DataCleaner</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">column_metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+
+<span class="c1"># Define derivation functions</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">standardize_height_to_cm</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert height to centimeters regardless of unit.&quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Height&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="c1"># Only convert inches to cm; cm stays as-is</span>
+    <span class="n">inches_mask</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Height Unit&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;in&quot;</span>
+    <span class="n">result</span><span class="p">[</span><span class="n">inches_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">inches_mask</span><span class="p">]</span> <span class="o">*</span> <span class="mf">2.54</span>
+    <span class="c1"># Set invalid units to NaN</span>
+    <span class="n">valid_units</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Height Unit&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;cm&quot;</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">])</span>
+    <span class="n">result</span><span class="p">[</span><span class="o">~</span><span class="n">valid_units</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float64&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">standardize_weight_to_kg</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert weight to kilograms regardless of unit.&quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Weight&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="c1"># Only convert lbs to kg; kg stays as-is</span>
+    <span class="n">lbs_mask</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Weight Unit&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;lbs&quot;</span>
+    <span class="n">result</span><span class="p">[</span><span class="n">lbs_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">lbs_mask</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.453592</span>
+    <span class="c1"># Set invalid units to NaN</span>
+    <span class="n">valid_units</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Weight Unit&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;kg&quot;</span><span class="p">,</span> <span class="s2">&quot;lbs&quot;</span><span class="p">])</span>
+    <span class="n">result</span><span class="p">[</span><span class="o">~</span><span class="n">valid_units</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float64&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">composite_binary_postop_sepsis</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Binary indicator for any postoperative sepsis occurrence.&quot;&quot;&quot;</span>
+    <span class="n">total_sepsis</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;# of Postop Sepsis&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;# of Postop Septic Shock&quot;</span><span class="p">]</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">total_sepsis</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="kc">True</span><span class="p">:</span> <span class="s2">&quot;Yes&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">:</span> <span class="s2">&quot;No&quot;</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">composite_binary_postop_ssi</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Binary indicator for any postoperative surgical site infection.&quot;&quot;&quot;</span>
+    <span class="n">total_ssi</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;# of Postop Superficial Incisional SSI&quot;</span><span class="p">]</span> <span class="o">+</span> 
+                 <span class="n">df</span><span class="p">[</span><span class="s2">&quot;# of Postop Deep Incisional SSI&quot;</span><span class="p">]</span> <span class="o">+</span> 
+                 <span class="n">df</span><span class="p">[</span><span class="s2">&quot;# of Postop Organ/Space SSI&quot;</span><span class="p">])</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">total_ssi</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="kc">True</span><span class="p">:</span> <span class="s2">&quot;Yes&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">:</span> <span class="s2">&quot;No&quot;</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">binary_readmission_pp</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Binary indicator for readmission related to primary procedure.&quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;# of Readmissions likely related to Primary Procedure&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="kc">True</span><span class="p">:</span> <span class="s2">&quot;Yes&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">:</span> <span class="s2">&quot;No&quot;</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">binary_inpwt</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Binary indicator for incisional negative pressure wound therapy.&quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;INPWT (Yes=1)&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;Yes&quot;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="p">(</span><span class="s2">&quot;No&quot;</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create derivation map</span>
+<span class="n">derivation_map</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Height (cm)&quot;</span><span class="p">:</span> <span class="n">standardize_height_to_cm</span><span class="p">,</span>
+    <span class="s2">&quot;Weight (kg)&quot;</span><span class="p">:</span> <span class="n">standardize_weight_to_kg</span><span class="p">,</span>
+    <span class="s2">&quot;Postop Sepsis Occurrence&quot;</span><span class="p">:</span> <span class="n">composite_binary_postop_sepsis</span><span class="p">,</span>
+    <span class="s2">&quot;Postop SSI Occurrence&quot;</span><span class="p">:</span> <span class="n">composite_binary_postop_ssi</span><span class="p">,</span>
+    <span class="s2">&quot;Readmission likely related to Primary Procedure&quot;</span><span class="p">:</span> <span class="n">binary_readmission_pp</span><span class="p">,</span>
+    <span class="s2">&quot;INPWT&quot;</span><span class="p">:</span> <span class="n">binary_inpwt</span>
+<span class="p">}</span>
+
+<span class="c1"># Component columns to drop</span>
+<span class="n">drop_components</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Height (cm)&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Height&quot;</span><span class="p">,</span> <span class="s2">&quot;Height Unit&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Weight (kg)&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Weight&quot;</span><span class="p">,</span> <span class="s2">&quot;Weight Unit&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Postop Sepsis Occurrence&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;# of Postop Sepsis&quot;</span><span class="p">,</span> <span class="s2">&quot;# of Postop Septic Shock&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Postop SSI Occurrence&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;# of Postop Superficial Incisional SSI&quot;</span><span class="p">,</span> 
+                              <span class="s2">&quot;# of Postop Deep Incisional SSI&quot;</span><span class="p">,</span> 
+                              <span class="s2">&quot;# of Postop Organ/Space SSI&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Readmission likely related to Primary Procedure&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;# of Readmissions likely related to Primary Procedure&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;INPWT&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;INPWT (Yes=1)&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="c1"># Define categorical cleaning</span>
+<span class="n">categorical_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;consolidation_maps&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;Race/Ethnicity&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;Black or African American&quot;</span><span class="p">:</span> <span class="s2">&quot;Black&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Asian&quot;</span><span class="p">:</span> <span class="s2">&quot;Asian&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;White&quot;</span><span class="p">:</span> <span class="s2">&quot;White&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Hispanic or Latino&quot;</span><span class="p">:</span> <span class="s2">&quot;Hispanic&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Some Other Race&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;White,Black or African American,American Indian or Alaska Native&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;Primary Payor Status&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;Medicare&quot;</span><span class="p">:</span> <span class="s2">&quot;Medicare&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Medicaid&quot;</span><span class="p">:</span> <span class="s2">&quot;Medicaid&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Private insurance&quot;</span><span class="p">:</span> <span class="s2">&quot;Private Insurance&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Other&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;Hospital Discharge Destination&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;Home/Permanent residence&quot;</span><span class="p">:</span> <span class="s2">&quot;Home&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Home&quot;</span><span class="p">:</span> <span class="s2">&quot;Home&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Skilled care, not home&quot;</span><span class="p">:</span> <span class="s2">&quot;Skilled Care&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Other facility&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Expired&quot;</span><span class="p">:</span> <span class="s2">&quot;Expired&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Acute care hospital&quot;</span><span class="p">:</span> <span class="s2">&quot;Acute Care Hospital&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Rehab&quot;</span><span class="p">:</span> <span class="s2">&quot;Rehab&quot;</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;ordered_maps&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;ASA Classification&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;ASA II - Mild systemic disease&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ASA III - Severe systemic disease&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ASA IV - Severe systemic disease threat to life&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ASA V - Moribund&quot;</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">df</span><span class="p">,</span> <span class="n">logs</span> <span class="o">=</span> <span class="n">cleaner</span><span class="o">.</span><span class="n">run_cleaning_pipeline</span><span class="p">(</span>
+    <span class="n">drop_cols</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;DEIDENTIFIED ID&quot;</span><span class="p">,</span> 
+        <span class="s2">&quot;Attending/Staff Surgeon&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Postoperative ICD10 Description&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CPT Description&quot;</span>
+    <span class="p">],</span>
+    <span class="n">keep_response_cols</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;Sepsis (SIRS/Sepsis/Septic shock) (48h)&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;# of Postop Sepsis&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;# of Postop Septic Shock&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;# of Postop Other Occurrences&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;# of Postop Superficial Incisional SSI&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;# of Postop Deep Incisional SSI&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;# of Postop Organ/Space SSI&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;# of Postop Wound Disruption&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;# of Readmissions likely related to Primary Procedure&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Surgical Length of Stay&quot;</span>
+    <span class="p">],</span>
+    <span class="n">derivation_map</span><span class="o">=</span><span class="n">derivation_map</span><span class="p">,</span>
+    <span class="n">drop_components</span><span class="o">=</span><span class="n">drop_components</span><span class="p">,</span>
+    <span class="n">categorical_config</span><span class="o">=</span><span class="n">categorical_config</span><span class="p">,</span>
+    <span class="n">min_minority_count</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>  <span class="c1"># Need at least 10 obs in smallest category</span>
+    <span class="n">max_missing_rate</span><span class="o">=</span><span class="mf">0.20</span>   <span class="c1"># Drop if &gt;20% missing</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Starting Dataset Cleaning Pipeline ===
+Dropping 4 specified columns: [&#39;DEIDENTIFIED ID&#39;, &#39;Attending/Staff Surgeon&#39;, &#39;Postoperative ICD10 Description&#39;, &#39;CPT Description&#39;]
+Shape changed from (165, 128) to (165, 124)
+No datetime columns specified - dropping all 23 datetime columns: [&#39;Hospital Admission Date&#39;, &#39;Operation Date&#39;, &#39;Procedure/Surgery Start&#39;, &#39;Procedure/Surgery Finish&#39;, &#39;Serum Sodium Date&#39;, &#39;BUN Date&#39;, &#39;Serum Creatinine Date&#39;, &#39;Albumin Date&#39;, &#39;Total Bilirubin Date&#39;, &#39;AST/SGOT Date&#39;, &#39;Alkaline Phosphatase Date&#39;, &#39;WBC Date&#39;, &#39;Hemoglobin Date&#39;, &#39;Hematocrit Date&#39;, &#39;Platelet Count Date&#39;, &#39;INR Date&#39;, &#39;PTT Date&#39;, &#39;Hemoglobin A1c (HbA1c) Date&#39;, &#39;Acute Hospital Discharge Date&#39;, &#39;Date of Death&#39;, &#39;Date of First Readmission&#39;, &#39;Date of First Unplanned Return to OR&#39;, &#39;Date of Second unplanned return&#39;]
+Shape changed from (165, 124) to (165, 101)
+Detected 31 response columns from metadata
+Keeping response columns: [&#39;Sepsis (SIRS/Sepsis/Septic shock) (48h)&#39;, &#39;# of Postop Sepsis&#39;, &#39;# of Postop Septic Shock&#39;, &#39;# of Postop Other Occurrences&#39;, &#39;# of Postop Superficial Incisional SSI&#39;, &#39;# of Postop Deep Incisional SSI&#39;, &#39;# of Postop Organ/Space SSI&#39;, &#39;# of Postop Wound Disruption&#39;, &#39;# of Readmissions likely related to Primary Procedure&#39;, &#39;Surgical Length of Stay&#39;]
+Dropping 21 response columns: [&#39;# of Postop Unplanned Intubation&#39;, &#39;# of Postop Pulmonary Embolism&#39;, &#39;# of Postop On Ventilator &gt; 48 hours&#39;, &#39;# of Postop Renal Insufficiency&#39;, &#39;# of Postop Dialysis&#39;, &#39;# of Postop UTI&#39;, &#39;# of Postop Blood Transfusions (72h of surgery start time)&#39;, &#39;# of Postop Venous Thrombosis Requiring Therapy&#39;, &#39;# of Postop C. diff&#39;, &#39;# of Postop Pneumonia&#39;, &#39;Hospital Length of Stay&#39;, &#39;Postop Death w/in 30 days of Procedure&#39;, &#39;Date of Death Unknown&#39;, &#39;End of Life/Withdrawal of Care&#39;, &#39;# of Readmissions w/in 30 days&#39;, &#39;# of Unplanned Readmissions&#39;, &#39;Still in Hospital &gt;30 Days&#39;, &#39;# of Readmissions likely unrelated to Primary Procedure&#39;, &#39;Total # of Unplanned Returns to OR&#39;, &#39;First Unplanned Return Related to Primary Procedure&#39;, &#39;Second Unplanned Return Related to Primary Procedure&#39;]
+Shape changed from (165, 101) to (165, 80)
+Deriving variable: &#39;Height (cm)&#39;
+  Added &#39;Height (cm)&#39; | Shape: (165, 80) -&gt; (165, 81)
+  Inferred metadata type &#39;explanatory&#39; for &#39;Height (cm)&#39; based on component columns
+  Dropping component columns: [&#39;Height&#39;, &#39;Height Unit&#39;]
+  Shape after dropping components: (165, 79)
+Deriving variable: &#39;Weight (kg)&#39;
+  Added &#39;Weight (kg)&#39; | Shape: (165, 79) -&gt; (165, 80)
+  Inferred metadata type &#39;explanatory&#39; for &#39;Weight (kg)&#39; based on component columns
+  Dropping component columns: [&#39;Weight&#39;, &#39;Weight Unit&#39;]
+  Shape after dropping components: (165, 78)
+Deriving variable: &#39;Postop Sepsis Occurrence&#39;
+  Added &#39;Postop Sepsis Occurrence&#39; | Shape: (165, 78) -&gt; (165, 79)
+  Inferred metadata type &#39;response&#39; for &#39;Postop Sepsis Occurrence&#39; based on component columns
+  Dropping component columns: [&#39;# of Postop Sepsis&#39;, &#39;# of Postop Septic Shock&#39;]
+  Shape after dropping components: (165, 77)
+Deriving variable: &#39;Postop SSI Occurrence&#39;
+  Added &#39;Postop SSI Occurrence&#39; | Shape: (165, 77) -&gt; (165, 78)
+  Inferred metadata type &#39;response&#39; for &#39;Postop SSI Occurrence&#39; based on component columns
+  Dropping component columns: [&#39;# of Postop Superficial Incisional SSI&#39;, &#39;# of Postop Deep Incisional SSI&#39;, &#39;# of Postop Organ/Space SSI&#39;]
+  Shape after dropping components: (165, 75)
+Deriving variable: &#39;Readmission likely related to Primary Procedure&#39;
+  Added &#39;Readmission likely related to Primary Procedure&#39; | Shape: (165, 75) -&gt; (165, 76)
+  Inferred metadata type &#39;response&#39; for &#39;Readmission likely related to Primary Procedure&#39; based on component columns
+  Dropping component columns: [&#39;# of Readmissions likely related to Primary Procedure&#39;]
+  Shape after dropping components: (165, 75)
+Deriving variable: &#39;INPWT&#39;
+  Added &#39;INPWT&#39; | Shape: (165, 75) -&gt; (165, 76)
+  Inferred metadata type &#39;explanatory&#39; for &#39;INPWT&#39; based on component columns
+  Dropping component columns: [&#39;INPWT (Yes=1)&#39;]
+  Shape after dropping components: (165, 75)
+Consolidating categories in &#39;Race/Ethnicity&#39; using mapping with 6 entries.
+Consolidating categories in &#39;Primary Payor Status&#39; using mapping with 4 entries.
+Consolidating categories in &#39;Hospital Discharge Destination&#39; using mapping with 7 entries.
+Applied ordered categorical type to &#39;ASA Classification&#39;.
+Finished categorical cleaning | Shape changed from (165, 75) to (165, 75)
+Checking missingness for 75 columns
+  &#39;GS (&gt;75) Home Origin Status - Support&#39; (explanatory): 78.2% missing (&gt; 20%)
+  &#39;Other Procedures CPT&#39; (explanatory): 62.4% missing (&gt; 20%)
+  &#39;Concurrent Procedures CPT&#39; (explanatory): 97.0% missing (&gt; 20%)
+  &#39;Oxygen Support&#39; (explanatory): 43.0% missing (&gt; 20%)
+  &#39;Most Severe Preop Creatinine Increase&#39; (explanatory): 99.4% missing (&gt; 20%)
+  &#39;Immunosuppressant Category&#39; (explanatory): 98.8% missing (&gt; 20%)
+  &#39;Sepsis (SIRS/Sepsis/Septic shock) (48h)&#39; (response): 99.4% missing (&gt; 20%)
+  &#39;Hemoglobin&#39; (explanatory): 69.7% missing (&gt; 20%)
+  &#39;Hemoglobin A1c (HbA1c)&#39; (explanatory): 83.0% missing (&gt; 20%)
+  &#39;Total Blood Transfused (in units)&#39; (explanatory): 59.4% missing (&gt; 20%)
+  &#39;GS (&gt;=75) Home Discharge - Services&#39; (explanatory): 86.1% missing (&gt; 20%)
+  &#39;GS (&gt;=75) or EGS Functional Health Status on Discharge&#39; (explanatory): 79.4% missing (&gt; 20%)
+  &#39;First Unplanned Return CPT&#39; (explanatory): 95.8% missing (&gt; 20%)
+  &#39;Second Unplanned Return CPT&#39; (explanatory): 95.8% missing (&gt; 20%)
+  &#39;Pancreatectomy T Stage&#39; (explanatory): 71.5% missing (&gt; 20%)
+  &#39;Pancreatectomy N Stage&#39; (explanatory): 71.5% missing (&gt; 20%)
+  &#39;Pancreatectomy M Stage&#39; (explanatory): 73.3% missing (&gt; 20%)
+Dropping 17 variables with excessive missingness
+Shape changed from (165, 75) to (165, 58)
+Checking class imbalance for 40 categorical and quasi-categorical integer columns
+Skipping 6 continuous integer columns (high cardinality): [&#39;Duration of Surgical Procedure (in minutes)&#39;, &#39;Serum Sodium&#39;, &#39;AST/SGOT&#39;, &#39;Alkaline Phosphatase&#39;, &#39;Platelet Count&#39;, &#39;Surgical Length of Stay&#39;]
+  &#39;Principal Anesthesia Technique&#39; (explanatory): only one class present
+    Class counts: General: 165
+  &#39;Ventilator Dependent&#39; (explanatory): only one class present
+    Class counts: No: 165
+  &#39;History of Severe COPD&#39; (explanatory): second largest class has 5 observations (&lt; 10)
+    Class counts: No: 160, Yes: 5
+  &#39;Ascites&#39; (explanatory): second largest class has 1 observations (&lt; 10)
+    Class counts: No: 164, Yes: 1
+  &#39;Heart Failure&#39; (explanatory): second largest class has 5 observations (&lt; 10)
+    Class counts: No: 160, Yes: 5
+  &#39;Preop Acute Kidney Injury&#39; (explanatory): second largest class has 2 observations (&lt; 10)
+    Class counts: No: 163, Yes: 2
+  &#39;Preop Dialysis&#39; (explanatory): second largest class has 1 observations (&lt; 10)
+    Class counts: No: 164, Yes: 1
+  &#39;Disseminated Cancer&#39; (explanatory): second largest class has 3 observations (&lt; 10)
+    Class counts: No: 162, Yes: 3
+  &#39;Immunosuppressive Therapy&#39; (explanatory): second largest class has 2 observations (&lt; 10)
+    Class counts: No: 163, Yes: 2
+  &#39;Bleeding Disorder&#39; (explanatory): second largest class has 2 observations (&lt; 10)
+    Class counts: No: 163, Yes: 2
+  &#39;Preop RBC Transfusions (72h)&#39; (explanatory): second largest class has 5 observations (&lt; 10)
+    Class counts: No: 160, Yes: 5
+  &#39;30 Day F/U Complete&#39; (explanatory): second largest class has 2 observations (&lt; 10)
+    Class counts: Yes: 162, No: 2, NaN: 1
+  &#39;# of Postop Superficial Incisional SSI PATOS&#39; (explanatory): only one class present
+    Class counts: 0: 165
+  &#39;# of Postop Deep Incisional SSI PATOS&#39; (explanatory): second largest class has 1 observations (&lt; 10)
+    Class counts: 0: 164, 1: 1
+  &#39;# of Postop Wound Disruption&#39; (response): second largest class has 2 observations (&lt; 10)
+    Class counts: 0: 163, 1: 2
+  &#39;# of Postop Pneumonia PATOS&#39; (explanatory): only one class present
+    Class counts: 0: 165
+  &#39;# of Postop On Ventilator &gt; 48 hours PATOS&#39; (explanatory): only one class present
+    Class counts: 0: 165
+  &#39;# of Postop UTI PATOS&#39; (explanatory): second largest class has 2 observations (&lt; 10)
+    Class counts: 0: 163, 1: 2
+  &#39;# of Stroke/Cerebral Vascular Accident (CVA)&#39; (explanatory): only one class present
+    Class counts: 0: 165
+  &#39;# of Cardiac Arrest Requiring CPR&#39; (explanatory): second largest class has 2 observations (&lt; 10)
+    Class counts: 0: 163, 1: 2
+  &#39;# of Myocardial Infarction&#39; (explanatory): second largest class has 1 observations (&lt; 10)
+    Class counts: 0: 164, 1: 1
+  &#39;# of Postop Sepsis PATOS&#39; (explanatory): second largest class has 6 observations (&lt; 10)
+    Class counts: 0: 159, 1: 6
+  &#39;# of Postop Septic Shock PATOS&#39; (explanatory): only one class present
+    Class counts: 0: 165
+  &#39;# of Postop Other Occurrences&#39; (response): second largest class has 1 observations (&lt; 10)
+    Class counts: 0: 164, 1: 1
+Dropping 24 imbalanced variables with insufficient second class size
+Shape changed from (165, 58) to (165, 34)
+=== Dataset Cleaning Complete ===
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Age at Time of Surgery                              float64
+Sex at Birth                                       category
+Race/Ethnicity                                     category
+CPT Code                                              int64
+Primary Payor Status                               category
+ASA Classification                                 category
+Duration of Surgical Procedure (in minutes)           int64
+BMI                                                 float64
+Diabetes Mellitus                                  category
+Tobacco/Nicotine Use                               category
+Functional Heath Status                            category
+Hypertension requiring medication                  category
+Serum Sodium                                          Int64
+BUN                                                 float64
+Serum Creatinine                                    float64
+Albumin                                             float64
+Total Bilirubin                                     float64
+AST/SGOT                                              Int64
+Alkaline Phosphatase                                  Int64
+WBC                                                 float64
+Hematocrit                                          float64
+Platelet Count                                        Int64
+INR                                                 float64
+PTT                                                 float64
+# of Postop Organ/Space SSI PATOS                     int64
+Surgical Length of Stay                               Int64
+Hospital Discharge Destination                     category
+Postoperative ICD10 Code                           category
+Height (cm)                                         float64
+Weight (kg)                                         float64
+Postop Sepsis Occurrence                           category
+Postop SSI Occurrence                              category
+Readmission likely related to Primary Procedure    category
+INPWT                                              category
+dtype: object
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Age at Time of Surgery</th>
+      <th>Sex at Birth</th>
+      <th>Race/Ethnicity</th>
+      <th>CPT Code</th>
+      <th>Primary Payor Status</th>
+      <th>ASA Classification</th>
+      <th>Duration of Surgical Procedure (in minutes)</th>
+      <th>BMI</th>
+      <th>Diabetes Mellitus</th>
+      <th>Tobacco/Nicotine Use</th>
+      <th>Functional Heath Status</th>
+      <th>Hypertension requiring medication</th>
+      <th>Serum Sodium</th>
+      <th>BUN</th>
+      <th>Serum Creatinine</th>
+      <th>Albumin</th>
+      <th>Total Bilirubin</th>
+      <th>AST/SGOT</th>
+      <th>Alkaline Phosphatase</th>
+      <th>WBC</th>
+      <th>Hematocrit</th>
+      <th>Platelet Count</th>
+      <th>INR</th>
+      <th>PTT</th>
+      <th># of Postop Organ/Space SSI PATOS</th>
+      <th>Surgical Length of Stay</th>
+      <th>Hospital Discharge Destination</th>
+      <th>Postoperative ICD10 Code</th>
+      <th>Height (cm)</th>
+      <th>Weight (kg)</th>
+      <th>Postop Sepsis Occurrence</th>
+      <th>Postop SSI Occurrence</th>
+      <th>Readmission likely related to Primary Procedure</th>
+      <th>INPWT</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>78.71</td>
+      <td>Female</td>
+      <td>NaN</td>
+      <td>48150</td>
+      <td>NaN</td>
+      <td>ASA IV - Severe systemic disease threat to life</td>
+      <td>404</td>
+      <td>27.99</td>
+      <td>Non-insulin</td>
+      <td>No</td>
+      <td>Independent</td>
+      <td>Yes</td>
+      <td>145</td>
+      <td>19.0</td>
+      <td>1.57</td>
+      <td>3.4</td>
+      <td>0.3</td>
+      <td>18</td>
+      <td>92</td>
+      <td>7.5</td>
+      <td>24.7</td>
+      <td>316</td>
+      <td>1.11</td>
+      <td>26.4</td>
+      <td>0</td>
+      <td>15</td>
+      <td>Home</td>
+      <td>C24.1</td>
+      <td>160.02</td>
+      <td>71.66</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>60.20</td>
+      <td>Female</td>
+      <td>NaN</td>
+      <td>48150</td>
+      <td>NaN</td>
+      <td>ASA III - Severe systemic disease</td>
+      <td>948</td>
+      <td>30.17</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Independent</td>
+      <td>Yes</td>
+      <td>144</td>
+      <td>15.0</td>
+      <td>0.81</td>
+      <td>3.5</td>
+      <td>2.6</td>
+      <td>31</td>
+      <td>198</td>
+      <td>8.8</td>
+      <td>32.1</td>
+      <td>244</td>
+      <td>1.22</td>
+      <td>32.1</td>
+      <td>0</td>
+      <td>9</td>
+      <td>Home</td>
+      <td>C25.3</td>
+      <td>167.64</td>
+      <td>84.80</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>56.56</td>
+      <td>Male</td>
+      <td>NaN</td>
+      <td>48150</td>
+      <td>NaN</td>
+      <td>ASA III - Severe systemic disease</td>
+      <td>29</td>
+      <td>34.08</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>Independent</td>
+      <td>No</td>
+      <td>146</td>
+      <td>9.0</td>
+      <td>0.82</td>
+      <td>1.5</td>
+      <td>8.2</td>
+      <td>241</td>
+      <td>992</td>
+      <td>13.0</td>
+      <td>24.6</td>
+      <td>425</td>
+      <td>1.08</td>
+      <td>31.8</td>
+      <td>0</td>
+      <td>13</td>
+      <td>Home</td>
+      <td>C25.3</td>
+      <td>165.10</td>
+      <td>92.90</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="variable-selection">
+<h2>Variable Selection<a class="headerlink" href="#variable-selection" title="Link to this heading">#</a></h2>
+<p>Candidate predictor variables were screened using two complementary variable selection approaches to identify covariates associated with each outcome. The treatment variable (incisional negative pressure wound therapy) was forced into all models regardless of selection results, as it represented the primary exposure of interest. All other variables underwent selection as potential confounders or effect modifiers.</p>
+<section id="univariate-selection">
+<h3>Univariate Selection<a class="headerlink" href="#univariate-selection" title="Link to this heading">#</a></h3>
+<p>Each candidate covariate was assessed using univariate statistical tests. Predictors were classified as continuous or categorical based on data type. Continuous predictors were analyzed as numeric values, while categorical predictors included both predefined categories and string-type variables converted to categorical form.</p>
+<p>The choice of statistical test was determined by the type of predictor and outcome:</p>
+<ul class="simple">
+<li><p>Continuous outcome, continuous predictor: Pearson correlation.</p></li>
+<li><p>Continuous outcome, categorical predictor: Welch’s t-test for binary predictors; one-way ANOVA for predictors with more than two categories.</p></li>
+<li><p>Categorical outcome, continuous predictor: Welch’s t-test for binary outcomes; one-way ANOVA for outcomes with more than two categories.</p></li>
+<li><p>Categorical outcome, categorical predictor: Fisher’s exact test for 2×2 tables with small expected counts; otherwise, Pearson’s chi-square test. Categories with fewer than five observations were combined or excluded to ensure stable estimates.</p></li>
+</ul>
+<p>Observations with missing outcome data were excluded. Missing values within predictor groups were handled by pairwise deletion during testing. Variables with fewer than two unique values were omitted. Covariates yielding a p-value less than 0.1 in univariate testing were identified as candidates for multivariable modeling.</p>
+</section>
+<section id="elastic-net-selection">
+<h3>Elastic Net Selection<a class="headerlink" href="#elastic-net-selection" title="Link to this heading">#</a></h3>
+<p>As a complementary approach, we used elastic net regularization for variable selection. This method handles multicollinearity by shrinking correlated predictors and automatically performs variable selection by setting coefficients to zero. For binary outcomes, we applied logistic regression with elastic net penalty (L1 ratio = 0.5, balancing Lasso and Ridge penalties). For count outcomes, we applied elastic net regression with the same L1 ratio. Regularization parameters were chosen via 5-fold cross-validation to optimize prediction. Covariates with non-zero coefficients after regularization were identified as candidates for modeling.</p>
+</section>
+<section id="consensus-selection">
+<h3>Consensus Selection<a class="headerlink" href="#consensus-selection" title="Link to this heading">#</a></h3>
+<p>To identify the most robust set of covariates, we also planned to fit models using only variables selected by both univariate testing and elastic net (consensus approach). This conservative strategy retained only predictors showing evidence of association through two different methods. When no variables were selected by both methods, the consensus model included only the treatment variable.</p>
+<p>The type of test performed and associated p-value or regularization coefficient were recorded for transparency. This dual approach ensured that predictor selection was not dependent on a single statistical method, allowing assessment of whether treatment effects remained consistent across different covariate adjustment strategies.</p>
+</section>
+</section>
+<section id="statistical-modeling">
+<h2>Statistical Modeling<a class="headerlink" href="#statistical-modeling" title="Link to this heading">#</a></h2>
+<section id="sample-size-and-model-specification">
+<h3>Sample Size and Model Specification<a class="headerlink" href="#sample-size-and-model-specification" title="Link to this heading">#</a></h3>
+<p>We determined the maximum number of predictors that could be reliably estimated given our sample size, following established guidelines for regression modeling. For binary outcomes, we applied the criterion of 10 events in the minority class per variable (Peduzzi et al., 1996). For count outcomes, we used a more conservative threshold of 15 observations per variable to account for the additional variance and reduced information content per observation in overdispersed count data. The treatment variable counted toward this limit.</p>
+<p>When variable selection methods identified more candidate predictors than the calculated maximum, we retained only the top N variables to remain within sample size guidelines. For univariate selection, we retained variables with the smallest p-values. For elastic net selection, we retained variables with the largest absolute coefficients. This approach balanced the information provided by variable selection methods with the statistical requirement for adequate sample size relative to model complexity.</p>
+</section>
+<section id="separation-and-convergence">
+<h3>Separation and Convergence<a class="headerlink" href="#separation-and-convergence" title="Link to this heading">#</a></h3>
+<p>Prior to model fitting, we assessed all selected variables for quasi-perfect separation—patterns where certain predictor levels were associated with near-complete homogeneity in the outcome. Separation was defined as 95% or more observations in a predictor level falling into a single outcome category. While separation is particularly problematic for logistic regression, where it can cause coefficient estimates to diverge toward infinity, it is less catastrophic for count models. We proceeded with model fitting using standard maximum likelihood estimation regardless of separation patterns. When models failed to converge despite appropriate sample size considerations, we concluded the data were insufficient to support that particular covariate structure and report this limitation explicitly rather than employing alternative estimation methods.</p>
+</section>
+<section id="binary-outcomes">
+<h3>Binary Outcomes<a class="headerlink" href="#binary-outcomes" title="Link to this heading">#</a></h3>
+<p>Postoperative sepsis, surgical site infection, and readmission related to the primary procedure were treated as binary outcomes. To assess the robustness of treatment effects to covariate selection, we attempted to fit three separate logistic regression models for each binary outcome: one with univariate-selected covariates, one with elastic net-selected covariates, and one with consensus covariates selected by both methods. The treatment variable was included in all models.</p>
+<p>Prior to modeling, continuous predictors were standardized to facilitate comparison of effect sizes and improve convergence. Categorical variables were one-hot encoded with the first category dropped as reference, and rare categories (fewer than 5 observations) were excluded to avoid sparse cells. Observations with missing data in either the outcome or selected predictors were removed via listwise deletion.</p>
+</section>
+<section id="count-outcomes">
+<h3>Count Outcomes<a class="headerlink" href="#count-outcomes" title="Link to this heading">#</a></h3>
+<p>Surgical length of stay was measured in days and treated as a count outcome. Observed variance substantially exceeded the mean, indicating overdispersion; therefore, negative binomial regression was used rather than Poisson regression. We attempted to fit three models paralleling the binary outcome approach: univariate selection, elastic net selection, and consensus selection. Continuous predictors were not standardized for count models, as negative binomial regression coefficients have natural interpretability on the log scale. Categorical encoding and missing data handling followed the same protocol as binary outcomes.</p>
+</section>
+<section id="model-reporting">
+<h3>Model Reporting<a class="headerlink" href="#model-reporting" title="Link to this heading">#</a></h3>
+<p>Convergence was assessed for all fitted models. Treatment effects and covariate associations were reported as odds ratios for binary outcomes and incidence rate ratios for length of stay, with corresponding 95% confidence intervals and p-values. By attempting to fit multiple models with different selection strategies, we evaluated whether the estimated treatment effect remained consistent across reasonable modeling choices. This approach provided evidence for the robustness of findings to covariate adjustment decisions when models converged successfully, and transparently documented limitations when sample size or data structure precluded stable parameter estimation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pandas.api.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">CategoricalDtype</span><span class="p">,</span> <span class="n">is_object_dtype</span><span class="p">,</span> <span class="n">is_numeric_dtype</span>
+
+<span class="n">response_variables</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">metadata</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;response&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">response_variables</span><span class="p">)</span><span class="si">}</span><span class="s2">) response variables: </span><span class="si">{</span><span class="n">response_variables</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">explanatory_variables</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">response_variables</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">explanatory_variables</span><span class="p">)</span><span class="si">}</span><span class="s2">) explanatory variables: </span><span class="si">{</span><span class="n">explanatory_variables</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">response_variable</span> <span class="ow">in</span> <span class="n">response_variables</span><span class="p">:</span>
+    <span class="n">dtype</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">response_variable</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">CategoricalDtype</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">response_variable</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">is_numeric_dtype</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">response_variable</span><span class="p">]):</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Surgical Length of Stay&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Column &#39;</span><span class="si">{</span><span class="n">response_variable</span><span class="si">}</span><span class="s2">&#39; must be numeric or categorical, got </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4) response variables: [&#39;Surgical Length of Stay&#39;, &#39;Postop Sepsis Occurrence&#39;, &#39;Postop SSI Occurrence&#39;, &#39;Readmission likely related to Primary Procedure&#39;]
+(30) explanatory variables: [&#39;Age at Time of Surgery&#39;, &#39;Sex at Birth&#39;, &#39;Race/Ethnicity&#39;, &#39;CPT Code&#39;, &#39;Primary Payor Status&#39;, &#39;ASA Classification&#39;, &#39;Duration of Surgical Procedure (in minutes)&#39;, &#39;BMI&#39;, &#39;Diabetes Mellitus&#39;, &#39;Tobacco/Nicotine Use&#39;, &#39;Functional Heath Status&#39;, &#39;Hypertension requiring medication&#39;, &#39;Serum Sodium&#39;, &#39;BUN&#39;, &#39;Serum Creatinine&#39;, &#39;Albumin&#39;, &#39;Total Bilirubin&#39;, &#39;AST/SGOT&#39;, &#39;Alkaline Phosphatase&#39;, &#39;WBC&#39;, &#39;Hematocrit&#39;, &#39;Platelet Count&#39;, &#39;INR&#39;, &#39;PTT&#39;, &#39;# of Postop Organ/Space SSI PATOS&#39;, &#39;Hospital Discharge Destination&#39;, &#39;Postoperative ICD10 Code&#39;, &#39;Height (cm)&#39;, &#39;Weight (kg)&#39;, &#39;INPWT&#39;]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>count        152.0
+mean     11.407895
+std       5.121511
+min            5.0
+25%            8.0
+50%           10.0
+75%           13.0
+max           30.0
+Name: Surgical Length of Stay, dtype: Float64
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Postop Sepsis Occurrence
+No     138
+Yes     27
+Name: count, dtype: int64
+
+Postop SSI Occurrence
+No     139
+Yes     26
+Name: count, dtype: int64
+
+Readmission likely related to Primary Procedure
+No     142
+Yes     23
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">run_analysis</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">response_variables</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+    <span class="n">explanatory_variables</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+    <span class="n">treatment_variable</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;INPWT&#39;</span><span class="p">,</span>
+    <span class="n">univariate_alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">epv_binary</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">epv_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span>
+    <span class="n">elastic_net_alpha_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">elastic_net_cv</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Driver function for variable selection + model fitting with EPV-based covariate limiting.</span>
+<span class="sd">    </span>
+<span class="sd">    Performs two variable selection methods on covariates:</span>
+<span class="sd">    1. Univariate selection (p &lt; alpha)</span>
+<span class="sd">    2. Elastic Net selection (non-zero coefficients)</span>
+<span class="sd">    </span>
+<span class="sd">    When selection yields more variables than EPV guidelines allow, takes top N by:</span>
+<span class="sd">    - Univariate: smallest p-values</span>
+<span class="sd">    - Elastic Net: largest absolute coefficients</span>
+<span class="sd">    </span>
+<span class="sd">    The treatment variable is ALWAYS included in all models and does NOT count toward EPV limit.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        Cleaned dataset</span>
+<span class="sd">    response_variables : list</span>
+<span class="sd">        List of response variable names</span>
+<span class="sd">    explanatory_variables : list</span>
+<span class="sd">        List of candidate predictor names (including treatment)</span>
+<span class="sd">    treatment_variable : str</span>
+<span class="sd">        Name of treatment variable to force into all models (default &#39;INPWT&#39;)</span>
+<span class="sd">    univariate_alpha : float</span>
+<span class="sd">        Significance level for univariate selection (default 0.1)</span>
+<span class="sd">    epv_binary : int</span>
+<span class="sd">        Events per variable threshold for binary outcomes (default 10)</span>
+<span class="sd">    epv_count : int</span>
+<span class="sd">        Observations per variable threshold for count outcomes (default 15)</span>
+<span class="sd">    elastic_net_alpha_ratio : float</span>
+<span class="sd">        L1 ratio for elastic net (default 0.5)</span>
+<span class="sd">    elastic_net_cv : int</span>
+<span class="sd">        Cross-validation folds for elastic net (default 5)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Model results keyed by response variable and selection method</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Separate treatment from candidate covariates</span>
+    <span class="k">if</span> <span class="n">treatment_variable</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">explanatory_variables</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Treatment variable &#39;</span><span class="si">{</span><span class="n">treatment_variable</span><span class="si">}</span><span class="s2">&#39; not found in explanatory_variables&quot;</span><span class="p">)</span>
+    
+    <span class="n">candidate_covariates</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">explanatory_variables</span> <span class="k">if</span> <span class="n">v</span> <span class="o">!=</span> <span class="n">treatment_variable</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Treatment variable: </span><span class="si">{</span><span class="n">treatment_variable</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Candidate covariates for selection: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">candidate_covariates</span><span class="p">)</span><span class="si">}</span><span class="s2"> variables</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="n">model_results</span> <span class="o">=</span> <span class="p">{}</span>
+    
+    <span class="k">for</span> <span class="n">response_variable</span> <span class="ow">in</span> <span class="n">response_variables</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">80</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing response variable: </span><span class="si">{</span><span class="n">response_variable</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">80</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Determine outcome type and calculate EPV limit</span>
+        <span class="n">y_complete</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">response_variable</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+        <span class="n">y_counts</span> <span class="o">=</span> <span class="n">y_complete</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+        <span class="n">is_binary</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_counts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+        <span class="n">outcome_type</span> <span class="o">=</span> <span class="s1">&#39;binary&#39;</span> <span class="k">if</span> <span class="n">is_binary</span> <span class="k">else</span> <span class="s1">&#39;count&#39;</span>
+        
+        <span class="k">if</span> <span class="n">is_binary</span><span class="p">:</span>
+            <span class="n">n_events</span> <span class="o">=</span> <span class="n">y_counts</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+            <span class="n">max_variables_total</span> <span class="o">=</span> <span class="n">n_events</span> <span class="o">//</span> <span class="n">epv_binary</span>
+            <span class="n">max_covariates</span> <span class="o">=</span> <span class="n">max_variables_total</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># Reserve 1 for treatment</span>
+            <span class="n">epv_desc</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_events</span><span class="si">}</span><span class="s2"> events / </span><span class="si">{</span><span class="n">epv_binary</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Outcome type: binary&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Event counts: </span><span class="si">{</span><span class="nb">dict</span><span class="p">(</span><span class="n">y_counts</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">n_obs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_complete</span><span class="p">)</span>
+            <span class="n">max_variables_total</span> <span class="o">=</span> <span class="n">n_obs</span> <span class="o">//</span> <span class="n">epv_count</span>
+            <span class="n">max_covariates</span> <span class="o">=</span> <span class="n">max_variables_total</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># Reserve 1 for treatment</span>
+            <span class="n">epv_desc</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_obs</span><span class="si">}</span><span class="s2"> observations / </span><span class="si">{</span><span class="n">epv_count</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Outcome type: count&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Response range: </span><span class="si">{</span><span class="n">y_complete</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">y_complete</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> (mean=</span><span class="si">{</span><span class="n">y_complete</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;EPV calculation: </span><span class="si">{</span><span class="n">epv_desc</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">max_variables_total</span><span class="si">}</span><span class="s2"> max variables total&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Maximum covariates (excluding treatment): </span><span class="si">{</span><span class="n">max_covariates</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="n">model_results</span><span class="p">[</span><span class="n">response_variable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        
+        <span class="c1"># =====================================================================</span>
+        <span class="c1"># METHOD 1: UNIVARIATE VARIABLE SELECTION</span>
+        <span class="c1"># =====================================================================</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">80</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Method 1: Univariate Variable Selection (alpha=</span><span class="si">{</span><span class="n">univariate_alpha</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">80</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="n">selector_univariate</span> <span class="o">=</span> <span class="n">UnivariateVariableSelection</span><span class="p">(</span>
+            <span class="n">df</span><span class="p">,</span> <span class="n">response_variable</span><span class="p">,</span> <span class="n">candidate_covariates</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">univariate_alpha</span>
+        <span class="p">)</span>
+        <span class="n">selected_covariates</span> <span class="o">=</span> <span class="n">selector_univariate</span><span class="o">.</span><span class="n">selected_explanatory_variables</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Univariate selection identified </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">selected_covariates</span><span class="p">)</span><span class="si">}</span><span class="s2"> covariates&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Apply EPV limit</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_covariates</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_covariates</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exceeds EPV limit of </span><span class="si">{</span><span class="n">max_covariates</span><span class="si">}</span><span class="s2">. Selecting top </span><span class="si">{</span><span class="n">max_covariates</span><span class="si">}</span><span class="s2"> by p-value...&quot;</span><span class="p">)</span>
+            <span class="c1"># Get top N by smallest p-value</span>
+            <span class="n">top_covariates</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">selector_univariate</span><span class="o">.</span><span class="n">results_df</span>
+                <span class="o">.</span><span class="n">nsmallest</span><span class="p">(</span><span class="n">max_covariates</span><span class="p">,</span> <span class="s1">&#39;p_value&#39;</span><span class="p">)[</span><span class="s1">&#39;variable&#39;</span><span class="p">]</span>
+                <span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="n">selected_covariates</span> <span class="o">=</span> <span class="n">top_covariates</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final covariates: </span><span class="si">{</span><span class="n">selected_covariates</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Add treatment variable</span>
+        <span class="n">univariate_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">treatment_variable</span><span class="p">]</span> <span class="o">+</span> <span class="n">selected_covariates</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model variables (treatment + </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">selected_covariates</span><span class="p">)</span><span class="si">}</span><span class="s2"> covariates): </span><span class="si">{</span><span class="n">univariate_vars</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Fit model</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">_fit_model_with_checks</span><span class="p">(</span>
+            <span class="n">df</span><span class="p">,</span> <span class="n">response_variable</span><span class="p">,</span> <span class="n">univariate_vars</span><span class="p">,</span> <span class="n">outcome_type</span><span class="p">,</span> <span class="n">is_binary</span>
+        <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">model_results</span><span class="p">[</span><span class="n">response_variable</span><span class="p">][</span><span class="s1">&#39;univariate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Univariate model could not be fit for </span><span class="si">{</span><span class="n">response_variable</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># =====================================================================</span>
+        <span class="c1"># METHOD 2: ELASTIC NET VARIABLE SELECTION</span>
+        <span class="c1"># =====================================================================</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">80</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Method 2: Elastic Net Variable Selection (alpha_ratio=</span><span class="si">{</span><span class="n">elastic_net_alpha_ratio</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">80</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="n">selector_elastic</span> <span class="o">=</span> <span class="n">ElasticNetVariableSelection</span><span class="p">(</span>
+            <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+            <span class="n">response_variable</span><span class="o">=</span><span class="n">response_variable</span><span class="p">,</span>
+            <span class="n">explanatory_variables</span><span class="o">=</span><span class="n">candidate_covariates</span><span class="p">,</span>
+            <span class="n">outcome_type</span><span class="o">=</span><span class="n">outcome_type</span><span class="p">,</span>
+            <span class="n">alpha_ratio</span><span class="o">=</span><span class="n">elastic_net_alpha_ratio</span><span class="p">,</span>
+            <span class="n">cv</span><span class="o">=</span><span class="n">elastic_net_cv</span>
+        <span class="p">)</span>
+        <span class="n">selected_elastic_covariates</span> <span class="o">=</span> <span class="n">selector_elastic</span><span class="o">.</span><span class="n">selected_explanatory_variables</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Elastic net selection identified </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">selected_elastic_covariates</span><span class="p">)</span><span class="si">}</span><span class="s2"> covariates&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Apply EPV limit</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_elastic_covariates</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_covariates</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exceeds EPV limit of </span><span class="si">{</span><span class="n">max_covariates</span><span class="si">}</span><span class="s2">. Selecting top </span><span class="si">{</span><span class="n">max_covariates</span><span class="si">}</span><span class="s2"> by coefficient magnitude...&quot;</span><span class="p">)</span>
+            <span class="c1"># Get top N by largest absolute coefficient</span>
+            <span class="c1"># Filter to selected variables and sort</span>
+            <span class="n">selected_results</span> <span class="o">=</span> <span class="n">selector_elastic</span><span class="o">.</span><span class="n">results_df</span><span class="p">[</span>
+                <span class="n">selector_elastic</span><span class="o">.</span><span class="n">results_df</span><span class="p">[</span><span class="s1">&#39;Selected&#39;</span><span class="p">]</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">top_covariates</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">selected_results</span>
+                <span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="n">max_covariates</span><span class="p">,</span> <span class="s1">&#39;Abs_Coefficient&#39;</span><span class="p">)[</span><span class="s1">&#39;Variable&#39;</span><span class="p">]</span>
+                <span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="c1"># Map back to original variable names (handle one-hot encoding)</span>
+            <span class="n">original_vars</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">encoded_var</span> <span class="ow">in</span> <span class="n">top_covariates</span><span class="p">:</span>
+                <span class="n">found</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">for</span> <span class="n">orig_var</span> <span class="ow">in</span> <span class="n">candidate_covariates</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">encoded_var</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">orig_var</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">encoded_var</span> <span class="o">==</span> <span class="n">orig_var</span><span class="p">:</span>
+                        <span class="n">original_vars</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">orig_var</span><span class="p">)</span>
+                        <span class="n">found</span> <span class="o">=</span> <span class="kc">True</span>
+                        <span class="k">break</span>
+            <span class="n">selected_elastic_covariates</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">original_vars</span><span class="p">))[:</span><span class="n">max_covariates</span><span class="p">]</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final covariates: </span><span class="si">{</span><span class="n">selected_elastic_covariates</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Add treatment variable</span>
+        <span class="n">elastic_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">treatment_variable</span><span class="p">]</span> <span class="o">+</span> <span class="n">selected_elastic_covariates</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model variables (treatment + </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">selected_elastic_covariates</span><span class="p">)</span><span class="si">}</span><span class="s2"> covariates): </span><span class="si">{</span><span class="n">elastic_vars</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Fit model</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">_fit_model_with_checks</span><span class="p">(</span>
+            <span class="n">df</span><span class="p">,</span> <span class="n">response_variable</span><span class="p">,</span> <span class="n">elastic_vars</span><span class="p">,</span> <span class="n">outcome_type</span><span class="p">,</span> <span class="n">is_binary</span>
+        <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">model_results</span><span class="p">[</span><span class="n">response_variable</span><span class="p">][</span><span class="s1">&#39;elastic_net&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Elastic net model could not be fit for </span><span class="si">{</span><span class="n">response_variable</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># =====================================================================</span>
+        <span class="c1"># METHOD 3: CONSENSUS (INTERSECTION)</span>
+        <span class="c1"># =====================================================================</span>
+        <span class="n">univariate_fit</span> <span class="o">=</span> <span class="s1">&#39;univariate&#39;</span> <span class="ow">in</span> <span class="n">model_results</span><span class="p">[</span><span class="n">response_variable</span><span class="p">]</span>
+        <span class="n">elastic_fit</span> <span class="o">=</span> <span class="s1">&#39;elastic_net&#39;</span> <span class="ow">in</span> <span class="n">model_results</span><span class="p">[</span><span class="n">response_variable</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="n">univariate_fit</span> <span class="ow">and</span> <span class="n">elastic_fit</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">80</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Method 3: Consensus Variables (Intersection)&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">80</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># Get the actual covariates used in each model (excluding treatment)</span>
+            <span class="n">univariate_covs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">selected_covariates</span><span class="p">)</span>
+            <span class="n">elastic_covs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">selected_elastic_covariates</span><span class="p">)</span>
+            <span class="n">overlap_covariates</span> <span class="o">=</span> <span class="n">univariate_covs</span> <span class="o">&amp;</span> <span class="n">elastic_covs</span>
+            
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">overlap_covariates</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Covariates selected by BOTH methods: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">overlap_covariates</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">consensus_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">treatment_variable</span><span class="p">]</span> <span class="o">+</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">overlap_covariates</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No covariates selected by both methods.&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fitting treatment-only model.&quot;</span><span class="p">)</span>
+                <span class="n">consensus_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">treatment_variable</span><span class="p">]</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model variables: </span><span class="si">{</span><span class="n">consensus_vars</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># Fit model</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">_fit_model_with_checks</span><span class="p">(</span>
+                <span class="n">df</span><span class="p">,</span> <span class="n">response_variable</span><span class="p">,</span> <span class="n">consensus_vars</span><span class="p">,</span> <span class="n">outcome_type</span><span class="p">,</span> <span class="n">is_binary</span>
+            <span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">model_results</span><span class="p">[</span><span class="n">response_variable</span><span class="p">][</span><span class="s1">&#39;consensus&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Consensus model could not be fit for </span><span class="si">{</span><span class="n">response_variable</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># =====================================================================</span>
+        <span class="c1"># COMPARISON SUMMARY</span>
+        <span class="c1"># =====================================================================</span>
+        <span class="k">if</span> <span class="n">univariate_fit</span> <span class="ow">and</span> <span class="n">elastic_fit</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">80</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variable Selection Comparison&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">80</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="n">overlap</span> <span class="o">=</span> <span class="n">univariate_covs</span> <span class="o">&amp;</span> <span class="n">elastic_covs</span>
+            <span class="n">univariate_only</span> <span class="o">=</span> <span class="n">univariate_covs</span> <span class="o">-</span> <span class="n">elastic_covs</span>
+            <span class="n">elastic_only</span> <span class="o">=</span> <span class="n">elastic_covs</span> <span class="o">-</span> <span class="n">univariate_covs</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Treatment (forced in all models): </span><span class="si">{</span><span class="n">treatment_variable</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Overlap (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">overlap</span><span class="p">)</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">overlap</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">overlap</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;none&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Univariate only (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">univariate_only</span><span class="p">)</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">univariate_only</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">univariate_only</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;none&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Elastic net only (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">elastic_only</span><span class="p">)</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">elastic_only</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">elastic_only</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;none&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">model_results</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_fit_model_with_checks</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">response_variable</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">selected_vars</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+    <span class="n">outcome_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">is_binary</span><span class="p">:</span> <span class="nb">bool</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function to fit appropriate model with separation checking and convergence handling.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict or None</span>
+<span class="sd">        Dictionary with &#39;selected_variables&#39; and fitted model, or None if fitting failed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">statwise.preparation</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataPreparer</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">statwise.modeling</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegressionModel</span><span class="p">,</span> <span class="n">NegativeBinomialRegressionModel</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Preparing data...&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Prepare data with separation checking</span>
+    <span class="n">preparer</span> <span class="o">=</span> <span class="n">DataPreparer</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">response_variable</span><span class="p">,</span> <span class="n">selected_vars</span><span class="p">)</span>
+    
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">preparer</span><span class="o">.</span><span class="n">preprocess</span><span class="p">(</span>
+        <span class="n">drop_first_category</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">scale_numeric</span><span class="o">=</span><span class="kc">True</span> <span class="k">if</span> <span class="n">is_binary</span> <span class="k">else</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">min_category_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">check_separation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">separation_threshold</span><span class="o">=</span><span class="mf">0.95</span>
+    <span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final preprocessed data: X.shape=</span><span class="si">{</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, y.shape=</span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Fit appropriate model</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">is_binary</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Fitting logistic regression...&quot;</span><span class="p">)</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegressionModel</span><span class="p">()</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <span class="n">model_key</span> <span class="o">=</span> <span class="s1">&#39;logistic_regression&#39;</span>
+        
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># count outcome</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Fitting negative binomial regression...&quot;</span><span class="p">)</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">NegativeBinomialRegressionModel</span><span class="p">()</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <span class="n">model_key</span> <span class="o">=</span> <span class="s1">&#39;negative_binomial&#39;</span>
+        
+        <span class="c1"># Check convergence</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">model</span><span class="o">.</span><span class="n">converged</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">❌ MODEL FAILED TO CONVERGE&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Insufficient data to reliably estimate parameters.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">✅ Model converged successfully&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+        
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;selected_variables&#39;</span><span class="p">:</span> <span class="n">selected_vars</span><span class="p">,</span>
+            <span class="n">model_key</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span>
+            <span class="s1">&#39;converged&#39;</span><span class="p">:</span> <span class="kc">True</span>
+        <span class="p">}</span>
+    
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">❌ MODEL FITTING FAILED: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_results</span> <span class="o">=</span> <span class="n">run_analysis</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">response_variables</span><span class="p">,</span>
+    <span class="n">explanatory_variables</span><span class="p">,</span>
+    <span class="n">treatment_variable</span><span class="o">=</span><span class="s2">&quot;INPWT&quot;</span><span class="p">,</span>
+    <span class="n">univariate_alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">epv_binary</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">epv_count</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+    <span class="n">elastic_net_alpha_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">elastic_net_cv</span><span class="o">=</span><span class="mi">5</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Treatment variable: INPWT
+Candidate covariates for selection: 29 variables
+
+
+================================================================================
+Processing response variable: Surgical Length of Stay
+================================================================================
+
+Outcome type: count
+Response range: 5 - 30 (mean=11.4)
+EPV calculation: 152 observations / 15 = 10 max variables total
+Maximum covariates (excluding treatment): 9
+
+--------------------------------------------------------------------------------
+Method 1: Univariate Variable Selection (alpha=0.1)
+--------------------------------------------------------------------------------
+
+Surgical Length of Stay                                     (152, 30) 
+
+Selected 6 of 29 variables (p &lt; 0.1)
+Univariate selection identified 6 covariates
+Final covariates: [&#39;Hospital Discharge Destination&#39;, &#39;Diabetes Mellitus&#39;, &#39;Hypertension requiring medication&#39;, &#39;Duration of Surgical Procedure (in minutes)&#39;, &#39;Primary Payor Status&#39;, &#39;Age at Time of Surgery&#39;]
+Model variables (treatment + 6 covariates): [&#39;INPWT&#39;, &#39;Hospital Discharge Destination&#39;, &#39;Diabetes Mellitus&#39;, &#39;Hypertension requiring medication&#39;, &#39;Duration of Surgical Procedure (in minutes)&#39;, &#39;Primary Payor Status&#39;, &#39;Age at Time of Surgery&#39;]
+
+Preparing data...
+Checking for separation issues...
+Perfect separation in &#39;Hospital Discharge Destination&#39;: level &#39;Acute Care Hospital&#39; has 100% in one outcome
+Perfect separation in &#39;Duration of Surgical Procedure (in minutes)&#39;: level &#39;29&#39; has 100% in one outcome
+
+WARNING: 2 predictors may cause convergence issues in standard logistic regression.
+    Consider using penalized regression (Firth, Ridge) or manually excluding these variables.
+Final preprocessed data: X.shape=(130, 11), y.shape=(130,)
+
+Fitting negative binomial regression...
+
+✅ Model converged successfully
+                        NegativeBinomial Regression Results                        
+===================================================================================
+Dep. Variable:     Surgical Length of Stay   No. Observations:                  130
+Model:                    NegativeBinomial   Df Residuals:                      118
+Method:                                MLE   Df Model:                           11
+Date:                     Sat, 18 Oct 2025   Pseudo R-squ.:                 0.06463
+Time:                             03:26:44   Log-Likelihood:                -346.45
+converged:                            True   LL-Null:                       -370.39
+Covariance Type:                 nonrobust   LLR p-value:                 1.501e-06
+===============================================================================================================
+                                                  coef    std err          z      P&gt;|z|      [0.025      0.975]
+---------------------------------------------------------------------------------------------------------------
+const                                           2.4860      0.248     10.022      0.000       2.000       2.972
+Duration of Surgical Procedure (in minutes)     0.0005      0.000      1.123      0.261      -0.000       0.001
+Age at Time of Surgery                          0.0010      0.004      0.250      0.803      -0.007       0.009
+INPWT_Yes                                      -0.0978      0.075     -1.311      0.190      -0.244       0.048
+Hospital Discharge Destination_Other            0.3487      0.109      3.198      0.001       0.135       0.562
+Hospital Discharge Destination_Skilled Care     0.2843      0.117      2.433      0.015       0.055       0.513
+Diabetes Mellitus_No                           -0.3185      0.088     -3.605      0.000      -0.492      -0.145
+Diabetes Mellitus_Non-insulin                  -0.3181      0.110     -2.893      0.004      -0.534      -0.103
+Hypertension requiring medication_Yes          -0.0053      0.071     -0.074      0.941      -0.145       0.135
+Primary Payor Status_Medicare                   0.0297      0.122      0.243      0.808      -0.210       0.269
+Primary Payor Status_Other                     -0.2939      0.185     -1.589      0.112      -0.656       0.069
+Primary Payor Status_Private Insurance         -0.0771      0.117     -0.662      0.508      -0.306       0.151
+alpha                                           0.0281      0.013      2.156      0.031       0.003       0.054
+===============================================================================================================
+
+--------------------------------------------------------------------------------
+Method 2: Elastic Net Variable Selection (alpha_ratio=0.5)
+--------------------------------------------------------------------------------
+Elastic Net selected 13 of 29 variables
+Selected variables: [&#39;AST/SGOT&#39;, &#39;Age at Time of Surgery&#39;, &#39;Albumin&#39;, &#39;Alkaline Phosphatase&#39;, &#39;Duration of Surgical Procedure (in minutes)&#39;, &#39;Hospital Discharge Destination&#39;, &#39;PTT&#39;, &#39;Platelet Count&#39;, &#39;Postoperative ICD10 Code&#39;, &#39;Primary Payor Status&#39;, &#39;Race/Ethnicity&#39;, &#39;Serum Creatinine&#39;, &#39;WBC&#39;]
+Elastic net selection identified 13 covariates
+Exceeds EPV limit of 9. Selecting top 9 by coefficient magnitude...
+Final covariates: [&#39;AST/SGOT&#39;, &#39;Alkaline Phosphatase&#39;, &#39;Duration of Surgical Procedure (in minutes)&#39;, &#39;Hospital Discharge Destination&#39;, &#39;Platelet Count&#39;, &#39;Primary Payor Status&#39;, &#39;Race/Ethnicity&#39;, &#39;Serum Creatinine&#39;, &#39;WBC&#39;]
+Model variables (treatment + 9 covariates): [&#39;INPWT&#39;, &#39;AST/SGOT&#39;, &#39;Alkaline Phosphatase&#39;, &#39;Duration of Surgical Procedure (in minutes)&#39;, &#39;Hospital Discharge Destination&#39;, &#39;Platelet Count&#39;, &#39;Primary Payor Status&#39;, &#39;Race/Ethnicity&#39;, &#39;Serum Creatinine&#39;, &#39;WBC&#39;]
+
+Preparing data...
+Checking for separation issues...
+Perfect separation in &#39;AST/SGOT&#39;: level &#39;5&#39; has 100% in one outcome
+Perfect separation in &#39;Alkaline Phosphatase&#39;: level &#39;27&#39; has 100% in one outcome
+Perfect separation in &#39;Duration of Surgical Procedure (in minutes)&#39;: level &#39;29&#39; has 100% in one outcome
+Perfect separation in &#39;Hospital Discharge Destination&#39;: level &#39;Acute Care Hospital&#39; has 100% in one outcome
+Perfect separation in &#39;Platelet Count&#39;: level &#39;9&#39; has 100% in one outcome
+Perfect separation in &#39;Race/Ethnicity&#39;: level &#39;Hispanic&#39; has 100% in one outcome
+
+WARNING: 6 predictors may cause convergence issues in standard logistic regression.
+    Consider using penalized regression (Firth, Ridge) or manually excluding these variables.
+Final preprocessed data: X.shape=(104, 14), y.shape=(104,)
+
+Fitting negative binomial regression...
+WARNING: Maximum Likelihood optimization failed to converge.
+    Results may be unreliable. Check coefficients and standard errors.
+
+❌ MODEL FAILED TO CONVERGE
+Insufficient data to reliably estimate parameters.
+Elastic net model could not be fit for Surgical Length of Stay
+
+================================================================================
+Processing response variable: Postop Sepsis Occurrence
+================================================================================
+
+Outcome type: binary
+Event counts: {&#39;No&#39;: 138, &#39;Yes&#39;: 27}
+EPV calculation: 27 events / 10 = 2 max variables total
+Maximum covariates (excluding treatment): 1
+
+--------------------------------------------------------------------------------
+Method 1: Univariate Variable Selection (alpha=0.1)
+--------------------------------------------------------------------------------
+
+Postop Sepsis Occurrence                                    (165, 30) 
+
+Selected 0 of 29 variables (p &lt; 0.1)
+Univariate selection identified 0 covariates
+Final covariates: []
+Model variables (treatment + 0 covariates): [&#39;INPWT&#39;]
+
+Preparing data...
+Checking for separation issues...
+Final preprocessed data: X.shape=(163, 1), y.shape=(163,)
+
+Fitting logistic regression...
+
+✅ Model converged successfully
+                           Logit Regression Results                           
+==============================================================================
+Dep. Variable:                      y   No. Observations:                  163
+Model:                          Logit   Df Residuals:                      161
+Method:                           MLE   Df Model:                            1
+Date:                Sat, 18 Oct 2025   Pseudo R-squ.:                 0.03857
+Time:                        03:26:44   Log-Likelihood:                -70.351
+converged:                       True   LL-Null:                       -73.173
+Covariance Type:            nonrobust   LLR p-value:                   0.01752
+==============================================================================
+                 coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+const         -1.0776      0.289     -3.723      0.000      -1.645      -0.510
+INPWT_Yes     -1.0132      0.431     -2.350      0.019      -1.858      -0.168
+==============================================================================
+
+--------------------------------------------------------------------------------
+Method 2: Elastic Net Variable Selection (alpha_ratio=0.5)
+--------------------------------------------------------------------------------
+Elastic Net selected 0 of 29 variables
+WARNING: No variables selected - regularization may be too strong
+Elastic net selection identified 0 covariates
+Final covariates: []
+Model variables (treatment + 0 covariates): [&#39;INPWT&#39;]
+
+Preparing data...
+Checking for separation issues...
+Final preprocessed data: X.shape=(163, 1), y.shape=(163,)
+
+Fitting logistic regression...
+
+✅ Model converged successfully
+                           Logit Regression Results                           
+==============================================================================
+Dep. Variable:                      y   No. Observations:                  163
+Model:                          Logit   Df Residuals:                      161
+Method:                           MLE   Df Model:                            1
+Date:                Sat, 18 Oct 2025   Pseudo R-squ.:                 0.03857
+Time:                        03:26:44   Log-Likelihood:                -70.351
+converged:                       True   LL-Null:                       -73.173
+Covariance Type:            nonrobust   LLR p-value:                   0.01752
+==============================================================================
+                 coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+const         -1.0776      0.289     -3.723      0.000      -1.645      -0.510
+INPWT_Yes     -1.0132      0.431     -2.350      0.019      -1.858      -0.168
+==============================================================================
+
+--------------------------------------------------------------------------------
+Method 3: Consensus Variables (Intersection)
+--------------------------------------------------------------------------------
+No covariates selected by both methods.
+Fitting treatment-only model.
+Model variables: [&#39;INPWT&#39;]
+
+Preparing data...
+Checking for separation issues...
+Final preprocessed data: X.shape=(163, 1), y.shape=(163,)
+
+Fitting logistic regression...
+
+✅ Model converged successfully
+                           Logit Regression Results                           
+==============================================================================
+Dep. Variable:                      y   No. Observations:                  163
+Model:                          Logit   Df Residuals:                      161
+Method:                           MLE   Df Model:                            1
+Date:                Sat, 18 Oct 2025   Pseudo R-squ.:                 0.03857
+Time:                        03:26:44   Log-Likelihood:                -70.351
+converged:                       True   LL-Null:                       -73.173
+Covariance Type:            nonrobust   LLR p-value:                   0.01752
+==============================================================================
+                 coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+const         -1.0776      0.289     -3.723      0.000      -1.645      -0.510
+INPWT_Yes     -1.0132      0.431     -2.350      0.019      -1.858      -0.168
+==============================================================================
+
+--------------------------------------------------------------------------------
+Variable Selection Comparison
+--------------------------------------------------------------------------------
+Treatment (forced in all models): INPWT
+Overlap (0): none
+Univariate only (0): none
+Elastic net only (0): none
+
+================================================================================
+Processing response variable: Postop SSI Occurrence
+================================================================================
+
+Outcome type: binary
+Event counts: {&#39;No&#39;: 139, &#39;Yes&#39;: 26}
+EPV calculation: 26 events / 10 = 2 max variables total
+Maximum covariates (excluding treatment): 1
+
+--------------------------------------------------------------------------------
+Method 1: Univariate Variable Selection (alpha=0.1)
+--------------------------------------------------------------------------------
+
+Postop SSI Occurrence                                       (165, 30) 
+
+Selected 3 of 29 variables (p &lt; 0.1)
+Univariate selection identified 3 covariates
+Exceeds EPV limit of 1. Selecting top 1 by p-value...
+Final covariates: [&#39;# of Postop Organ/Space SSI PATOS&#39;]
+Model variables (treatment + 1 covariates): [&#39;INPWT&#39;, &#39;# of Postop Organ/Space SSI PATOS&#39;]
+
+Preparing data...
+Checking for separation issues...
+Perfect separation in &#39;# of Postop Organ/Space SSI PATOS&#39;: level &#39;1&#39; has 100% in one outcome
+
+WARNING: 1 predictors may cause convergence issues in standard logistic regression.
+    Consider using penalized regression (Firth, Ridge) or manually excluding these variables.
+Final preprocessed data: X.shape=(163, 2), y.shape=(163,)
+
+Fitting logistic regression...
+WARNING: Maximum Likelihood optimization failed to converge.
+    Results may be unreliable. Check coefficients and standard errors.
+
+❌ MODEL FAILED TO CONVERGE
+Insufficient data to reliably estimate parameters.
+Univariate model could not be fit for Postop SSI Occurrence
+
+--------------------------------------------------------------------------------
+Method 2: Elastic Net Variable Selection (alpha_ratio=0.5)
+--------------------------------------------------------------------------------
+Elastic Net selected 14 of 29 variables
+Selected variables: [&#39;# of Postop Organ/Space SSI PATOS&#39;, &#39;AST/SGOT&#39;, &#39;Age at Time of Surgery&#39;, &#39;Alkaline Phosphatase&#39;, &#39;BUN&#39;, &#39;CPT Code&#39;, &#39;Duration of Surgical Procedure (in minutes)&#39;, &#39;Hospital Discharge Destination&#39;, &#39;INR&#39;, &#39;Postoperative ICD10 Code&#39;, &#39;Serum Creatinine&#39;, &#39;Sex at Birth&#39;, &#39;Total Bilirubin&#39;, &#39;WBC&#39;]
+Elastic net selection identified 14 covariates
+Exceeds EPV limit of 1. Selecting top 1 by coefficient magnitude...
+Final covariates: [&#39;# of Postop Organ/Space SSI PATOS&#39;]
+Model variables (treatment + 1 covariates): [&#39;INPWT&#39;, &#39;# of Postop Organ/Space SSI PATOS&#39;]
+
+Preparing data...
+Checking for separation issues...
+Perfect separation in &#39;# of Postop Organ/Space SSI PATOS&#39;: level &#39;1&#39; has 100% in one outcome
+
+WARNING: 1 predictors may cause convergence issues in standard logistic regression.
+    Consider using penalized regression (Firth, Ridge) or manually excluding these variables.
+Final preprocessed data: X.shape=(163, 2), y.shape=(163,)
+
+Fitting logistic regression...
+WARNING: Maximum Likelihood optimization failed to converge.
+    Results may be unreliable. Check coefficients and standard errors.
+
+❌ MODEL FAILED TO CONVERGE
+Insufficient data to reliably estimate parameters.
+Elastic net model could not be fit for Postop SSI Occurrence
+
+================================================================================
+Processing response variable: Readmission likely related to Primary Procedure
+================================================================================
+
+Outcome type: binary
+Event counts: {&#39;No&#39;: 142, &#39;Yes&#39;: 23}
+EPV calculation: 23 events / 10 = 2 max variables total
+Maximum covariates (excluding treatment): 1
+
+--------------------------------------------------------------------------------
+Method 1: Univariate Variable Selection (alpha=0.1)
+--------------------------------------------------------------------------------
+
+Readmission likely related to Primary Procedure             (165, 30) 
+
+Selected 8 of 29 variables (p &lt; 0.1)
+Univariate selection identified 8 covariates
+Exceeds EPV limit of 1. Selecting top 1 by p-value...
+Final covariates: [&#39;# of Postop Organ/Space SSI PATOS&#39;]
+Model variables (treatment + 1 covariates): [&#39;INPWT&#39;, &#39;# of Postop Organ/Space SSI PATOS&#39;]
+
+Preparing data...
+Checking for separation issues...
+Perfect separation in &#39;# of Postop Organ/Space SSI PATOS&#39;: level &#39;1&#39; has 100% in one outcome
+
+WARNING: 1 predictors may cause convergence issues in standard logistic regression.
+    Consider using penalized regression (Firth, Ridge) or manually excluding these variables.
+Final preprocessed data: X.shape=(163, 2), y.shape=(163,)
+
+Fitting logistic regression...
+WARNING: Maximum Likelihood optimization failed to converge.
+    Results may be unreliable. Check coefficients and standard errors.
+
+❌ MODEL FAILED TO CONVERGE
+Insufficient data to reliably estimate parameters.
+Univariate model could not be fit for Readmission likely related to Primary Procedure
+
+--------------------------------------------------------------------------------
+Method 2: Elastic Net Variable Selection (alpha_ratio=0.5)
+--------------------------------------------------------------------------------
+Elastic Net selected 0 of 29 variables
+WARNING: No variables selected - regularization may be too strong
+Elastic net selection identified 0 covariates
+Final covariates: []
+Model variables (treatment + 0 covariates): [&#39;INPWT&#39;]
+
+Preparing data...
+Checking for separation issues...
+Final preprocessed data: X.shape=(163, 1), y.shape=(163,)
+
+Fitting logistic regression...
+
+✅ Model converged successfully
+                           Logit Regression Results                           
+==============================================================================
+Dep. Variable:                      y   No. Observations:                  163
+Model:                          Logit   Df Residuals:                      161
+Method:                           MLE   Df Model:                            1
+Date:                Sat, 18 Oct 2025   Pseudo R-squ.:               1.960e-05
+Time:                        03:26:45   Log-Likelihood:                -66.334
+converged:                       True   LL-Null:                       -66.335
+Covariance Type:            nonrobust   LLR p-value:                    0.9593
+==============================================================================
+                 coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+const         -1.7918      0.360     -4.977      0.000      -2.497      -1.086
+INPWT_Yes     -0.0235      0.461     -0.051      0.959      -0.927       0.880
+==============================================================================
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="results">
+<h2>Results<a class="headerlink" href="#results" title="Link to this heading">#</a></h2>
+<section id="overview-of-variable-selection-and-modeling">
+<h3>Overview of Variable Selection and Modeling<a class="headerlink" href="#overview-of-variable-selection-and-modeling" title="Link to this heading">#</a></h3>
+<p>We employed a systematic two-stage approach to variable selection and model fitting. First, we applied two independent variable selection methods—univariate testing (p &lt; 0.1) and elastic net regularization (L1 ratio = 0.5, 5-fold cross-validation)—to identify candidate predictors for each outcome. Second, we determined the maximum number of covariates that could be reliably estimated given our sample size, using established guidelines: 10 events per variable for binary outcomes (Peduzzi et al., 1996) and 15 observations per variable for count outcomes, the latter being more conservative to account for increased variance in count data.</p>
+<p>When either selection method identified more variables than the sample size threshold permitted, we retained only the top N variables ranked by statistical strength (smallest p-values for univariate, largest absolute coefficients for elastic net). The treatment variable (incisional negative pressure wound therapy, INPWT) was included in all models regardless of selection and counted toward the variable limit.</p>
+<p>We attempted to fit three models per outcome: (1) univariate selection, (2) elastic net selection, and (3) consensus (variables selected by both methods). For outcomes where models failed to converge despite appropriate sample size considerations, we concluded the data were insufficient to support that covariate structure and report this limitation explicitly.</p>
+<p><strong>Table 1. Variable Selection and Model Convergence by Outcome and Method</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Outcome</p></th>
+<th class="head"><p>Method</p></th>
+<th class="head"><p>Covariates Selected</p></th>
+<th class="head"><p>Model Converged</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Surgical Length of Stay</p></td>
+<td><p>Univariate</p></td>
+<td><p>6</p></td>
+<td><p>✓</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Surgical Length of Stay</p></td>
+<td><p>Elastic Net</p></td>
+<td><p>—</p></td>
+<td><p>✗</p></td>
+<td><p>Failed to converge</p></td>
+</tr>
+<tr class="row-even"><td><p>Surgical Length of Stay</p></td>
+<td><p>Consensus</p></td>
+<td><p>—</p></td>
+<td><p>✗</p></td>
+<td><p>Failed to converge</p></td>
+</tr>
+<tr class="row-odd"><td><p>Postop Sepsis Occurrence</p></td>
+<td><p>Univariate</p></td>
+<td><p>0</p></td>
+<td><p>✓</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Postop Sepsis Occurrence</p></td>
+<td><p>Elastic Net</p></td>
+<td><p>0</p></td>
+<td><p>✓</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Postop Sepsis Occurrence</p></td>
+<td><p>Consensus</p></td>
+<td><p>0</p></td>
+<td><p>✓</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Postop SSI Occurrence</p></td>
+<td><p>Univariate</p></td>
+<td><p>—</p></td>
+<td><p>✗</p></td>
+<td><p>Failed to converge</p></td>
+</tr>
+<tr class="row-odd"><td><p>Postop SSI Occurrence</p></td>
+<td><p>Elastic Net</p></td>
+<td><p>—</p></td>
+<td><p>✗</p></td>
+<td><p>Failed to converge</p></td>
+</tr>
+<tr class="row-even"><td><p>Postop SSI Occurrence</p></td>
+<td><p>Consensus</p></td>
+<td><p>—</p></td>
+<td><p>✗</p></td>
+<td><p>Failed to converge</p></td>
+</tr>
+<tr class="row-odd"><td><p>Readmission likely related to Primary Procedure</p></td>
+<td><p>Univariate</p></td>
+<td><p>—</p></td>
+<td><p>✗</p></td>
+<td><p>Failed to converge</p></td>
+</tr>
+<tr class="row-even"><td><p>Readmission likely related to Primary Procedure</p></td>
+<td><p>Elastic Net</p></td>
+<td><p>0</p></td>
+<td><p>✓</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Readmission likely related to Primary Procedure</p></td>
+<td><p>Consensus</p></td>
+<td><p>—</p></td>
+<td><p>✗</p></td>
+<td><p>Failed to converge</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="surgical-length-of-stay">
+<h3>Surgical Length of Stay<a class="headerlink" href="#surgical-length-of-stay" title="Link to this heading">#</a></h3>
+<p>The univariate method (p &lt; 0.1) selected 6 covariates, all within the sample size limit of 9 covariates (152 observations / 15 = 10 total variables, minus 1 for treatment). Elastic net selected 13 covariates; we retained the top 9 by coefficient magnitude. However, 6 of these 9 variables exhibited perfect separation (certain predictor levels had 100% of observations at specific outcome values), and the model failed to converge. The consensus approach was not applicable as there was no overlap between univariate and elastic net selections after EPV limiting. Thus, only the univariate model converged successfully.</p>
+<p><strong>Variables in Univariate Model</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Univariate</p></th>
+<th class="head"><p>Elastic Net</p></th>
+<th class="head"><p>Consensus</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>INPWT</p></td>
+<td><p>✓</p></td>
+<td><p>—</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Age at Time of Surgery</p></td>
+<td><p>✓</p></td>
+<td><p>—</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Diabetes Mellitus</p></td>
+<td><p>✓</p></td>
+<td><p>—</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Duration of Surgical Procedure (in minutes)</p></td>
+<td><p>✓</p></td>
+<td><p>—</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Hospital Discharge Destination</p></td>
+<td><p>✓</p></td>
+<td><p>—</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Hypertension requiring medication</p></td>
+<td><p>✓</p></td>
+<td><p>—</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Primary Payor Status</p></td>
+<td><p>✓</p></td>
+<td><p>—</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Two variables exhibited perfect separation (Hospital Discharge Destination: Acute Care Hospital; Duration of Surgical Procedure: 29 minutes), yet the univariate model converged successfully. This suggests these patterns, while extreme, did not prevent parameter estimation in this specific covariate configuration.</p>
+<p><strong>Treatment Effect on Surgical Length of Stay</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Model</p></th>
+<th class="head"><p>n</p></th>
+<th class="head"><p>Coefficient</p></th>
+<th class="head"><p>IRR</p></th>
+<th class="head"><p>95% CI</p></th>
+<th class="head"><p>p-value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Univariate</p></td>
+<td><p>130</p></td>
+<td><p>-0.098</p></td>
+<td><p>0.91</p></td>
+<td><p>0.78 – 1.05</p></td>
+<td><p>0.190</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>INPWT was associated with a 9% reduction in expected length of stay (IRR 0.91, 95% CI 0.78–1.05), though this did not reach statistical significance (p = 0.190).</p>
+<p><strong>Key Covariate Effects (Univariate Model)</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Predictor</p></th>
+<th class="head"><p>Coefficient</p></th>
+<th class="head"><p>IRR</p></th>
+<th class="head"><p>95% CI</p></th>
+<th class="head"><p>p-value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Diabetes Mellitus_No</p></td>
+<td><p>-0.318</p></td>
+<td><p>0.73</p></td>
+<td><p>0.61 – 0.86</p></td>
+<td><p>0.000</p></td>
+</tr>
+<tr class="row-odd"><td><p>Hospital Discharge Destination_Other</p></td>
+<td><p>0.349</p></td>
+<td><p>1.42</p></td>
+<td><p>1.14 – 1.75</p></td>
+<td><p>0.001</p></td>
+</tr>
+<tr class="row-even"><td><p>Diabetes Mellitus_Non-insulin</p></td>
+<td><p>-0.318</p></td>
+<td><p>0.73</p></td>
+<td><p>0.59 – 0.90</p></td>
+<td><p>0.004</p></td>
+</tr>
+<tr class="row-odd"><td><p>Hospital Discharge Destination_Skilled Care</p></td>
+<td><p>0.284</p></td>
+<td><p>1.33</p></td>
+<td><p>1.06 – 1.67</p></td>
+<td><p>0.015</p></td>
+</tr>
+<tr class="row-even"><td><p>Primary Payor Status_Other</p></td>
+<td><p>-0.294</p></td>
+<td><p>0.75</p></td>
+<td><p>0.52 – 1.07</p></td>
+<td><p>0.112</p></td>
+</tr>
+<tr class="row-odd"><td><p>Duration of Surgical Procedure (in minutes)</p></td>
+<td><p>0.0</p></td>
+<td><p>1.0</p></td>
+<td><p>1.00 – 1.00</p></td>
+<td><p>0.261</p></td>
+</tr>
+<tr class="row-even"><td><p>Primary Payor Status_Private Insurance</p></td>
+<td><p>-0.077</p></td>
+<td><p>0.93</p></td>
+<td><p>0.74 – 1.16</p></td>
+<td><p>0.508</p></td>
+</tr>
+<tr class="row-odd"><td><p>Age at Time of Surgery</p></td>
+<td><p>0.001</p></td>
+<td><p>1.0</p></td>
+<td><p>0.99 – 1.01</p></td>
+<td><p>0.803</p></td>
+</tr>
+<tr class="row-even"><td><p>Primary Payor Status_Medicare</p></td>
+<td><p>0.03</p></td>
+<td><p>1.03</p></td>
+<td><p>0.81 – 1.31</p></td>
+<td><p>0.808</p></td>
+</tr>
+<tr class="row-odd"><td><p>Hypertension requiring medication_Yes</p></td>
+<td><p>-0.005</p></td>
+<td><p>0.99</p></td>
+<td><p>0.86 – 1.14</p></td>
+<td><p>0.941</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Discharge destination was the strongest predictor of length of stay. Patients discharged to other facilities (not home or skilled care) had 42% longer stays (IRR 1.42, 95% CI 1.14–1.75, p = 0.001), and those discharged to skilled care facilities had 33% longer stays (IRR 1.33, 95% CI 1.06–1.67, p = 0.015), compared to discharge home.</p>
+<p>Diabetes status also significantly predicted length of stay. Patients without diabetes had 27% shorter stays compared to insulin-dependent diabetics (IRR 0.73, 95% CI 0.60–0.87, p &lt; 0.001), and those with non-insulin-dependent diabetes had 27% shorter stays (IRR 0.73, 95% CI 0.58–0.90, p = 0.004).</p>
+</section>
+<section id="postoperative-sepsis">
+<h3>Postoperative Sepsis<a class="headerlink" href="#postoperative-sepsis" title="Link to this heading">#</a></h3>
+<p>With only 27 sepsis events, the events-per-variable guideline (10 events per variable) permitted a maximum of 2 total variables (treatment + 1 covariate). Neither univariate testing (p &lt; 0.1) nor elastic net regularization identified any covariates. All three models (univariate, elastic net, and consensus) were therefore identical, consisting of the treatment variable only.</p>
+<p><strong>Treatment Effect on Postoperative Sepsis (All Models)</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Model</p></th>
+<th class="head"><p>n</p></th>
+<th class="head"><p>Events</p></th>
+<th class="head"><p>Coefficient</p></th>
+<th class="head"><p>OR</p></th>
+<th class="head"><p>95% CI</p></th>
+<th class="head"><p>p-value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Univariate</p></td>
+<td><p>163</p></td>
+<td><p>27</p></td>
+<td><p>-1.013</p></td>
+<td><p>0.36</p></td>
+<td><p>0.16 – 0.85</p></td>
+<td><p>0.019</p></td>
+</tr>
+<tr class="row-odd"><td><p>Elastic Net</p></td>
+<td><p>163</p></td>
+<td><p>27</p></td>
+<td><p>-1.013</p></td>
+<td><p>0.36</p></td>
+<td><p>0.16 – 0.85</p></td>
+<td><p>0.019</p></td>
+</tr>
+<tr class="row-even"><td><p>Consensus</p></td>
+<td><p>163</p></td>
+<td><p>27</p></td>
+<td><p>-1.013</p></td>
+<td><p>0.36</p></td>
+<td><p>0.16 – 0.85</p></td>
+<td><p>0.019</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>INPWT demonstrated a significant protective association with postoperative sepsis. Patients receiving INPWT had 64% lower odds of developing sepsis (OR 0.36, 95% CI 0.16–0.85, p = 0.019). This effect remained robust across all modeling approaches. The absence of selected covariates suggests that, within this dataset and given the statistical power constraints, the treatment effect on sepsis was not confounded by the measured patient or procedural characteristics that were available for analysis.</p>
+</section>
+<section id="postoperative-surgical-site-infection">
+<h3>Postoperative Surgical Site Infection<a class="headerlink" href="#postoperative-surgical-site-infection" title="Link to this heading">#</a></h3>
+<p>With only 26 SSI events, the events-per-variable guideline permitted a maximum of 2 total variables (treatment + 1 covariate). Both univariate testing and elastic net selection identified the same covariate: number of postoperative organ/space SSIs at time of surgery. However, this variable exhibited perfect separation—all patients with organ/space SSI at surgery also had subsequent SSI. This perfect collinearity prevented model convergence for both univariate and elastic net approaches.</p>
+<p>The elastic net initially selected 14 variables but was limited to the top 1 by coefficient magnitude, which happened to be the same separated variable. No multivariable models could be fit for this outcome due to the separation issue combined with insufficient events for including additional predictors.</p>
+</section>
+<section id="readmission-related-to-primary-procedure">
+<h3>Readmission Related to Primary Procedure<a class="headerlink" href="#readmission-related-to-primary-procedure" title="Link to this heading">#</a></h3>
+<p>With only 23 readmission events, the sample size permitted a maximum of 2 total variables (treatment + 1 covariate). Univariate testing identified 8 potentially associated covariates but was limited to the top 1 by p-value: number of postoperative organ/space SSIs. This variable exhibited perfect separation, causing the univariate model to fail to converge.</p>
+<p>Elastic net selected no covariates, allowing a treatment-only model to be fit successfully.</p>
+<p><strong>Treatment Effect on Readmission (Elastic Net Model)</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Model</p></th>
+<th class="head"><p>n</p></th>
+<th class="head"><p>Events</p></th>
+<th class="head"><p>Coefficient</p></th>
+<th class="head"><p>OR</p></th>
+<th class="head"><p>95% CI</p></th>
+<th class="head"><p>p-value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Elastic Net</p></td>
+<td><p>163</p></td>
+<td><p>23</p></td>
+<td><p>-0.024</p></td>
+<td><p>0.98</p></td>
+<td><p>0.40 – 2.41</p></td>
+<td><p>0.959</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>No evidence of a treatment effect on readmission was observed (OR 0.98, 95% CI 0.40–2.41, p = 0.959). The pseudo R-squared was near zero (0.00002), indicating the treatment explained essentially none of the variation in readmission risk. This null finding should be interpreted cautiously given the small number of events and lack of covariate adjustment.</p>
+</section>
+<section id="summary">
+<h3>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h3>
+<p>INPWT showed a significant protective association with postoperative sepsis, with a 64% reduction in odds (OR 0.36, 95% CI 0.16–0.85, p = 0.019). This effect was not confounded by measured patient characteristics that could be included given sample size constraints. For surgical length of stay, INPWT demonstrated a modest 9% reduction (IRR 0.91) that did not reach statistical significance (p = 0.190).</p>
+<p>Discharge disposition and diabetes status were the strongest determinants of length of stay in the univariate model. Discharge to non-home settings was associated with 33–42% longer stays, and absence of insulin-dependent diabetes was associated with 27% shorter stays compared to insulin-dependent diabetes.</p>
+<p>Sample size limitations precluded definitive analysis of SSI (26 events) and readmission (23 events) outcomes. The small event counts relative to the number of candidate predictors resulted in models that either could not be fit due to separation issues (SSI, readmission univariate) or had insufficient power for covariate adjustment (readmission elastic net, treatment-only model). The elastic net selection for surgical length of stay identified 13 variables, but including the top 9 by coefficient magnitude resulted in convergence failure due to separation in 6 variables, highlighting the challenge of multivariable modeling with moderate sample sizes and complex covariate patterns.</p>
+<p>These findings underscore the importance of sample size considerations in surgical outcomes research. Future studies of these endpoints may require larger samples or alternative analytical approaches such as penalized regression methods specifically designed to handle separation, propensity score methods to reduce dimensionality, or Bayesian approaches that can incorporate prior information to stabilize estimates with sparse data.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Overview</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="code_appendix.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Code</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-cleaning">Data Cleaning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-selection">Variable Selection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#univariate-selection">Univariate Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#elastic-net-selection">Elastic Net Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consensus-selection">Consensus Selection</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-modeling">Statistical Modeling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-size-and-model-specification">Sample Size and Model Specification</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#separation-and-convergence">Separation and Convergence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#binary-outcomes">Binary Outcomes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#count-outcomes">Count Outcomes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-reporting">Model Reporting</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-variable-selection-and-modeling">Overview of Variable Selection and Modeling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#surgical-length-of-stay">Surgical Length of Stay</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#postoperative-sepsis">Postoperative Sepsis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#postoperative-surgical-site-infection">Postoperative Surgical Site Infection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#readmission-related-to-primary-procedure">Readmission Related to Primary Procedure</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Derek Zhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
