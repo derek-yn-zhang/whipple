@@ -377,7 +377,6 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">statwise.preparation</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataPreparer</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">statwise.selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnivariateVariableSelection</span><span class="p">,</span> <span class="n">ElasticNetVariableSelection</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">statwise.modeling</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegressionModel</span><span class="p">,</span> <span class="n">NegativeBinomialRegressionModel</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">statwise.results</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_results_section</span><span class="p">,</span> <span class="n">extract_treatment_effects</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.tools.sm_exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConvergenceWarning</span>
@@ -445,15 +444,14 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Loading CSV file: data/WHIPPLE_DEIDENTIFIED.csv ===
-Initial shape: (165, 128)
+Initial shape: (165, 126)
 Parsed date/time columns: [&#39;Hospital Admission Date&#39;, &#39;Operation Date&#39;, &#39;Procedure/Surgery Start&#39;, &#39;Procedure/Surgery Finish&#39;, &#39;Serum Sodium Date&#39;, &#39;BUN Date&#39;, &#39;Serum Creatinine Date&#39;, &#39;Albumin Date&#39;, &#39;Total Bilirubin Date&#39;, &#39;AST/SGOT Date&#39;, &#39;Alkaline Phosphatase Date&#39;, &#39;WBC Date&#39;, &#39;Hemoglobin Date&#39;, &#39;Hematocrit Date&#39;, &#39;Platelet Count Date&#39;, &#39;INR Date&#39;, &#39;PTT Date&#39;, &#39;Hemoglobin A1c (HbA1c) Date&#39;, &#39;Acute Hospital Discharge Date&#39;, &#39;Date of Death&#39;, &#39;Date of First Readmission&#39;, &#39;Date of First Unplanned Return to OR&#39;, &#39;Date of Second unplanned return&#39;]
-Date parsing completed | Shape unchanged: (165, 128)
+Date parsing completed | Shape unchanged: (165, 126)
 Converted to Int64 (nullable integer): [&#39;INPWT (Yes=1)&#39;, &#39;Concurrent Procedures CPT&#39;, &#39;Serum Sodium&#39;, &#39;AST/SGOT&#39;, &#39;Alkaline Phosphatase&#39;, &#39;Platelet Count&#39;, &#39;Total Blood Transfused (in units)&#39;, &#39;Surgical Length of Stay&#39;, &#39;Hospital Length of Stay&#39;, &#39;Date of Death Unknown&#39;, &#39;Total # of Unplanned Returns to OR&#39;, &#39;First Unplanned Return CPT&#39;, &#39;First Unplanned Return Related to Primary Procedure&#39;, &#39;Second Unplanned Return CPT&#39;, &#39;Second Unplanned Return Related to Primary Procedure&#39;]
-Integer enforcement completed | Shape unchanged: (165, 128)
-Converted 41 object columns to categorical.
-Categorical conversion complete | Shape unchanged: (165, 128)
+Integer enforcement completed | Shape unchanged: (165, 126)
+Converted 40 object columns to categorical.
+Categorical conversion complete | Shape unchanged: (165, 126)
 === CSV Loading Complete ===
-DEIDENTIFIED ID                                                        int64
 INPWT (Yes=1)                                                          Int64
 Age at Time of Surgery                                               float64
 Sex at Birth                                                        category
@@ -465,7 +463,6 @@ Primary Payor Status                                                category
 Hospital Admission Date                                       datetime64[ns]
 Operation Date                                                datetime64[ns]
 Principal Anesthesia Technique                                      category
-Attending/Staff Surgeon                                             category
 ASA Classification                                                  category
 Procedure/Surgery Start                                       datetime64[ns]
 Procedure/Surgery Finish                                      datetime64[ns]
@@ -602,7 +599,6 @@ dtype: object
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>DEIDENTIFIED ID</th>
       <th>INPWT (Yes=1)</th>
       <th>Age at Time of Surgery</th>
       <th>Sex at Birth</th>
@@ -614,7 +610,6 @@ dtype: object
       <th>Hospital Admission Date</th>
       <th>Operation Date</th>
       <th>Principal Anesthesia Technique</th>
-      <th>Attending/Staff Surgeon</th>
       <th>ASA Classification</th>
       <th>Procedure/Surgery Start</th>
       <th>Procedure/Surgery Finish</th>
@@ -735,7 +730,6 @@ dtype: object
   <tbody>
     <tr>
       <th>0</th>
-      <td>84382030</td>
       <td>0</td>
       <td>78.71</td>
       <td>Female</td>
@@ -747,7 +741,6 @@ dtype: object
       <td>2017-01-18</td>
       <td>2017-01-19</td>
       <td>General</td>
-      <td>Nakhamiyayev,Vadim (8470717.00)</td>
       <td>ASA IV - Severe systemic disease threat to life</td>
       <td>2017-01-19 14:29:00</td>
       <td>2017-01-19 21:13:00</td>
@@ -866,7 +859,6 @@ dtype: object
     </tr>
     <tr>
       <th>1</th>
-      <td>73810768</td>
       <td>0</td>
       <td>60.20</td>
       <td>Female</td>
@@ -878,7 +870,6 @@ dtype: object
       <td>2017-01-24</td>
       <td>2017-01-25</td>
       <td>General</td>
-      <td>Shah,Sayed (   44519292.00)</td>
       <td>ASA III - Severe systemic disease</td>
       <td>2017-01-25 09:37:00</td>
       <td>2017-01-26 01:25:00</td>
@@ -997,7 +988,6 @@ dtype: object
     </tr>
     <tr>
       <th>2</th>
-      <td>20210364</td>
       <td>0</td>
       <td>56.56</td>
       <td>Male</td>
@@ -1009,7 +999,6 @@ dtype: object
       <td>2017-02-02</td>
       <td>2017-02-14</td>
       <td>General</td>
-      <td>Nakhamiyayev,Vadim (8470717.00)</td>
       <td>ASA III - Severe systemic disease</td>
       <td>2017-02-14 15:24:00</td>
       <td>2017-02-14 15:53:00</td>
@@ -1249,8 +1238,6 @@ dtype: object
 
 <span class="n">df</span><span class="p">,</span> <span class="n">logs</span> <span class="o">=</span> <span class="n">cleaner</span><span class="o">.</span><span class="n">run_cleaning_pipeline</span><span class="p">(</span>
     <span class="n">drop_cols</span><span class="o">=</span><span class="p">[</span>
-        <span class="s2">&quot;DEIDENTIFIED ID&quot;</span><span class="p">,</span> 
-        <span class="s2">&quot;Attending/Staff Surgeon&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Postoperative ICD10 Description&quot;</span><span class="p">,</span>
         <span class="s2">&quot;CPT Description&quot;</span>
     <span class="p">],</span>
@@ -1277,8 +1264,8 @@ dtype: object
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Starting Dataset Cleaning Pipeline ===
-Dropping 4 specified columns: [&#39;DEIDENTIFIED ID&#39;, &#39;Attending/Staff Surgeon&#39;, &#39;Postoperative ICD10 Description&#39;, &#39;CPT Description&#39;]
-Shape changed from (165, 128) to (165, 124)
+Dropping 2 specified columns: [&#39;Postoperative ICD10 Description&#39;, &#39;CPT Description&#39;]
+Shape changed from (165, 126) to (165, 124)
 No datetime columns specified - dropping all 23 datetime columns: [&#39;Hospital Admission Date&#39;, &#39;Operation Date&#39;, &#39;Procedure/Surgery Start&#39;, &#39;Procedure/Surgery Finish&#39;, &#39;Serum Sodium Date&#39;, &#39;BUN Date&#39;, &#39;Serum Creatinine Date&#39;, &#39;Albumin Date&#39;, &#39;Total Bilirubin Date&#39;, &#39;AST/SGOT Date&#39;, &#39;Alkaline Phosphatase Date&#39;, &#39;WBC Date&#39;, &#39;Hemoglobin Date&#39;, &#39;Hematocrit Date&#39;, &#39;Platelet Count Date&#39;, &#39;INR Date&#39;, &#39;PTT Date&#39;, &#39;Hemoglobin A1c (HbA1c) Date&#39;, &#39;Acute Hospital Discharge Date&#39;, &#39;Date of Death&#39;, &#39;Date of First Readmission&#39;, &#39;Date of First Unplanned Return to OR&#39;, &#39;Date of Second unplanned return&#39;]
 Shape changed from (165, 124) to (165, 101)
 Detected 31 response columns from metadata
@@ -2140,7 +2127,7 @@ Dep. Variable:     Surgical Length of Stay   No. Observations:                  
 Model:                    NegativeBinomial   Df Residuals:                      118
 Method:                                MLE   Df Model:                           11
 Date:                     Sun, 19 Oct 2025   Pseudo R-squ.:                 0.06463
-Time:                             00:59:47   Log-Likelihood:                -346.45
+Time:                             14:43:36   Log-Likelihood:                -346.45
 converged:                            True   LL-Null:                       -370.39
 Covariance Type:                 nonrobust   LLR p-value:                 1.501e-06
 ===============================================================================================================
@@ -2219,7 +2206,7 @@ Dep. Variable:                      y   No. Observations:                  163
 Model:                          Logit   Df Residuals:                      161
 Method:                           MLE   Df Model:                            1
 Date:                Sun, 19 Oct 2025   Pseudo R-squ.:                 0.03857
-Time:                        00:59:47   Log-Likelihood:                -70.351
+Time:                        14:43:36   Log-Likelihood:                -70.351
 converged:                       True   LL-Null:                       -73.173
 Covariance Type:            nonrobust   LLR p-value:                   0.01752
 ==============================================================================
@@ -2253,7 +2240,7 @@ Dep. Variable:                      y   No. Observations:                  163
 Model:                          Logit   Df Residuals:                      161
 Method:                           MLE   Df Model:                            1
 Date:                Sun, 19 Oct 2025   Pseudo R-squ.:                 0.03857
-Time:                        00:59:47   Log-Likelihood:                -70.351
+Time:                        14:43:36   Log-Likelihood:                -70.351
 converged:                       True   LL-Null:                       -73.173
 Covariance Type:            nonrobust   LLR p-value:                   0.01752
 ==============================================================================
@@ -2285,7 +2272,7 @@ Dep. Variable:                      y   No. Observations:                  163
 Model:                          Logit   Df Residuals:                      161
 Method:                           MLE   Df Model:                            1
 Date:                Sun, 19 Oct 2025   Pseudo R-squ.:                 0.03857
-Time:                        00:59:47   Log-Likelihood:                -70.351
+Time:                        14:43:36   Log-Likelihood:                -70.351
 converged:                       True   LL-Null:                       -73.173
 Covariance Type:            nonrobust   LLR p-value:                   0.01752
 ==============================================================================
@@ -2315,7 +2302,7 @@ Dep. Variable:                      y   No. Observations:                  163
 Model:                          Logit   Df Residuals:                      161
 Method:                           MLE   Df Model:                            1
 Date:                Sun, 19 Oct 2025   Pseudo R-squ.:                 0.03857
-Time:                        00:59:47   Log-Likelihood:                -70.351
+Time:                        14:43:36   Log-Likelihood:                -70.351
 converged:                       True   LL-Null:                       -73.173
 Covariance Type:            nonrobust   LLR p-value:                   0.01752
 ==============================================================================
@@ -2360,7 +2347,7 @@ Dep. Variable:                      y   No. Observations:                  163
 Model:                          Logit   Df Residuals:                      161
 Method:                           MLE   Df Model:                            1
 Date:                Sun, 19 Oct 2025   Pseudo R-squ.:               0.0001618
-Time:                        00:59:47   Log-Likelihood:                -69.837
+Time:                        14:43:36   Log-Likelihood:                -69.837
 converged:                       True   LL-Null:                       -69.848
 Covariance Type:            nonrobust   LLR p-value:                    0.8805
 ==============================================================================
@@ -2451,7 +2438,7 @@ Dep. Variable:                      y   No. Observations:                  163
 Model:                          Logit   Df Residuals:                      161
 Method:                           MLE   Df Model:                            1
 Date:                Sun, 19 Oct 2025   Pseudo R-squ.:               1.960e-05
-Time:                        00:59:48   Log-Likelihood:                -66.334
+Time:                        14:43:36   Log-Likelihood:                -66.334
 converged:                       True   LL-Null:                       -66.335
 Covariance Type:            nonrobust   LLR p-value:                    0.9593
 ==============================================================================
@@ -2511,7 +2498,7 @@ Dep. Variable:                      y   No. Observations:                  163
 Model:                          Logit   Df Residuals:                      161
 Method:                           MLE   Df Model:                            1
 Date:                Sun, 19 Oct 2025   Pseudo R-squ.:               1.960e-05
-Time:                        00:59:48   Log-Likelihood:                -66.334
+Time:                        14:43:37   Log-Likelihood:                -66.334
 converged:                       True   LL-Null:                       -66.335
 Covariance Type:            nonrobust   LLR p-value:                    0.9593
 ==============================================================================

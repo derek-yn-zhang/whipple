@@ -50,11 +50,6 @@ from .modeling import (
     LogisticRegressionModel,
     NegativeBinomialRegressionModel,
 )
-from .results import (
-    generate_results_section,
-    extract_treatment_effects,
-    create_selection_summary_table,
-)
 
 __all__ = [
     "CSVDataLoader",
@@ -64,7 +59,4 @@ __all__ = [
     "ElasticNetVariableSelection",
     "LogisticRegressionModel",
     "NegativeBinomialRegressionModel",
-    "generate_results_section",
-    "extract_treatment_effects",
-    "create_selection_summary_table",
 ]
