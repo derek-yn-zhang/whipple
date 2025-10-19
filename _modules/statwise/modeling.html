@@ -1,0 +1,851 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>statwise.modeling &#8212; Whipple INPWT Analysis</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/statwise/modeling';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Whipple INPWT Analysis</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../analysis.html">Analysis</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../api/index.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/loading.html">Data Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/cleaning.html">Data Cleaning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/preparation.html">Data Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/selection.html">Variable Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/modeling.html">Statistical Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/loading.html">Data Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/cleaning.html">Data Cleaning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/preparation.html">Data Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/selection.html">Variable Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/modeling.html">Statistical Modeling</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/derek-yn-zhang/whipple" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/derek-yn-zhang/whipple/issues/new?title=Issue%20on%20page%20%2F_modules/statwise/modeling.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for statwise.modeling</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.tools.sm_exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConvergenceWarning</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.discrete.discrete_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">NegativeBinomial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+
+
+<div class="viewcode-block" id="BaseModel">
+<a class="viewcode-back" href="../../api/modeling.html#statwise.modeling.BaseModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BaseModel</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for regression models providing common interface and convergence checking.</span>
+
+<span class="sd">    This abstract base class defines the interface for all regression models</span>
+<span class="sd">    and provides shared functionality for model fitting and convergence diagnostics.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : fitted model or None</span>
+<span class="sd">        Fitted statsmodels regression model (None until fit() is called).</span>
+<span class="sd">    X : pd.DataFrame or None</span>
+<span class="sd">        Feature matrix used for fitting (None until fit() is called).</span>
+<span class="sd">    y : pd.Series or None</span>
+<span class="sd">        Response variable used for fitting (None until fit() is called).</span>
+<span class="sd">    converged : bool or None</span>
+<span class="sd">        Whether maximum likelihood optimization converged successfully.</span>
+<span class="sd">        None until convergence is checked.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This class should not be instantiated directly. Use subclasses:</span>
+<span class="sd">    - LogisticRegressionModel for binary outcomes</span>
+<span class="sd">    - NegativeBinomialRegressionModel for count outcomes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BaseModel.__init__">
+<a class="viewcode-back" href="../../api/modeling.html#statwise.modeling.BaseModel.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="BaseModel.fit">
+<a class="viewcode-back" href="../../api/modeling.html#statwise.modeling.BaseModel.fit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit the regression model.</span>
+
+<span class="sd">        Must be implemented by subclasses.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : pd.DataFrame</span>
+<span class="sd">            Feature matrix with shape (n_samples, n_features).</span>
+<span class="sd">        y : pd.Series</span>
+<span class="sd">            Response variable with shape (n_samples,).</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        NotImplementedError</span>
+<span class="sd">            If called on BaseModel directly rather than a subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Subclasses must implement this method.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseModel.summary">
+<a class="viewcode-back" href="../../api/modeling.html#statwise.modeling.BaseModel.summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Display comprehensive model summary with coefficients and fit statistics.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        statsmodels.iolib.summary.Summary</span>
+<span class="sd">            Summary object containing coefficient estimates, standard errors,</span>
+<span class="sd">            z-statistics, p-values, confidence intervals, and model fit statistics.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If model has not been fitted yet.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; model = LogisticRegressionModel()</span>
+<span class="sd">        &gt;&gt;&gt; model.fit(X, y)</span>
+<span class="sd">        &gt;&gt;&gt; print(model.summary())</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Model not fitted yet.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BaseModel.check_convergence">
+<a class="viewcode-back" href="../../api/modeling.html#statwise.modeling.BaseModel.check_convergence">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_convergence</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if maximum likelihood optimization converged successfully.</span>
+
+<span class="sd">        Prints a warning message if convergence failed. Non-convergence indicates</span>
+<span class="sd">        that parameter estimates may be unreliable due to numerical issues, perfect</span>
+<span class="sd">        separation, or other optimization problems.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">            True if model converged or convergence status unavailable.</span>
+<span class="sd">            False if convergence explicitly failed.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If model has not been fitted yet.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; model.fit(X, y)</span>
+<span class="sd">        &gt;&gt;&gt; if not model.check_convergence():</span>
+<span class="sd">        ...     print(&quot;Consider using regularization or checking for separation&quot;)</span>
+<span class="sd">        WARNING: Maximum Likelihood optimization failed to converge.</span>
+<span class="sd">            Results may be unreliable. Check coefficients and standard errors.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Common causes of convergence failure:</span>
+<span class="sd">        - Perfect or quasi-perfect separation in logistic regression</span>
+<span class="sd">        - Multicollinearity among predictors</span>
+<span class="sd">        - Insufficient sample size relative to number of parameters</span>
+<span class="sd">        - Numerical instability in parameter space</span>
+
+<span class="sd">        Solutions for convergence issues:</span>
+<span class="sd">        - Use penalized regression (Firth, Ridge, elastic net)</span>
+<span class="sd">        - Remove perfectly predictive variables</span>
+<span class="sd">        - Increase sample size or reduce number of predictors</span>
+<span class="sd">        - Check for separation using DataPreparer.check_separation()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Model not fitted yet.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;mle_retvals&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;converged&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">mle_retvals</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">converged</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">mle_retvals</span><span class="p">[</span><span class="s2">&quot;converged&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">converged</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Maximum Likelihood optimization failed to converge.&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="s2">&quot;    Results may be unreliable. Check coefficients and standard errors.&quot;</span>
+                <span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="LogisticRegressionModel">
+<a class="viewcode-back" href="../../api/modeling.html#statwise.modeling.LogisticRegressionModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LogisticRegressionModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Logistic regression model for binary outcome variables.</span>
+
+<span class="sd">    Fits a maximum likelihood logistic regression using statsmodels,</span>
+<span class="sd">    automatically handling categorical responses and adding an intercept term.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : statsmodels.discrete.discrete_model.LogitResults or None</span>
+<span class="sd">        Fitted logistic regression model.</span>
+<span class="sd">    X : pd.DataFrame or None</span>
+<span class="sd">        Feature matrix used for fitting.</span>
+<span class="sd">    y : pd.Series or None</span>
+<span class="sd">        Binary response variable used for fitting.</span>
+<span class="sd">    converged : bool or None</span>
+<span class="sd">        Whether optimization converged.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; model = LogisticRegressionModel()</span>
+<span class="sd">    &gt;&gt;&gt; model.fit(X_train, y_train)</span>
+<span class="sd">    &gt;&gt;&gt; print(model.summary())</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Check convergence</span>
+<span class="sd">    &gt;&gt;&gt; model.check_convergence()</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Get odds ratios</span>
+<span class="sd">    &gt;&gt;&gt; odds_ratios = np.exp(model.model.params)</span>
+<span class="sd">    &gt;&gt;&gt; print(odds_ratios)</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    NegativeBinomialRegressionModel : For count outcomes.</span>
+<span class="sd">    statsmodels.discrete.discrete_model.Logit : Underlying statsmodels class.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The model estimates the probability of the outcome as:</span>
+
+<span class="sd">    P(Y=1|X) = 1 / (1 + exp(-(beta_0 + beta_1*X_1 + ... + beta_p*X_p)))</span>
+
+<span class="sd">    Coefficients represent log odds ratios:</span>
+<span class="sd">    - Positive coefficient: Predictor increases odds of outcome</span>
+<span class="sd">    - Negative coefficient: Predictor decreases odds of outcome</span>
+<span class="sd">    - exp(coefficient): Multiplicative change in odds for 1-unit increase</span>
+
+<span class="sd">    For clinical interpretation:</span>
+<span class="sd">    - Odds ratio = 1: No association</span>
+<span class="sd">    - Odds ratio &gt; 1: Increased odds (e.g., OR=2.0 means 2x higher odds)</span>
+<span class="sd">    - Odds ratio &lt; 1: Decreased odds (e.g., OR=0.5 means 50% lower odds)</span>
+
+<span class="sd">    Model fitting uses maximum likelihood estimation with Newton-Raphson</span>
+<span class="sd">    optimization. If convergence fails, consider checking for separation</span>
+<span class="sd">    or using penalized methods.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Hosmer DW, Lemeshow S, Sturdivant RX. &quot;Applied Logistic Regression.&quot;</span>
+<span class="sd">           3rd ed. Wiley; 2013.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LogisticRegressionModel.__init__">
+<a class="viewcode-back" href="../../api/modeling.html#statwise.modeling.LogisticRegressionModel.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="LogisticRegressionModel.fit">
+<a class="viewcode-back" href="../../api/modeling.html#statwise.modeling.LogisticRegressionModel.fit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit logistic regression model to the data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : pd.DataFrame</span>
+<span class="sd">            Feature matrix with shape (n_samples, n_features).</span>
+<span class="sd">            Should contain preprocessed numeric and one-hot encoded variables.</span>
+<span class="sd">        y : pd.Series</span>
+<span class="sd">            Binary response variable with shape (n_samples,).</span>
+<span class="sd">            Automatically converted to 0/1 integers if categorical.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        model : statsmodels.discrete.discrete_model.LogitResults</span>
+<span class="sd">            Fitted logistic regression model.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from statwise.preparation import DataPreparer</span>
+<span class="sd">        &gt;&gt;&gt; preparer = DataPreparer(df, &#39;SSI&#39;, [&#39;Age&#39;, &#39;Sex&#39;, &#39;BMI&#39;, &#39;INPWT&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; X, y = preparer.preprocess()</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; model = LogisticRegressionModel()</span>
+<span class="sd">        &gt;&gt;&gt; fitted = model.fit(X, y)</span>
+<span class="sd">        &gt;&gt;&gt; print(fitted.summary())</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Data preprocessing steps:</span>
+<span class="sd">        1. Creates copies of X and y to avoid modifying originals</span>
+<span class="sd">        2. Ensures X is float type for optimization</span>
+<span class="sd">        3. Converts categorical y to 0/1 integers</span>
+<span class="sd">        4. Adds constant term for intercept</span>
+<span class="sd">        5. Fits using maximum likelihood</span>
+<span class="sd">        6. Checks convergence and warns if failed</span>
+
+<span class="sd">        The intercept represents the log odds when all predictors are zero</span>
+<span class="sd">        (or at reference categories for one-hot encoded variables).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="c1"># Ensure numeric</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;category&quot;</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="nb">object</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="s2">&quot;cat&quot;</span><span class="p">)</span>
+                <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">0</span><span class="p">]:</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">1</span><span class="p">]:</span> <span class="mi">1</span><span class="p">})</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="c1"># Add constant for intercept</span>
+        <span class="n">X_sm</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">has_constant</span><span class="o">=</span><span class="s2">&quot;add&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Fit logistic regression</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Logit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">X_sm</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">disp</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Check convergence</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_convergence</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="NegativeBinomialRegressionModel">
+<a class="viewcode-back" href="../../api/modeling.html#statwise.modeling.NegativeBinomialRegressionModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NegativeBinomialRegressionModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Negative binomial regression model for overdispersed count outcome variables.</span>
+
+<span class="sd">    Fits a maximum likelihood negative binomial regression, appropriate for</span>
+<span class="sd">    count outcomes with variance exceeding the mean (overdispersion). More</span>
+<span class="sd">    flexible than Poisson regression for clinical count data.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : statsmodels.discrete.discrete_model.NegativeBinomialResults or None</span>
+<span class="sd">        Fitted negative binomial regression model.</span>
+<span class="sd">    X : pd.DataFrame or None</span>
+<span class="sd">        Feature matrix used for fitting.</span>
+<span class="sd">    y : pd.Series or None</span>
+<span class="sd">        Count response variable used for fitting.</span>
+<span class="sd">    converged : bool or None</span>
+<span class="sd">        Whether optimization converged.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; model = NegativeBinomialRegressionModel()</span>
+<span class="sd">    &gt;&gt;&gt; model.fit(X_train, y_los)</span>
+<span class="sd">    &gt;&gt;&gt; print(model.summary())</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Get incidence rate ratios</span>
+<span class="sd">    &gt;&gt;&gt; irr = np.exp(model.model.params)</span>
+<span class="sd">    &gt;&gt;&gt; print(irr)</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    LogisticRegressionModel : For binary outcomes.</span>
+<span class="sd">    statsmodels.discrete.discrete_model.NegativeBinomial : Underlying statsmodels class.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The negative binomial model is appropriate when:</span>
+<span class="sd">    - Outcome is a non-negative count (0, 1, 2, ...)</span>
+<span class="sd">    - Variance exceeds mean (overdispersion)</span>
+<span class="sd">    - Poisson regression fits poorly (deviance &gt;&gt; degrees of freedom)</span>
+
+<span class="sd">    Common clinical applications:</span>
+<span class="sd">    - Length of hospital stay (days)</span>
+<span class="sd">    - Number of complications</span>
+<span class="sd">    - Number of readmissions</span>
+<span class="sd">    - Healthcare utilization counts</span>
+
+<span class="sd">    The model estimates expected count as:</span>
+
+<span class="sd">    E[Y|X] = exp(beta_0 + beta_1*X_1 + ... + beta_p*X_p)</span>
+
+<span class="sd">    Coefficients represent log incidence rate ratios:</span>
+<span class="sd">    - Positive coefficient: Predictor increases expected count</span>
+<span class="sd">    - Negative coefficient: Predictor decreases expected count</span>
+<span class="sd">    - exp(coefficient): Multiplicative change in expected count</span>
+
+<span class="sd">    The dispersion parameter alpha quantifies overdispersion:</span>
+<span class="sd">    - alpha = 0: Reduces to Poisson (variance = mean)</span>
+<span class="sd">    - alpha &gt; 0: Overdispersion present (variance = mean + alpha*mean^2)</span>
+<span class="sd">    - Larger alpha: Greater overdispersion</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Hilbe JM. &quot;Negative Binomial Regression.&quot; 2nd ed.</span>
+<span class="sd">           Cambridge University Press; 2011.</span>
+<span class="sd">    .. [2] Cameron AC, Trivedi PK. &quot;Regression Analysis of Count Data.&quot;</span>
+<span class="sd">           2nd ed. Cambridge University Press; 2013.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="NegativeBinomialRegressionModel.__init__">
+<a class="viewcode-back" href="../../api/modeling.html#statwise.modeling.NegativeBinomialRegressionModel.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="NegativeBinomialRegressionModel.fit">
+<a class="viewcode-back" href="../../api/modeling.html#statwise.modeling.NegativeBinomialRegressionModel.fit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit negative binomial regression model to count data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : pd.DataFrame</span>
+<span class="sd">            Feature matrix with shape (n_samples, n_features).</span>
+<span class="sd">            Should contain preprocessed numeric and one-hot encoded variables.</span>
+<span class="sd">        y : pd.Series</span>
+<span class="sd">            Count response variable with shape (n_samples,).</span>
+<span class="sd">            Must contain non-negative integers.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        model : statsmodels.discrete.discrete_model.NegativeBinomialResults</span>
+<span class="sd">            Fitted negative binomial regression model.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from statwise.preparation import DataPreparer</span>
+<span class="sd">        &gt;&gt;&gt; preparer = DataPreparer(df, &#39;Length_of_Stay&#39;, [&#39;Age&#39;, &#39;Sex&#39;, &#39;BMI&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; X, y = preparer.preprocess()</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; model = NegativeBinomialRegressionModel()</span>
+<span class="sd">        &gt;&gt;&gt; fitted = model.fit(X, y)</span>
+<span class="sd">        &gt;&gt;&gt; print(fitted.summary())</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; # Check dispersion parameter</span>
+<span class="sd">        &gt;&gt;&gt; print(f&quot;Dispersion alpha: {fitted.params[&#39;alpha&#39;]:.3f}&quot;)</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Data preprocessing steps:</span>
+<span class="sd">        1. Stores X and y for reference</span>
+<span class="sd">        2. Adds constant term for intercept</span>
+<span class="sd">        3. Fits using maximum likelihood</span>
+<span class="sd">        4. Checks convergence and warns if failed</span>
+
+<span class="sd">        The model simultaneously estimates:</span>
+<span class="sd">        - Beta coefficients (predictor effects on log-scale)</span>
+<span class="sd">        - Alpha parameter (overdispersion)</span>
+
+<span class="sd">        Interpretation of incidence rate ratios (IRR = exp(beta)):</span>
+<span class="sd">        - IRR = 1: No effect on expected count</span>
+<span class="sd">        - IRR = 1.5: 50% increase in expected count</span>
+<span class="sd">        - IRR = 0.7: 30% decrease in expected count</span>
+
+<span class="sd">        For length of stay analysis:</span>
+<span class="sd">        - IRR = 1.2 for treatment means 20% longer expected LOS</span>
+<span class="sd">        - IRR = 0.8 for treatment means 20% shorter expected LOS</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>
+
+        <span class="c1"># Add constant term for intercept</span>
+        <span class="n">X_sm</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">has_constant</span><span class="o">=</span><span class="s2">&quot;add&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Fit negative binomial regression</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">NegativeBinomial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">X_sm</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">disp</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Check convergence</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_convergence</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Derek Zhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>
+Statistical analysis of INPWT outcomes in pancreatic surgery.
+</p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

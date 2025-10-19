@@ -1,0 +1,1265 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Data Cleaning &#8212; Whipple INPWT Analysis</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/cleaning';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data Preparation" href="preparation.html" />
+    <link rel="prev" title="Data Loading" href="loading.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Whipple INPWT Analysis</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../analysis.html">Analysis</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="loading.html">Data Loading</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Data Cleaning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preparation.html">Data Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="selection.html">Variable Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modeling.html">Statistical Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loading.html">Data Loading</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Data Cleaning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preparation.html">Data Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="selection.html">Variable Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modeling.html">Statistical Modeling</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/derek-yn-zhang/whipple" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/derek-yn-zhang/whipple/edit/main/book/api/cleaning.md" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/derek-yn-zhang/whipple/issues/new?title=Issue%20on%20page%20%2Fapi/cleaning.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/cleaning.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Data Cleaning</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datacleaner">DataCleaner</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner"><code class="docutils literal notranslate"><span class="pre">DataCleaner</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.df"><code class="docutils literal notranslate"><span class="pre">DataCleaner.df</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.column_metadata"><code class="docutils literal notranslate"><span class="pre">DataCleaner.column_metadata</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.log"><code class="docutils literal notranslate"><span class="pre">DataCleaner.log</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.log_messages"><code class="docutils literal notranslate"><span class="pre">DataCleaner.log_messages</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.__init__"><code class="docutils literal notranslate"><span class="pre">DataCleaner.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.drop_columns"><code class="docutils literal notranslate"><span class="pre">DataCleaner.drop_columns()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.keep_datetime_columns"><code class="docutils literal notranslate"><span class="pre">DataCleaner.keep_datetime_columns()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.keep_response_columns"><code class="docutils literal notranslate"><span class="pre">DataCleaner.keep_response_columns()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.keep_explanatory_columns"><code class="docutils literal notranslate"><span class="pre">DataCleaner.keep_explanatory_columns()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.drop_imbalanced_variables"><code class="docutils literal notranslate"><span class="pre">DataCleaner.drop_imbalanced_variables()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.drop_high_missingness_variables"><code class="docutils literal notranslate"><span class="pre">DataCleaner.drop_high_missingness_variables()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.derive_variables"><code class="docutils literal notranslate"><span class="pre">DataCleaner.derive_variables()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.clean_categorical_predictors"><code class="docutils literal notranslate"><span class="pre">DataCleaner.clean_categorical_predictors()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.run_cleaning_pipeline"><code class="docutils literal notranslate"><span class="pre">DataCleaner.run_cleaning_pipeline()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-examples">Usage Examples</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-cleaning-pipeline">Full Cleaning Pipeline</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deriving-composite-variables">Deriving Composite Variables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cleaning-categorical-variables">Cleaning Categorical Variables</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-power-considerations">Statistical Power Considerations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-10-events-per-variable-rule">The 10 Events Per Variable Rule</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-40-missingness-threshold">The 40% Missingness Threshold</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#categorical-vs-continuous-integer-detection">Categorical vs Continuous Integer Detection</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-philosophy">Design Philosophy</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="data-cleaning">
+<h1>Data Cleaning<a class="headerlink" href="#data-cleaning" title="Link to this heading">#</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">cleaning</span></code> module provides a modular pipeline for reproducible data preprocessing with explicit statistical power considerations.</p>
+<section id="datacleaner">
+<h2>DataCleaner<a class="headerlink" href="#datacleaner" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="statwise.cleaning.DataCleaner">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statwise.cleaning.</span></span><span class="sig-name descname"><span class="pre">DataCleaner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/cleaning.html#DataCleaner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.cleaning.DataCleaner" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Modular data cleaning pipeline for reproducible preprocessing of surgical outcomes data.</p>
+<p>This class provides a structured approach to data cleaning with explicit,
+user-controlled operations that ensure reproducibility. All operations are
+logged and can be applied in a consistent order through the pipeline interface.</p>
+<p>Core functionality:
+- Remove irrelevant or unusable columns
+- Filter datetime and outcome variables
+- Drop statistically problematic variables (imbalanced, high missingness)
+- Derive composite or standardized variables
+- Clean and order categorical predictors</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>) – DataFrame to clean.</p></li>
+<li><p><strong>column_metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> of <code class="docutils literal notranslate"><span class="pre">{str:</span> <span class="pre">str}</span></code>) – Dictionary mapping column names to their role in analysis.
+Valid values are ‘response’ (outcome variables) or ‘explanatory’ (predictors).</p></li>
+<li><p><strong>log</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>default</em> <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>) – Whether to print log messages during cleaning operations.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.cleaning.DataCleaner.df">
+<span class="sig-name descname"><span class="pre">df</span></span><a class="headerlink" href="#statwise.cleaning.DataCleaner.df" title="Link to this definition">#</a></dt>
+<dd><p>Working copy of the DataFrame being cleaned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.cleaning.DataCleaner.column_metadata">
+<span class="sig-name descname"><span class="pre">column_metadata</span></span><a class="headerlink" href="#statwise.cleaning.DataCleaner.column_metadata" title="Link to this definition">#</a></dt>
+<dd><p>Column role metadata for identifying response vs explanatory variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.cleaning.DataCleaner.log">
+<span class="sig-name descname"><span class="pre">log</span></span><a class="headerlink" href="#statwise.cleaning.DataCleaner.log" title="Link to this definition">#</a></dt>
+<dd><p>Whether logging is enabled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.cleaning.DataCleaner.log_messages">
+<span class="sig-name descname"><span class="pre">log_messages</span></span><a class="headerlink" href="#statwise.cleaning.DataCleaner.log_messages" title="Link to this definition">#</a></dt>
+<dd><p>Accumulated log messages from all cleaning operations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;SSI&#39;</span><span class="p">:</span> <span class="s1">&#39;response&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;Sepsis&#39;</span><span class="p">:</span> <span class="s1">&#39;response&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;Age&#39;</span><span class="p">:</span> <span class="s1">&#39;explanatory&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;BMI&#39;</span><span class="p">:</span> <span class="s1">&#39;explanatory&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;INPWT&#39;</span><span class="p">:</span> <span class="s1">&#39;explanatory&#39;</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cleaner</span> <span class="o">=</span> <span class="n">DataCleaner</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cleaner</span><span class="o">.</span><span class="n">drop_columns</span><span class="p">([</span><span class="s1">&#39;Patient_ID&#39;</span><span class="p">,</span> <span class="s1">&#39;MRN&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cleaner</span><span class="o">.</span><span class="n">drop_imbalanced_variables</span><span class="p">(</span><span class="n">min_minority_count</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cleaned_df</span><span class="p">,</span> <span class="n">logs</span> <span class="o">=</span> <span class="n">cleaner</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">cleaner</span><span class="o">.</span><span class="n">log_messages</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataPreparer</span></code></dt><dd><p>Prepares cleaned data for modeling.</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">CSVDataLoader</span></code></dt><dd><p>Loads CSV data with type inference.</p>
+</dd>
+</dl>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>The cleaning pipeline follows best practices for clinical research:
+- Removes variables with insufficient statistical power (10 events per variable rule)
+- Handles missing data conservatively (drops variables &gt;40% missing by default)
+- Distinguishes between categorical and continuous integer variables
+- Preserves data provenance through detailed logging</p>
+</div>
+<div class="admonition-references admonition">
+<p class="admonition-title">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id1" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<p>Peduzzi P, Concato J, Kemper E, et al. “A simulation study of the
+number of events per variable in logistic regression analysis.”
+J Clin Epidemiol. 1996;49(12):1373-9.</p>
+</aside>
+</aside>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.cleaning.DataCleaner.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/cleaning.html#DataCleaner.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.cleaning.DataCleaner.__init__" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.cleaning.DataCleaner.drop_columns">
+<span class="sig-name descname"><span class="pre">drop_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/cleaning.html#DataCleaner.drop_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.cleaning.DataCleaner.drop_columns" title="Link to this definition">#</a></dt>
+<dd><p>Drop specified columns immediately without any checks or conditions.</p>
+<p>This method is useful for removing known unusable or irrelevant columns
+upfront (e.g., patient identifiers, administrative fields, redundant dates).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>columns</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – List of column names to drop. Non-existent columns are silently ignored.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>self</strong> – Returns self for method chaining.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#statwise.cleaning.DataCleaner" title="statwise.cleaning.DataCleaner"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataCleaner</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cleaner</span><span class="o">.</span><span class="n">drop_columns</span><span class="p">([</span><span class="s1">&#39;Patient_ID&#39;</span><span class="p">,</span> <span class="s1">&#39;MRN&#39;</span><span class="p">,</span> <span class="s1">&#39;Attending_Surgeon&#39;</span><span class="p">])</span>
+<span class="go">Dropping 3 specified columns: [&#39;Patient_ID&#39;, &#39;MRN&#39;, &#39;Attending_Surgeon&#39;]</span>
+<span class="go">Shape changed from (165, 45) to (165, 42)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.cleaning.DataCleaner.keep_datetime_columns">
+<span class="sig-name descname"><span class="pre">keep_datetime_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/cleaning.html#DataCleaner.keep_datetime_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.cleaning.DataCleaner.keep_datetime_columns" title="Link to this definition">#</a></dt>
+<dd><p>Keep only specified datetime columns, dropping all other datetime columns.</p>
+<p>If no columns are specified, drops all datetime columns. This is useful
+because datetime variables typically cannot be directly used as predictors
+in regression models and may indicate data linkage issues if present.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>columns</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <em>default</em> <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – List of datetime column names to keep. If None, drops all datetime columns.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>self</strong> – Returns self for method chaining.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#statwise.cleaning.DataCleaner" title="statwise.cleaning.DataCleaner"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataCleaner</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Drop all datetime columns</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cleaner</span><span class="o">.</span><span class="n">keep_datetime_columns</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Keep only surgery date</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cleaner</span><span class="o">.</span><span class="n">keep_datetime_columns</span><span class="p">([</span><span class="s1">&#39;Surgery_Date&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>Auto-detects datetime columns by checking for datetime64, datetime64[ns],
+or datetimetz dtypes.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.cleaning.DataCleaner.keep_response_columns">
+<span class="sig-name descname"><span class="pre">keep_response_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/cleaning.html#DataCleaner.keep_response_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.cleaning.DataCleaner.keep_response_columns" title="Link to this definition">#</a></dt>
+<dd><p>Keep only specified response/outcome columns, dropping all other response columns.</p>
+<p>Uses column_metadata to identify which columns are response variables,
+then retains only those specified in the columns parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>columns</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – List of response column names to keep.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>self</strong> – Returns self for method chaining.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#statwise.cleaning.DataCleaner" title="statwise.cleaning.DataCleaner"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataCleaner</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Keep only SSI and sepsis outcomes, drop other complications</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cleaner</span><span class="o">.</span><span class="n">keep_response_columns</span><span class="p">([</span><span class="s1">&#39;SSI&#39;</span><span class="p">,</span> <span class="s1">&#39;Sepsis&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>Response columns are identified from column_metadata where the value is ‘response’.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.cleaning.DataCleaner.keep_explanatory_columns">
+<span class="sig-name descname"><span class="pre">keep_explanatory_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/cleaning.html#DataCleaner.keep_explanatory_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.cleaning.DataCleaner.keep_explanatory_columns" title="Link to this definition">#</a></dt>
+<dd><p>Keep only specified explanatory/predictor columns, dropping all other explanatory columns.</p>
+<p>Uses column_metadata to identify which columns are explanatory variables,
+then retains only those specified in the columns parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>columns</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – List of explanatory column names to keep.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>self</strong> – Returns self for method chaining.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#statwise.cleaning.DataCleaner" title="statwise.cleaning.DataCleaner"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataCleaner</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Keep only demographic and treatment variables</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cleaner</span><span class="o">.</span><span class="n">keep_explanatory_columns</span><span class="p">([</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">,</span> <span class="s1">&#39;BMI&#39;</span><span class="p">,</span> <span class="s1">&#39;INPWT&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>Explanatory columns are identified from column_metadata where the value
+is ‘explanatory’.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.cleaning.DataCleaner.drop_imbalanced_variables">
+<span class="sig-name descname"><span class="pre">drop_imbalanced_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_minority_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uniqueness_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_absolute_unique</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/cleaning.html#DataCleaner.drop_imbalanced_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.cleaning.DataCleaner.drop_imbalanced_variables" title="Link to this definition">#</a></dt>
+<dd><p>Drop categorical variables with insufficient observations in the second largest class.</p>
+<p>Uses the second largest class (not smallest) to allow variables with long tails
+of rare events, which can be merged during analysis. This is important for
+clinical data where rare complications may exist but the main contrast
+(e.g., None vs Any) is still meaningful.</p>
+<p>Integer columns are only checked if they behave categorically based on:
+- Having ≤10 unique values (regardless of sample size), OR
+- Having &lt;10% unique-to-total ratio</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_minority_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">10</span></code>) – Minimum observations required in the second largest class.
+Default of 10 follows the common “10 events per variable” rule
+for logistic regression <a href="#id1"><span class="problematic" id="id2">[1]_</span></a>.</p></li>
+<li><p><strong>uniqueness_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">0.10</span></code>) – Maximum uniqueness ratio for integers to be checked.</p></li>
+<li><p><strong>max_absolute_unique</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">10</span></code>) – Maximum unique values to always treat as categorical.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>self</strong> – Returns self for method chaining.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#statwise.cleaning.DataCleaner" title="statwise.cleaning.DataCleaner"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataCleaner</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cleaner</span><span class="o">.</span><span class="n">drop_imbalanced_variables</span><span class="p">(</span><span class="n">min_minority_count</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">Checking class imbalance for 15 categorical and quasi-categorical integer columns</span>
+<span class="go">&#39;Rare_Complication&#39; (response): second largest class has 3 observations (&lt; 10)</span>
+<span class="go">  Class counts: No: 162, Yes: 3</span>
+<span class="go">Dropping 1 imbalanced variables with insufficient second class size</span>
+</pre></div>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>Variables with only one observed class are always dropped regardless of
+min_minority_count, as they provide no statistical information.</p>
+</div>
+<div class="admonition-references admonition">
+<p class="admonition-title">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<p>Peduzzi P, Concato J, Kemper E, et al. “A simulation study of the
+number of events per variable in logistic regression analysis.”
+J Clin Epidemiol. 1996;49(12):1373-9.</p>
+</aside>
+</aside>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.cleaning.DataCleaner.drop_high_missingness_variables">
+<span class="sig-name descname"><span class="pre">drop_high_missingness_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_missing_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/cleaning.html#DataCleaner.drop_high_missingness_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.cleaning.DataCleaner.drop_high_missingness_variables" title="Link to this definition">#</a></dt>
+<dd><p>Drop variables with excessive missing data that would compromise statistical power.</p>
+<p>Applies to both response and explanatory variables. Variables exceeding the
+missingness threshold are removed because imputation becomes unreliable and
+complete case analysis would lose too much data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>max_missing_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">0.40</span></code>) – Maximum proportion of missing values allowed (0 to 1).
+Default of 0.40 (40%) is a common threshold in clinical research <a href="#id2"><span class="problematic" id="id4">[1]_</span></a>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>self</strong> – Returns self for method chaining.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#statwise.cleaning.DataCleaner" title="statwise.cleaning.DataCleaner"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataCleaner</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cleaner</span><span class="o">.</span><span class="n">drop_high_missingness_variables</span><span class="p">(</span><span class="n">max_missing_rate</span><span class="o">=</span><span class="mf">0.40</span><span class="p">)</span>
+<span class="go">Checking missingness for 42 columns</span>
+<span class="go">&#39;Albumin&#39; (explanatory): 65.5% missing (&gt; 40%)</span>
+<span class="go">Dropping 1 variables with excessive missingness</span>
+</pre></div>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>The 40% threshold represents a balance between preserving variables and
+maintaining data quality. Higher missingness rates make multiple imputation
+less reliable and reduce effective sample size substantially.</p>
+</div>
+<div class="admonition-references admonition">
+<p class="admonition-title">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id5" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<p>Jakobsen JC, Gluud C, Wetterslev J, Winkel P. “When and how should
+multiple imputation be used for handling missing data in randomised
+clinical trials - a practical guide with flowcharts.”
+BMC Med Res Methodol. 2017;17(1):162.</p>
+</aside>
+</aside>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.cleaning.DataCleaner.derive_variables">
+<span class="sig-name descname"><span class="pre">derive_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">derivation_map</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/cleaning.html#DataCleaner.derive_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.cleaning.DataCleaner.derive_variables" title="Link to this definition">#</a></dt>
+<dd><p>Create new variables from existing columns using user-supplied functions.</p>
+<p>Automatically infers metadata type (response/explanatory) for derived columns
+based on their component columns. Optionally drops component columns after
+derivation to avoid multicollinearity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>derivation_map</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> of <code class="docutils literal notranslate"><span class="pre">{str:</span> <span class="pre">callable}</span></code>) – Dictionary mapping new column names to derivation functions.
+Each function should take the full DataFrame as input and return a Series.</p></li>
+<li><p><strong>drop_components</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> of <code class="docutils literal notranslate"><span class="pre">{str:</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">str}</span></code>, <em>optional</em>) – Dictionary mapping new column names to lists of component columns to drop
+after derivation. If None, component columns are retained.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>self</strong> – Returns self for method chaining.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#statwise.cleaning.DataCleaner" title="statwise.cleaning.DataCleaner"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataCleaner</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">standardize_height</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="c1"># Convert all heights to cm</span>
+<span class="gp">... </span>    <span class="n">heights</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">heights</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Height_Unit&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;in&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">2.54</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">heights</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">composite_sepsis</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="c1"># Any postoperative sepsis or septic shock</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="p">((</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Postop_Sepsis&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Postop_Septic_Shock&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">derivation_map</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;Height_cm&#39;</span><span class="p">:</span> <span class="n">standardize_height</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;Any_Postop_Sepsis&#39;</span><span class="p">:</span> <span class="n">composite_sepsis</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">drop_components</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;Height_cm&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Height&#39;</span><span class="p">,</span> <span class="s1">&#39;Height_Unit&#39;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="s1">&#39;Any_Postop_Sepsis&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Postop_Sepsis&#39;</span><span class="p">,</span> <span class="s1">&#39;Postop_Septic_Shock&#39;</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cleaner</span><span class="o">.</span><span class="n">derive_variables</span><span class="p">(</span><span class="n">derivation_map</span><span class="p">,</span> <span class="n">drop_components</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>Metadata type inference rules:
+- If all component columns have the same type (all ‘response’ or all</p>
+<blockquote>
+<div><p>‘explanatory’), the derived column inherits that type</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>If component columns have mixed types, defaults to ‘explanatory’</p></li>
+<li><p>If no component metadata found, defaults to ‘explanatory’</p></li>
+</ul>
+<p>Common use cases in clinical data:
+- Standardizing measurements (height in cm, weight in kg)
+- Creating composite outcomes (any complication = SSI OR sepsis OR readmission)
+- Binary indicators from counts (any event = count &gt; 0)
+- Risk scores from multiple predictors</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.cleaning.DataCleaner.clean_categorical_predictors">
+<span class="sig-name descname"><span class="pre">clean_categorical_predictors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">consolidation_maps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ordered_maps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/cleaning.html#DataCleaner.clean_categorical_predictors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.cleaning.DataCleaner.clean_categorical_predictors" title="Link to this definition">#</a></dt>
+<dd><p>Apply user-supplied mappings to consolidate and order categorical predictors.</p>
+<p>This method enables two types of categorical cleaning:
+1. Consolidation: Merge or rename categories (e.g., combine rare races)
+2. Ordering: Apply ordinal relationships (e.g., ASA class I &lt; II &lt; III)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>consolidation_maps</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> of <code class="docutils literal notranslate"><span class="pre">{str:</span> <span class="pre">dict}</span></code>) – Dictionary mapping column names to category consolidation mappings.
+Each mapping is a dict of {old_value: new_value}.</p></li>
+<li><p><strong>ordered_maps</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> of <code class="docutils literal notranslate"><span class="pre">{str:</span> <span class="pre">list}</span></code>, <em>optional</em>) – Dictionary mapping column names to ordered lists of categories.
+Categories will be treated as ordinal in this order.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>self</strong> – Returns self for method chaining.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#statwise.cleaning.DataCleaner" title="statwise.cleaning.DataCleaner"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataCleaner</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">consolidation_maps</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;Race&#39;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">... </span>        <span class="s1">&#39;Black or African American&#39;</span><span class="p">:</span> <span class="s1">&#39;Black&#39;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s1">&#39;White&#39;</span><span class="p">:</span> <span class="s1">&#39;White&#39;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s1">&#39;Asian&#39;</span><span class="p">:</span> <span class="s1">&#39;Other&#39;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s1">&#39;Some Other Race&#39;</span><span class="p">:</span> <span class="s1">&#39;Other&#39;</span>
+<span class="gp">... </span>    <span class="p">},</span>
+<span class="gp">... </span>    <span class="s1">&#39;Smoking_Status&#39;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">... </span>        <span class="s1">&#39;Current&#39;</span><span class="p">:</span> <span class="s1">&#39;Current&#39;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s1">&#39;Former&#39;</span><span class="p">:</span> <span class="s1">&#39;Former&#39;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s1">&#39;Never&#39;</span><span class="p">:</span> <span class="s1">&#39;Never&#39;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s1">&#39;Unknown&#39;</span><span class="p">:</span> <span class="s1">&#39;Never&#39;</span>  <span class="c1"># Conservative assumption</span>
+<span class="gp">... </span>    <span class="p">}</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ordered_maps</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;ASA_Class&#39;</span><span class="p">:</span> <span class="p">[</span>
+<span class="gp">... </span>        <span class="s1">&#39;ASA I - Normal healthy&#39;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s1">&#39;ASA II - Mild systemic disease&#39;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s1">&#39;ASA III - Severe systemic disease&#39;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s1">&#39;ASA IV - Severe disease, constant threat to life&#39;</span>
+<span class="gp">... </span>    <span class="p">]</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cleaner</span><span class="o">.</span><span class="n">clean_categorical_predictors</span><span class="p">(</span><span class="n">consolidation_maps</span><span class="p">,</span> <span class="n">ordered_maps</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>Consolidation is often necessary to:
+- Merge rare categories with insufficient sample size
+- Group conceptually similar categories
+- Handle data entry variations (e.g., “Hispanic” vs “Hispanic or Latino”)</p>
+<p>Ordering is important for:
+- Ordinal scales (ASA class, pain scores, disease stages)
+- Enabling ordinal encoding in models that can leverage order
+- Correct interpretation of trends across ordered categories</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.cleaning.DataCleaner.run_cleaning_pipeline">
+<span class="sig-name descname"><span class="pre">run_cleaning_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">drop_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_datetime_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_response_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_explanatory_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derivation_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categorical_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_minority_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_missing_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/cleaning.html#DataCleaner.run_cleaning_pipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.cleaning.DataCleaner.run_cleaning_pipeline" title="Link to this definition">#</a></dt>
+<dd><p>Execute all cleaning steps in a standardized sequence.</p>
+<p>This pipeline method provides a single entry point for reproducible data
+cleaning with explicit parameter documentation. The execution order is
+optimized to prevent conflicts between operations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>drop_cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – Columns to drop immediately (e.g., identifiers, administrative fields).</p></li>
+<li><p><strong>keep_datetime_cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – Datetime columns to keep. If None, all datetime columns are dropped.</p></li>
+<li><p><strong>keep_response_cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – Response/outcome columns to keep.</p></li>
+<li><p><strong>keep_explanatory_cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – Explanatory/predictor columns to keep.</p></li>
+<li><p><strong>derivation_map</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> of <code class="docutils literal notranslate"><span class="pre">{str:</span> <span class="pre">callable}</span></code>, <em>optional</em>) – New variables to derive from existing columns.</p></li>
+<li><p><strong>drop_components</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> of <code class="docutils literal notranslate"><span class="pre">{str:</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">str}</span></code>, <em>optional</em>) – Component columns to drop after deriving new variables.</p></li>
+<li><p><strong>categorical_config</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, <em>optional</em>) – Configuration for categorical cleaning with keys:
+- ‘consolidation_maps’: dict for category consolidation
+- ‘ordered_maps’: dict for applying ordinal structure</p></li>
+<li><p><strong>min_minority_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">10</span></code>) – Minimum observations in second largest class for balance check.</p></li>
+<li><p><strong>max_missing_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">0.40</span></code>) – Maximum proportion of missing data allowed (0 to 1).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>df</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>) – Cleaned DataFrame ready for preprocessing and modeling.</p></li>
+<li><p><strong>log_messages</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Complete log of all cleaning operations performed.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cleaner</span> <span class="o">=</span> <span class="n">DataCleaner</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">column_metadata</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cleaned_df</span><span class="p">,</span> <span class="n">logs</span> <span class="o">=</span> <span class="n">cleaner</span><span class="o">.</span><span class="n">run_cleaning_pipeline</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">drop_cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Patient_ID&#39;</span><span class="p">,</span> <span class="s1">&#39;MRN&#39;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">keep_datetime_cols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># Drop all datetime columns</span>
+<span class="gp">... </span>    <span class="n">keep_response_cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;SSI&#39;</span><span class="p">,</span> <span class="s1">&#39;Sepsis&#39;</span><span class="p">,</span> <span class="s1">&#39;Length_of_Stay&#39;</span><span class="p">,</span> <span class="s1">&#39;Readmission&#39;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">keep_explanatory_cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">,</span> <span class="s1">&#39;BMI&#39;</span><span class="p">,</span> <span class="s1">&#39;Diabetes&#39;</span><span class="p">,</span> <span class="s1">&#39;INPWT&#39;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">derivation_map</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Any_SSI&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;SSI&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)},</span>
+<span class="gp">... </span>    <span class="n">categorical_config</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;consolidation_maps&#39;</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">}},</span>
+<span class="gp">... </span>    <span class="n">min_minority_count</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">max_missing_rate</span><span class="o">=</span><span class="mf">0.40</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>Pipeline execution order:
+1. Drop specified columns
+2. Filter datetime columns (drops all by default)
+3. Filter response columns
+4. Filter explanatory columns
+5. Derive new variables
+6. Clean categorical variables
+7. Drop high-missingness variables
+8. Drop imbalanced variables</p>
+<p>This order ensures that:
+- Unwanted columns are removed early to improve clarity
+- Derived variables are available for subsequent operations
+- Statistical filtering happens after manual curation is complete</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="usage-examples">
+<h2>Usage Examples<a class="headerlink" href="#usage-examples" title="Link to this heading">#</a></h2>
+<section id="full-cleaning-pipeline">
+<h3>Full Cleaning Pipeline<a class="headerlink" href="#full-cleaning-pipeline" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">statwise.cleaning</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataCleaner</span>
+
+<span class="c1"># Define column roles</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;SSI&#39;</span><span class="p">:</span> <span class="s1">&#39;response&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Sepsis&#39;</span><span class="p">:</span> <span class="s1">&#39;response&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Length_of_Stay&#39;</span><span class="p">:</span> <span class="s1">&#39;response&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Age&#39;</span><span class="p">:</span> <span class="s1">&#39;explanatory&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Sex&#39;</span><span class="p">:</span> <span class="s1">&#39;explanatory&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;BMI&#39;</span><span class="p">:</span> <span class="s1">&#39;explanatory&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;INPWT&#39;</span><span class="p">:</span> <span class="s1">&#39;explanatory&#39;</span>
+<span class="p">}</span>
+
+<span class="n">cleaner</span> <span class="o">=</span> <span class="n">DataCleaner</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
+
+<span class="n">cleaned_df</span><span class="p">,</span> <span class="n">logs</span> <span class="o">=</span> <span class="n">cleaner</span><span class="o">.</span><span class="n">run_cleaning_pipeline</span><span class="p">(</span>
+    <span class="n">drop_cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Patient_ID&#39;</span><span class="p">,</span> <span class="s1">&#39;MRN&#39;</span><span class="p">,</span> <span class="s1">&#39;Attending_Surgeon&#39;</span><span class="p">],</span>
+    <span class="n">keep_datetime_cols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># Drop all datetime columns</span>
+    <span class="n">keep_response_cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;SSI&#39;</span><span class="p">,</span> <span class="s1">&#39;Sepsis&#39;</span><span class="p">,</span> <span class="s1">&#39;Length_of_Stay&#39;</span><span class="p">],</span>
+    <span class="n">keep_explanatory_cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">,</span> <span class="s1">&#39;BMI&#39;</span><span class="p">,</span> <span class="s1">&#39;Diabetes&#39;</span><span class="p">,</span> <span class="s1">&#39;INPWT&#39;</span><span class="p">],</span>
+    <span class="n">min_minority_count</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>  <span class="c1"># 10 events per variable rule</span>
+    <span class="n">max_missing_rate</span><span class="o">=</span><span class="mf">0.40</span>   <span class="c1"># Max 40% missingness</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="deriving-composite-variables">
+<h3>Deriving Composite Variables<a class="headerlink" href="#deriving-composite-variables" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">create_any_ssi</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Any SSI: superficial, deep, or organ/space.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">((</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Superficial_SSI&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Yes&#39;</span><span class="p">)</span> <span class="o">|</span> 
+            <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Deep_SSI&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Yes&#39;</span><span class="p">)</span> <span class="o">|</span> 
+            <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Organ_Space_SSI&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Yes&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">standardize_bmi</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert weight and height to BMI in kg/m^2.&quot;&quot;&quot;</span>
+    <span class="n">weight_kg</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Weight_kg&#39;</span><span class="p">]</span>
+    <span class="n">height_m</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Height_cm&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span>
+    <span class="k">return</span> <span class="n">weight_kg</span> <span class="o">/</span> <span class="p">(</span><span class="n">height_m</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">derivation_map</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Any_SSI&#39;</span><span class="p">:</span> <span class="n">create_any_ssi</span><span class="p">,</span>
+    <span class="s1">&#39;BMI&#39;</span><span class="p">:</span> <span class="n">standardize_bmi</span>
+<span class="p">}</span>
+
+<span class="n">drop_components</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Any_SSI&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Superficial_SSI&#39;</span><span class="p">,</span> <span class="s1">&#39;Deep_SSI&#39;</span><span class="p">,</span> <span class="s1">&#39;Organ_Space_SSI&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;BMI&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Weight_kg&#39;</span><span class="p">,</span> <span class="s1">&#39;Height_cm&#39;</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">cleaner</span><span class="o">.</span><span class="n">derive_variables</span><span class="p">(</span><span class="n">derivation_map</span><span class="p">,</span> <span class="n">drop_components</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="cleaning-categorical-variables">
+<h3>Cleaning Categorical Variables<a class="headerlink" href="#cleaning-categorical-variables" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Consolidate rare categories</span>
+<span class="n">consolidation_maps</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Race&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;White&#39;</span><span class="p">:</span> <span class="s1">&#39;White&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Black or African American&#39;</span><span class="p">:</span> <span class="s1">&#39;Black&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Asian&#39;</span><span class="p">:</span> <span class="s1">&#39;Other&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Native Hawaiian or Pacific Islander&#39;</span><span class="p">:</span> <span class="s1">&#39;Other&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Some Other Race&#39;</span><span class="p">:</span> <span class="s1">&#39;Other&#39;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1"># Apply ordinal structure</span>
+<span class="n">ordered_maps</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;ASA_Class&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s1">&#39;ASA I - Normal healthy&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ASA II - Mild systemic disease&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ASA III - Severe systemic disease&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ASA IV - Severe disease, constant threat to life&#39;</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">cleaner</span><span class="o">.</span><span class="n">clean_categorical_predictors</span><span class="p">(</span><span class="n">consolidation_maps</span><span class="p">,</span> <span class="n">ordered_maps</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="statistical-power-considerations">
+<h2>Statistical Power Considerations<a class="headerlink" href="#statistical-power-considerations" title="Link to this heading">#</a></h2>
+<section id="the-10-events-per-variable-rule">
+<h3>The 10 Events Per Variable Rule<a class="headerlink" href="#the-10-events-per-variable-rule" title="Link to this heading">#</a></h3>
+<p>The default <code class="docutils literal notranslate"><span class="pre">min_minority_count=10</span></code> follows Peduzzi et al.’s simulation study showing that logistic regression requires approximately 10 events per predictor variable for reliable estimation.</p>
+<p>For a binary outcome with 30 events:</p>
+<ul class="simple">
+<li><p>Maximum 3 predictors should be included</p></li>
+<li><p>Variables with &lt;10 observations in the minority class are dropped</p></li>
+</ul>
+</section>
+<section id="the-40-missingness-threshold">
+<h3>The 40% Missingness Threshold<a class="headerlink" href="#the-40-missingness-threshold" title="Link to this heading">#</a></h3>
+<p>Variables with &gt;40% missing data are dropped by default because:</p>
+<ul class="simple">
+<li><p>Multiple imputation becomes unreliable</p></li>
+<li><p>Complete case analysis loses too much power</p></li>
+<li><p>Remaining data may not be representative</p></li>
+</ul>
+</section>
+<section id="categorical-vs-continuous-integer-detection">
+<h3>Categorical vs Continuous Integer Detection<a class="headerlink" href="#categorical-vs-continuous-integer-detection" title="Link to this heading">#</a></h3>
+<p>The cleaner distinguishes between:</p>
+<ul class="simple">
+<li><p><strong>Quasi-categorical integers</strong>: ≤10 unique values OR &lt;10% uniqueness ratio (e.g., ASA class 1-5)</p></li>
+<li><p><strong>Continuous integers</strong>: High cardinality (e.g., length of stay 0-100 days)</p></li>
+</ul>
+<p>Only quasi-categorical integers are checked for class imbalance.</p>
+</section>
+</section>
+<section id="design-philosophy">
+<h2>Design Philosophy<a class="headerlink" href="#design-philosophy" title="Link to this heading">#</a></h2>
+<p>The cleaning pipeline emphasizes:</p>
+<ol class="arabic simple">
+<li><p><strong>Explicit decisions</strong>: No silent data modifications</p></li>
+<li><p><strong>Comprehensive logging</strong>: Every operation is recorded</p></li>
+<li><p><strong>Statistical validity</strong>: Removes variables that compromise power</p></li>
+<li><p><strong>Reproducibility</strong>: Same inputs always produce same outputs</p></li>
+</ol>
+<hr class="footnotes docutils" />
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./api"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="loading.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Data Loading</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="preparation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Data Preparation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datacleaner">DataCleaner</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner"><code class="docutils literal notranslate"><span class="pre">DataCleaner</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.df"><code class="docutils literal notranslate"><span class="pre">DataCleaner.df</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.column_metadata"><code class="docutils literal notranslate"><span class="pre">DataCleaner.column_metadata</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.log"><code class="docutils literal notranslate"><span class="pre">DataCleaner.log</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.log_messages"><code class="docutils literal notranslate"><span class="pre">DataCleaner.log_messages</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.__init__"><code class="docutils literal notranslate"><span class="pre">DataCleaner.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.drop_columns"><code class="docutils literal notranslate"><span class="pre">DataCleaner.drop_columns()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.keep_datetime_columns"><code class="docutils literal notranslate"><span class="pre">DataCleaner.keep_datetime_columns()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.keep_response_columns"><code class="docutils literal notranslate"><span class="pre">DataCleaner.keep_response_columns()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.keep_explanatory_columns"><code class="docutils literal notranslate"><span class="pre">DataCleaner.keep_explanatory_columns()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.drop_imbalanced_variables"><code class="docutils literal notranslate"><span class="pre">DataCleaner.drop_imbalanced_variables()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.drop_high_missingness_variables"><code class="docutils literal notranslate"><span class="pre">DataCleaner.drop_high_missingness_variables()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.derive_variables"><code class="docutils literal notranslate"><span class="pre">DataCleaner.derive_variables()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.clean_categorical_predictors"><code class="docutils literal notranslate"><span class="pre">DataCleaner.clean_categorical_predictors()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.cleaning.DataCleaner.run_cleaning_pipeline"><code class="docutils literal notranslate"><span class="pre">DataCleaner.run_cleaning_pipeline()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-examples">Usage Examples</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-cleaning-pipeline">Full Cleaning Pipeline</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deriving-composite-variables">Deriving Composite Variables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cleaning-categorical-variables">Cleaning Categorical Variables</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-power-considerations">Statistical Power Considerations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-10-events-per-variable-rule">The 10 Events Per Variable Rule</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-40-missingness-threshold">The 40% Missingness Threshold</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#categorical-vs-continuous-integer-detection">Categorical vs Continuous Integer Detection</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-philosophy">Design Philosophy</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Derek Zhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>
+Statistical analysis of INPWT outcomes in pancreatic surgery.
+</p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

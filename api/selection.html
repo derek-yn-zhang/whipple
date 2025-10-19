@@ -1,0 +1,1396 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Variable Selection &#8212; Whipple INPWT Analysis</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/selection';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Statistical Modeling" href="modeling.html" />
+    <link rel="prev" title="Data Preparation" href="preparation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Whipple INPWT Analysis</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../analysis.html">Analysis</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="loading.html">Data Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cleaning.html">Data Cleaning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preparation.html">Data Preparation</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Variable Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modeling.html">Statistical Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loading.html">Data Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cleaning.html">Data Cleaning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preparation.html">Data Preparation</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Variable Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modeling.html">Statistical Modeling</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/derek-yn-zhang/whipple" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/derek-yn-zhang/whipple/edit/main/book/api/selection.md" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/derek-yn-zhang/whipple/issues/new?title=Issue%20on%20page%20%2Fapi/selection.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/selection.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Variable Selection</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#univariatevariableselection">UnivariateVariableSelection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.df"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.df</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.response_variable"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.response_variable</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.explanatory_variables"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.explanatory_variables</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.alpha"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.alpha</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.n"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.n</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.p"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.p</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.results_df"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.results_df</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.selected_explanatory_variables"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.selected_explanatory_variables</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.__init__"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.shape"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.shape</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id0"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.selected_explanatory_variables</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.get_col_scale"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.get_col_scale()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#elasticnetvariableselection">ElasticNetVariableSelection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.df"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.df</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.response_variable"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.response_variable</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.explanatory_variables"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.explanatory_variables</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.outcome_type"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.outcome_type</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.alpha_ratio"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.alpha_ratio</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.cv"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.cv</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.selected_explanatory_variables"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.selected_explanatory_variables</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.results_df"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.results_df</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.model"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.model</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.X_prepared"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.X_prepared</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.y_prepared"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.y_prepared</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.__init__"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-examples">Usage Examples</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#univariate-selection">Univariate Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#elastic-net-selection">Elastic Net Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-count-outcomes">For Count Outcomes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consensus-approach">Consensus Approach</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-tests-by-variable-type">Statistical Tests by Variable Type</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-outcome">Continuous Outcome</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#categorical-outcome">Categorical Outcome</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selection-strategy-comparison">Selection Strategy Comparison</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#univariate-testing">Univariate Testing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#elastic-net">Elastic Net</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alpha-parameter-selection">Alpha Parameter Selection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-univariate-testing">For Univariate Testing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-elastic-net-alpha-ratio">For Elastic Net (alpha_ratio)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-workflow">Recommended Workflow</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="variable-selection">
+<h1>Variable Selection<a class="headerlink" href="#variable-selection" title="Link to this heading">#</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">selection</span></code> module provides two complementary approaches to variable selection: univariate statistical testing and elastic net regularization.</p>
+<section id="univariatevariableselection">
+<h2>UnivariateVariableSelection<a class="headerlink" href="#univariatevariableselection" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="statwise.selection.UnivariateVariableSelection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statwise.selection.</span></span><span class="sig-name descname"><span class="pre">UnivariateVariableSelection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">explanatory_variables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/selection.html#UnivariateVariableSelection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.selection.UnivariateVariableSelection" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Perform univariate statistical testing for variable selection.</p>
+<p>Tests the association between each explanatory variable and the response
+variable individually, using appropriate statistical tests based on variable
+types. Variables with p-values below the significance threshold are selected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>) – DataFrame containing response and explanatory variables.</p></li>
+<li><p><strong>response_variable</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Name of the response/outcome variable.</p></li>
+<li><p><strong>explanatory_variables</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – List of candidate predictor variable names.</p></li>
+<li><p><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">0.1</span></code>) – Significance level for variable selection. Variables with p &lt; alpha
+are selected. Default of 0.1 is common for initial screening.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.UnivariateVariableSelection.df">
+<span class="sig-name descname"><span class="pre">df</span></span><a class="headerlink" href="#statwise.selection.UnivariateVariableSelection.df" title="Link to this definition">#</a></dt>
+<dd><p>Subset DataFrame with response and explanatory variables (missing response removed).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.UnivariateVariableSelection.response_variable">
+<span class="sig-name descname"><span class="pre">response_variable</span></span><a class="headerlink" href="#statwise.selection.UnivariateVariableSelection.response_variable" title="Link to this definition">#</a></dt>
+<dd><p>Response variable name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.UnivariateVariableSelection.explanatory_variables">
+<span class="sig-name descname"><span class="pre">explanatory_variables</span></span><a class="headerlink" href="#statwise.selection.UnivariateVariableSelection.explanatory_variables" title="Link to this definition">#</a></dt>
+<dd><p>Explanatory variable names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.UnivariateVariableSelection.alpha">
+<span class="sig-name descname"><span class="pre">alpha</span></span><a class="headerlink" href="#statwise.selection.UnivariateVariableSelection.alpha" title="Link to this definition">#</a></dt>
+<dd><p>Significance threshold for selection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.UnivariateVariableSelection.n">
+<span class="sig-name descname"><span class="pre">n</span></span><a class="headerlink" href="#statwise.selection.UnivariateVariableSelection.n" title="Link to this definition">#</a></dt>
+<dd><p>Number of observations after removing missing response values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.UnivariateVariableSelection.p">
+<span class="sig-name descname"><span class="pre">p</span></span><a class="headerlink" href="#statwise.selection.UnivariateVariableSelection.p" title="Link to this definition">#</a></dt>
+<dd><p>Number of explanatory variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.UnivariateVariableSelection.results_df">
+<span class="sig-name descname"><span class="pre">results_df</span></span><a class="headerlink" href="#statwise.selection.UnivariateVariableSelection.results_df" title="Link to this definition">#</a></dt>
+<dd><p>DataFrame containing test results for each variable, sorted by p-value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.UnivariateVariableSelection.selected_explanatory_variables">
+<span class="sig-name descname"><span class="pre">selected_explanatory_variables</span></span><a class="headerlink" href="#statwise.selection.UnivariateVariableSelection.selected_explanatory_variables" title="Link to this definition">#</a></dt>
+<dd><p>Variables with p-value &lt; alpha.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">selector</span> <span class="o">=</span> <span class="n">UnivariateVariableSelection</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">df</span><span class="o">=</span><span class="n">cleaned_df</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">response_variable</span><span class="o">=</span><span class="s1">&#39;SSI&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">explanatory_variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">,</span> <span class="s1">&#39;BMI&#39;</span><span class="p">,</span> <span class="s1">&#39;Diabetes&#39;</span><span class="p">,</span> <span class="s1">&#39;INPWT&#39;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">Selected 3 of 5 variables (p &lt; 0.1)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">selector</span><span class="o">.</span><span class="n">results_df</span><span class="p">)</span>
+<span class="go">   variable       test   p_value  statistic</span>
+<span class="go">0      INPWT  chi-square   0.023       5.17</span>
+<span class="go">1   Diabetes  chi-square   0.067       3.36</span>
+<span class="go">2        BMI    pearson   0.089       0.28</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">selector</span><span class="o">.</span><span class="n">selected_explanatory_variables</span><span class="p">)</span>
+<span class="go">[&#39;INPWT&#39;, &#39;Diabetes&#39;, &#39;BMI&#39;]</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#statwise.selection.ElasticNetVariableSelection" title="statwise.selection.ElasticNetVariableSelection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElasticNetVariableSelection</span></code></a></dt><dd><p>Regularization-based variable selection.</p>
+</dd>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/stats.html#module-scipy.stats" title="(in SciPy v1.16.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.stats</span></code></a></dt><dd><p>Statistical functions used for testing.</p>
+</dd>
+</dl>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>Statistical tests applied based on variable types:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Response Type</p></th>
+<th class="head"><p>Predictor Type</p></th>
+<th class="head"><p>Test</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Continuous</p></td>
+<td><p>Continuous</p></td>
+<td><p>Pearson correlation</p></td>
+</tr>
+<tr class="row-odd"><td><p>Continuous</p></td>
+<td><p>Binary</p></td>
+<td><p>Independent t-test</p></td>
+</tr>
+<tr class="row-even"><td><p>Continuous</p></td>
+<td><p>Multi-category</p></td>
+<td><p>One-way ANOVA</p></td>
+</tr>
+<tr class="row-odd"><td><p>Binary/Categorical</p></td>
+<td><p>Continuous</p></td>
+<td><p>Independent t-test
+or ANOVA</p></td>
+</tr>
+<tr class="row-even"><td><p>Binary/Categorical</p></td>
+<td><p>Binary/Categorical</p></td>
+<td><p>Chi-square or
+Fisher’s exact (2x2)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Univariate selection limitations:
+- Does not account for confounding or interaction effects
+- May select collinear variables
+- Multiple testing increases false positive risk
+- Should be combined with other selection methods</p>
+<p>The default alpha=0.1 (rather than 0.05) is intentional for initial
+screening, as overly stringent thresholds may miss important confounders.</p>
+</div>
+<div class="admonition-references admonition">
+<p class="admonition-title">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id1" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<p>Bursac Z, Gauss CH, Williams DK, Hosmer DW. “Purposeful selection of
+variables in logistic regression.” Source Code Biol Med. 2008;3:17.</p>
+</aside>
+</aside>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.selection.UnivariateVariableSelection.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">explanatory_variables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/selection.html#UnivariateVariableSelection.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.selection.UnivariateVariableSelection.__init__" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="statwise.selection.UnivariateVariableSelection.shape">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shape</span></span><a class="headerlink" href="#statwise.selection.UnivariateVariableSelection.shape" title="Link to this definition">#</a></dt>
+<dd><p>Return shape of the analysis DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(n_rows, n_columns) of the DataFrame.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">selected_explanatory_variables</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
+<dd><p>Return list of variables selected by univariate testing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Variables with p-value below the alpha threshold.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.selection.UnivariateVariableSelection.get_col_scale">
+<span class="sig-name descname"><span class="pre">get_col_scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/selection.html#UnivariateVariableSelection.get_col_scale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.selection.UnivariateVariableSelection.get_col_scale" title="Link to this definition">#</a></dt>
+<dd><p>Determine if a column is continuous or categorical.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>column</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Column name to evaluate.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Either ‘continuous’ or ‘categorical’.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If column is neither numeric nor categorical.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="elasticnetvariableselection">
+<h2>ElasticNetVariableSelection<a class="headerlink" href="#elasticnetvariableselection" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="statwise.selection.ElasticNetVariableSelection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statwise.selection.</span></span><span class="sig-name descname"><span class="pre">ElasticNetVariableSelection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">explanatory_variables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outcome_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'binary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/selection.html#ElasticNetVariableSelection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.selection.ElasticNetVariableSelection" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Perform variable selection using elastic net regularization with cross-validation.</p>
+<p>Elastic net combines L1 (Lasso) and L2 (Ridge) penalties, providing both
+variable selection and handling of multicollinearity. Variables with non-zero
+coefficients after regularization are selected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>) – Dataset containing response and explanatory variables.</p></li>
+<li><p><strong>response_variable</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Name of the response/outcome variable.</p></li>
+<li><p><strong>explanatory_variables</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – List of candidate predictor variable names.</p></li>
+<li><p><strong>outcome_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">'binary'</span></code>) – Type of outcome variable:
+- ‘binary’: Binary outcomes (uses logistic regression)
+- ‘count’: Count outcomes (uses Poisson-like regression)</p></li>
+<li><p><strong>alpha_ratio</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">0.5</span></code>) – L1 ratio for elastic net, must be in [0, 1]:
+- 0.0: Pure Ridge regression (L2 penalty only)
+- 0.5: Balanced elastic net (equal L1 and L2)
+- 1.0: Pure Lasso (L1 penalty only)
+Default of 0.5 balances variable selection and multicollinearity handling.</p></li>
+<li><p><strong>cv</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">5</span></code>) – Number of cross-validation folds for regularization parameter selection.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.ElasticNetVariableSelection.df">
+<span class="sig-name descname"><span class="pre">df</span></span><a class="headerlink" href="#statwise.selection.ElasticNetVariableSelection.df" title="Link to this definition">#</a></dt>
+<dd><p>Subset DataFrame with response and explanatory variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.ElasticNetVariableSelection.response_variable">
+<span class="sig-name descname"><span class="pre">response_variable</span></span><a class="headerlink" href="#statwise.selection.ElasticNetVariableSelection.response_variable" title="Link to this definition">#</a></dt>
+<dd><p>Response variable name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.ElasticNetVariableSelection.explanatory_variables">
+<span class="sig-name descname"><span class="pre">explanatory_variables</span></span><a class="headerlink" href="#statwise.selection.ElasticNetVariableSelection.explanatory_variables" title="Link to this definition">#</a></dt>
+<dd><p>Explanatory variable names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.ElasticNetVariableSelection.outcome_type">
+<span class="sig-name descname"><span class="pre">outcome_type</span></span><a class="headerlink" href="#statwise.selection.ElasticNetVariableSelection.outcome_type" title="Link to this definition">#</a></dt>
+<dd><p>Type of outcome (‘binary’ or ‘count’).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.ElasticNetVariableSelection.alpha_ratio">
+<span class="sig-name descname"><span class="pre">alpha_ratio</span></span><a class="headerlink" href="#statwise.selection.ElasticNetVariableSelection.alpha_ratio" title="Link to this definition">#</a></dt>
+<dd><p>L1 ratio used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.ElasticNetVariableSelection.cv">
+<span class="sig-name descname"><span class="pre">cv</span></span><a class="headerlink" href="#statwise.selection.ElasticNetVariableSelection.cv" title="Link to this definition">#</a></dt>
+<dd><p>Number of CV folds used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.ElasticNetVariableSelection.selected_explanatory_variables">
+<span class="sig-name descname"><span class="pre">selected_explanatory_variables</span></span><a class="headerlink" href="#statwise.selection.ElasticNetVariableSelection.selected_explanatory_variables" title="Link to this definition">#</a></dt>
+<dd><p>Original variable names selected by elastic net.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.ElasticNetVariableSelection.results_df">
+<span class="sig-name descname"><span class="pre">results_df</span></span><a class="headerlink" href="#statwise.selection.ElasticNetVariableSelection.results_df" title="Link to this definition">#</a></dt>
+<dd><p>Results showing coefficients for all one-hot encoded features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.ElasticNetVariableSelection.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#statwise.selection.ElasticNetVariableSelection.model" title="Link to this definition">#</a></dt>
+<dd><p>Trained elastic net model (LogisticRegressionCV or ElasticNetCV).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">fitted</span> <span class="pre">model</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.ElasticNetVariableSelection.X_prepared">
+<span class="sig-name descname"><span class="pre">X_prepared</span></span><a class="headerlink" href="#statwise.selection.ElasticNetVariableSelection.X_prepared" title="Link to this definition">#</a></dt>
+<dd><p>Preprocessed feature matrix used for fitting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.ElasticNetVariableSelection.y_prepared">
+<span class="sig-name descname"><span class="pre">y_prepared</span></span><a class="headerlink" href="#statwise.selection.ElasticNetVariableSelection.y_prepared" title="Link to this definition">#</a></dt>
+<dd><p>Preprocessed response used for fitting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.Series</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">selector</span> <span class="o">=</span> <span class="n">ElasticNetVariableSelection</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">df</span><span class="o">=</span><span class="n">cleaned_df</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">response_variable</span><span class="o">=</span><span class="s1">&#39;SSI&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">explanatory_variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">,</span> <span class="s1">&#39;BMI&#39;</span><span class="p">,</span> <span class="s1">&#39;Diabetes&#39;</span><span class="p">,</span> <span class="s1">&#39;INPWT&#39;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">outcome_type</span><span class="o">=</span><span class="s1">&#39;binary&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">alpha_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">cv</span><span class="o">=</span><span class="mi">5</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">Elastic Net selected 3 of 5 variables</span>
+<span class="go">Selected variables: [&#39;BMI&#39;, &#39;Diabetes&#39;, &#39;INPWT&#39;]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">selector</span><span class="o">.</span><span class="n">results_df</span><span class="p">)</span>
+<span class="go">          Variable  Coefficient  Abs_Coefficient  Selected</span>
+<span class="go">0             INPWT       0.8234           0.8234      True</span>
+<span class="go">1          Diabetes       0.4521           0.4521      True</span>
+<span class="go">2               BMI       0.3012           0.3012      True</span>
+<span class="go">3        Sex_Female       0.0000           0.0000     False</span>
+<span class="go">4               Age       0.0000           0.0000     False</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#statwise.selection.UnivariateVariableSelection" title="statwise.selection.UnivariateVariableSelection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UnivariateVariableSelection</span></code></a></dt><dd><p>Univariate statistical testing for selection.</p>
+</dd>
+<dt><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegressionCV.html#sklearn.linear_model.LogisticRegressionCV" title="(in scikit-learn v1.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sklearn.linear_model.LogisticRegressionCV</span></code></a></dt><dd><p>Logistic regression with CV.</p>
+</dd>
+<dt><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ElasticNetCV.html#sklearn.linear_model.ElasticNetCV" title="(in scikit-learn v1.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sklearn.linear_model.ElasticNetCV</span></code></a></dt><dd><p>Elastic net regression with CV.</p>
+</dd>
+</dl>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>Advantages of elastic net for variable selection:
+- Handles multicollinearity better than univariate methods
+- Performs automatic variable selection (L1 penalty)
+- Maintains stability with correlated predictors (L2 penalty)
+- Cross-validation prevents overfitting
+- Works with p &gt;&gt; n (more predictors than observations)</p>
+<p>The alpha_ratio parameter controls the penalty balance:
+- Lower values (closer to 0) emphasize multicollinearity handling
+- Higher values (closer to 1) emphasize sparse solutions
+- Default 0.5 is generally robust for clinical data</p>
+<p>Preprocessing is automatic and includes:
+- Standardization of numeric variables (required for regularization)
+- One-hot encoding of categorical variables
+- Removal of rare categories (&lt;5 observations)
+- Complete case analysis (missing data removed)</p>
+</div>
+<div class="admonition-references admonition">
+<p class="admonition-title">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id1" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<p>Zou H, Hastie T. “Regularization and variable selection via the elastic net.”
+J R Stat Soc Series B Stat Methodol. 2005;67(2):301-320.</p>
+</aside>
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<p>Friedman J, Hastie T, Tibshirani R. “Regularization paths for generalized
+linear models via coordinate descent.” J Stat Softw. 2010;33(1):1-22.</p>
+</aside>
+</aside>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.selection.ElasticNetVariableSelection.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">explanatory_variables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outcome_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'binary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/selection.html#ElasticNetVariableSelection.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.selection.ElasticNetVariableSelection.__init__" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="usage-examples">
+<h2>Usage Examples<a class="headerlink" href="#usage-examples" title="Link to this heading">#</a></h2>
+<section id="univariate-selection">
+<h3>Univariate Selection<a class="headerlink" href="#univariate-selection" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">statwise.selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnivariateVariableSelection</span>
+
+<span class="n">selector</span> <span class="o">=</span> <span class="n">UnivariateVariableSelection</span><span class="p">(</span>
+    <span class="n">df</span><span class="o">=</span><span class="n">cleaned_df</span><span class="p">,</span>
+    <span class="n">response_variable</span><span class="o">=</span><span class="s1">&#39;SSI&#39;</span><span class="p">,</span>
+    <span class="n">explanatory_variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">,</span> <span class="s1">&#39;BMI&#39;</span><span class="p">,</span> <span class="s1">&#39;Diabetes&#39;</span><span class="p">,</span> <span class="s1">&#39;ASA_Class&#39;</span><span class="p">,</span> <span class="s1">&#39;INPWT&#39;</span><span class="p">],</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span>  <span class="c1"># Liberal threshold for initial screening</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Selected </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">selector</span><span class="o">.</span><span class="n">selected_explanatory_variables</span><span class="p">)</span><span class="si">}</span><span class="s2"> variables&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">selector</span><span class="o">.</span><span class="n">results_df</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Example output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Selected</span> <span class="mi">4</span> <span class="n">of</span> <span class="mi">6</span> <span class="n">variables</span> <span class="p">(</span><span class="n">p</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">)</span>
+
+      <span class="n">variable</span>       <span class="n">test</span>   <span class="n">p_value</span>  <span class="n">statistic</span>
+<span class="mi">0</span>        <span class="n">INPWT</span>  <span class="n">chi</span><span class="o">-</span><span class="n">square</span>   <span class="mf">0.023</span>       <span class="mf">5.17</span>
+<span class="mi">1</span>     <span class="n">Diabetes</span>  <span class="n">chi</span><span class="o">-</span><span class="n">square</span>   <span class="mf">0.067</span>       <span class="mf">3.36</span>
+<span class="mi">2</span>    <span class="n">ASA_Class</span>      <span class="n">ANOVA</span>   <span class="mf">0.082</span>       <span class="mf">2.51</span>
+<span class="mi">3</span>          <span class="n">BMI</span>    <span class="n">pearson</span>   <span class="mf">0.089</span>       <span class="mf">0.28</span>
+<span class="mi">4</span>          <span class="n">Age</span>    <span class="n">pearson</span>   <span class="mf">0.234</span>       <span class="mf">0.18</span>
+<span class="mi">5</span>          <span class="n">Sex</span>  <span class="n">chi</span><span class="o">-</span><span class="n">square</span>   <span class="mf">0.445</span>       <span class="mf">0.58</span>
+</pre></div>
+</div>
+</section>
+<section id="elastic-net-selection">
+<h3>Elastic Net Selection<a class="headerlink" href="#elastic-net-selection" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">statwise.selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">ElasticNetVariableSelection</span>
+
+<span class="c1"># For binary outcomes</span>
+<span class="n">selector</span> <span class="o">=</span> <span class="n">ElasticNetVariableSelection</span><span class="p">(</span>
+    <span class="n">df</span><span class="o">=</span><span class="n">cleaned_df</span><span class="p">,</span>
+    <span class="n">response_variable</span><span class="o">=</span><span class="s1">&#39;SSI&#39;</span><span class="p">,</span>
+    <span class="n">explanatory_variables</span><span class="o">=</span><span class="n">predictors</span><span class="p">,</span>
+    <span class="n">outcome_type</span><span class="o">=</span><span class="s1">&#39;binary&#39;</span><span class="p">,</span>
+    <span class="n">alpha_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>  <span class="c1"># Balanced L1/L2 penalty</span>
+    <span class="n">cv</span><span class="o">=</span><span class="mi">5</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Selected variables: </span><span class="si">{</span><span class="n">selector</span><span class="o">.</span><span class="n">selected_explanatory_variables</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">selector</span><span class="o">.</span><span class="n">results_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Example output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Elastic</span> <span class="n">Net</span> <span class="n">selected</span> <span class="mi">3</span> <span class="n">of</span> <span class="mi">6</span> <span class="n">variables</span>
+<span class="n">Selected</span> <span class="n">variables</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;BMI&#39;</span><span class="p">,</span> <span class="s1">&#39;Diabetes&#39;</span><span class="p">,</span> <span class="s1">&#39;INPWT&#39;</span><span class="p">]</span>
+
+       <span class="n">Variable</span>  <span class="n">Coefficient</span>  <span class="n">Abs_Coefficient</span>  <span class="n">Selected</span>
+<span class="mi">0</span>         <span class="n">INPWT</span>       <span class="mf">0.8234</span>           <span class="mf">0.8234</span>      <span class="kc">True</span>
+<span class="mi">1</span>      <span class="n">Diabetes</span>       <span class="mf">0.4521</span>           <span class="mf">0.4521</span>      <span class="kc">True</span>
+<span class="mi">2</span>           <span class="n">BMI</span>       <span class="mf">0.3012</span>           <span class="mf">0.3012</span>      <span class="kc">True</span>
+<span class="mi">3</span>    <span class="n">Sex_Female</span>       <span class="mf">0.0000</span>           <span class="mf">0.0000</span>     <span class="kc">False</span>
+<span class="mi">4</span>           <span class="n">Age</span>       <span class="mf">0.0000</span>           <span class="mf">0.0000</span>     <span class="kc">False</span>
+<span class="mi">5</span>  <span class="n">ASA_Class_II</span>       <span class="mf">0.0000</span>           <span class="mf">0.0000</span>     <span class="kc">False</span>
+</pre></div>
+</div>
+</section>
+<section id="for-count-outcomes">
+<h3>For Count Outcomes<a class="headerlink" href="#for-count-outcomes" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># For length of stay (count outcome)</span>
+<span class="n">selector</span> <span class="o">=</span> <span class="n">ElasticNetVariableSelection</span><span class="p">(</span>
+    <span class="n">df</span><span class="o">=</span><span class="n">cleaned_df</span><span class="p">,</span>
+    <span class="n">response_variable</span><span class="o">=</span><span class="s1">&#39;Length_of_Stay&#39;</span><span class="p">,</span>
+    <span class="n">explanatory_variables</span><span class="o">=</span><span class="n">predictors</span><span class="p">,</span>
+    <span class="n">outcome_type</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span>  <span class="c1"># Use count regression</span>
+    <span class="n">alpha_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">cv</span><span class="o">=</span><span class="mi">5</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="consensus-approach">
+<h3>Consensus Approach<a class="headerlink" href="#consensus-approach" title="Link to this heading">#</a></h3>
+<p>Combine both methods to identify robust predictors:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Univariate selection</span>
+<span class="n">univariate</span> <span class="o">=</span> <span class="n">UnivariateVariableSelection</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;SSI&#39;</span><span class="p">,</span> <span class="n">predictors</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">univariate_selected</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">univariate</span><span class="o">.</span><span class="n">selected_explanatory_variables</span><span class="p">)</span>
+
+<span class="c1"># Elastic net selection</span>
+<span class="n">elastic_net</span> <span class="o">=</span> <span class="n">ElasticNetVariableSelection</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span> <span class="s1">&#39;SSI&#39;</span><span class="p">,</span> <span class="n">predictors</span><span class="p">,</span> <span class="n">outcome_type</span><span class="o">=</span><span class="s1">&#39;binary&#39;</span><span class="p">,</span> <span class="n">alpha_ratio</span><span class="o">=</span><span class="mf">0.5</span>
+<span class="p">)</span>
+<span class="n">elastic_net_selected</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">elastic_net</span><span class="o">.</span><span class="n">selected_explanatory_variables</span><span class="p">)</span>
+
+<span class="c1"># Consensus: selected by both methods</span>
+<span class="n">consensus</span> <span class="o">=</span> <span class="n">univariate_selected</span> <span class="o">&amp;</span> <span class="n">elastic_net_selected</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Consensus variables: </span><span class="si">{</span><span class="n">consensus</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Union: selected by either method</span>
+<span class="n">union</span> <span class="o">=</span> <span class="n">univariate_selected</span> <span class="o">|</span> <span class="n">elastic_net_selected</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Union variables: </span><span class="si">{</span><span class="n">union</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="statistical-tests-by-variable-type">
+<h2>Statistical Tests by Variable Type<a class="headerlink" href="#statistical-tests-by-variable-type" title="Link to this heading">#</a></h2>
+<section id="continuous-outcome">
+<h3>Continuous Outcome<a class="headerlink" href="#continuous-outcome" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Predictor Type</p></th>
+<th class="head"><p>Test</p></th>
+<th class="head"><p>Null Hypothesis</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Continuous</p></td>
+<td><p>Pearson correlation</p></td>
+<td><p>No linear association</p></td>
+</tr>
+<tr class="row-odd"><td><p>Binary</p></td>
+<td><p>Independent t-test</p></td>
+<td><p>Equal means</p></td>
+</tr>
+<tr class="row-even"><td><p>Multi-category</p></td>
+<td><p>One-way ANOVA</p></td>
+<td><p>Equal means across groups</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="categorical-outcome">
+<h3>Categorical Outcome<a class="headerlink" href="#categorical-outcome" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Predictor Type</p></th>
+<th class="head"><p>Test</p></th>
+<th class="head"><p>Null Hypothesis</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Continuous</p></td>
+<td><p>T-test or ANOVA</p></td>
+<td><p>Equal means across outcome groups</p></td>
+</tr>
+<tr class="row-odd"><td><p>Categorical (2x2, small n)</p></td>
+<td><p>Fisher’s exact</p></td>
+<td><p>Independence</p></td>
+</tr>
+<tr class="row-even"><td><p>Categorical (other)</p></td>
+<td><p>Chi-square</p></td>
+<td><p>Independence</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="selection-strategy-comparison">
+<h2>Selection Strategy Comparison<a class="headerlink" href="#selection-strategy-comparison" title="Link to this heading">#</a></h2>
+<section id="univariate-testing">
+<h3>Univariate Testing<a class="headerlink" href="#univariate-testing" title="Link to this heading">#</a></h3>
+<p><strong>Advantages:</strong></p>
+<ul class="simple">
+<li><p>Simple and interpretable</p></li>
+<li><p>Tests each association individually</p></li>
+<li><p>Standard in clinical research</p></li>
+<li><p>No assumptions about model form</p></li>
+</ul>
+<p><strong>Limitations:</strong></p>
+<ul class="simple">
+<li><p>Ignores confounding</p></li>
+<li><p>Ignores interactions</p></li>
+<li><p>May select collinear variables</p></li>
+<li><p>Multiple testing increases false positives</p></li>
+</ul>
+<p><strong>Best for:</strong></p>
+<ul class="simple">
+<li><p>Initial screening</p></li>
+<li><p>Descriptive analysis</p></li>
+<li><p>Small sample sizes</p></li>
+<li><p>When clinical interpretation of each association is important</p></li>
+</ul>
+</section>
+<section id="elastic-net">
+<h3>Elastic Net<a class="headerlink" href="#elastic-net" title="Link to this heading">#</a></h3>
+<p><strong>Advantages:</strong></p>
+<ul class="simple">
+<li><p>Accounts for multicollinearity</p></li>
+<li><p>Handles p &gt;&gt; n (more predictors than observations)</p></li>
+<li><p>Cross-validation prevents overfitting</p></li>
+<li><p>Combines feature selection and prediction</p></li>
+</ul>
+<p><strong>Limitations:</strong></p>
+<ul class="simple">
+<li><p>Less interpretable (shrinkage)</p></li>
+<li><p>Requires sufficient sample size for CV</p></li>
+<li><p>May miss important confounders with weak marginal effects</p></li>
+<li><p>Sensitive to scaling</p></li>
+</ul>
+<p><strong>Best for:</strong></p>
+<ul class="simple">
+<li><p>High-dimensional data</p></li>
+<li><p>Correlated predictors</p></li>
+<li><p>Prediction-focused analysis</p></li>
+<li><p>When parsimony is important</p></li>
+</ul>
+</section>
+</section>
+<section id="alpha-parameter-selection">
+<h2>Alpha Parameter Selection<a class="headerlink" href="#alpha-parameter-selection" title="Link to this heading">#</a></h2>
+<section id="for-univariate-testing">
+<h3>For Univariate Testing<a class="headerlink" href="#for-univariate-testing" title="Link to this heading">#</a></h3>
+<p><strong>alpha=0.05:</strong> Conservative, reduces false positives</p>
+<ul class="simple">
+<li><p>Risk: May miss important confounders</p></li>
+<li><p>Use when: Sample size is large, few candidate variables</p></li>
+</ul>
+<p><strong>alpha=0.10:</strong> Liberal, common for screening (default)</p>
+<ul class="simple">
+<li><p>Risk: More false positives, but better confounding control</p></li>
+<li><p>Use when: Initial screening, moderate sample size</p></li>
+</ul>
+<p><strong>alpha=0.20:</strong> Very liberal, used by some for initial models</p>
+<ul class="simple">
+<li><p>Risk: Many false positives</p></li>
+<li><p>Use when: Small sample, exploratory analysis</p></li>
+</ul>
+</section>
+<section id="for-elastic-net-alpha-ratio">
+<h3>For Elastic Net (alpha_ratio)<a class="headerlink" href="#for-elastic-net-alpha-ratio" title="Link to this heading">#</a></h3>
+<p><strong>alpha_ratio=0.0:</strong> Pure Ridge (L2 only)</p>
+<ul class="simple">
+<li><p>No variable selection</p></li>
+<li><p>All coefficients shrunk but non-zero</p></li>
+<li><p>Best for: Highly collinear predictors</p></li>
+</ul>
+<p><strong>alpha_ratio=0.5:</strong> Balanced (default)</p>
+<ul class="simple">
+<li><p>Variable selection + multicollinearity handling</p></li>
+<li><p>Good general-purpose choice</p></li>
+<li><p>Best for: Most clinical applications</p></li>
+</ul>
+<p><strong>alpha_ratio=1.0:</strong> Pure Lasso (L1 only)</p>
+<ul class="simple">
+<li><p>Aggressive variable selection</p></li>
+<li><p>Sparse solutions</p></li>
+<li><p>Best for: When true model is sparse</p></li>
+</ul>
+</section>
+</section>
+<section id="recommended-workflow">
+<h2>Recommended Workflow<a class="headerlink" href="#recommended-workflow" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Start with univariate (alpha=0.1)</strong> for initial screening</p></li>
+<li><p><strong>Run elastic net (alpha_ratio=0.5)</strong> for multicollinearity handling</p></li>
+<li><p><strong>Identify consensus variables</strong> (selected by both)</p></li>
+<li><p><strong>Add clinically important variables</strong> even if not selected</p></li>
+<li><p><strong>Fit final models</strong> with unadjusted, univariate-adjusted, elastic net-adjusted, and consensus-adjusted covariate sets</p></li>
+<li><p><strong>Compare results</strong> to assess robustness</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./api"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="preparation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Data Preparation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="modeling.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Statistical Modeling</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#univariatevariableselection">UnivariateVariableSelection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.df"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.df</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.response_variable"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.response_variable</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.explanatory_variables"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.explanatory_variables</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.alpha"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.alpha</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.n"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.n</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.p"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.p</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.results_df"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.results_df</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.selected_explanatory_variables"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.selected_explanatory_variables</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.__init__"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.shape"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.shape</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id0"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.selected_explanatory_variables</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.UnivariateVariableSelection.get_col_scale"><code class="docutils literal notranslate"><span class="pre">UnivariateVariableSelection.get_col_scale()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#elasticnetvariableselection">ElasticNetVariableSelection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.df"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.df</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.response_variable"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.response_variable</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.explanatory_variables"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.explanatory_variables</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.outcome_type"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.outcome_type</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.alpha_ratio"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.alpha_ratio</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.cv"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.cv</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.selected_explanatory_variables"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.selected_explanatory_variables</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.results_df"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.results_df</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.model"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.model</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.X_prepared"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.X_prepared</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.y_prepared"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.y_prepared</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.__init__"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-examples">Usage Examples</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#univariate-selection">Univariate Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#elastic-net-selection">Elastic Net Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-count-outcomes">For Count Outcomes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consensus-approach">Consensus Approach</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-tests-by-variable-type">Statistical Tests by Variable Type</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-outcome">Continuous Outcome</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#categorical-outcome">Categorical Outcome</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selection-strategy-comparison">Selection Strategy Comparison</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#univariate-testing">Univariate Testing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#elastic-net">Elastic Net</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alpha-parameter-selection">Alpha Parameter Selection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-univariate-testing">For Univariate Testing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-elastic-net-alpha-ratio">For Elastic Net (alpha_ratio)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-workflow">Recommended Workflow</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Derek Zhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>
+Statistical analysis of INPWT outcomes in pancreatic surgery.
+</p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

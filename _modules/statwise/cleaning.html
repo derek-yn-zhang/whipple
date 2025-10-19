@@ -1,0 +1,1354 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>statwise.cleaning &#8212; Whipple INPWT Analysis</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/statwise/cleaning';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Whipple INPWT Analysis</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../analysis.html">Analysis</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../api/index.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/loading.html">Data Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/cleaning.html">Data Cleaning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/preparation.html">Data Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/selection.html">Variable Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/modeling.html">Statistical Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/loading.html">Data Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/cleaning.html">Data Cleaning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/preparation.html">Data Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/selection.html">Variable Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/modeling.html">Statistical Modeling</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/derek-yn-zhang/whipple" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/derek-yn-zhang/whipple/issues/new?title=Issue%20on%20page%20%2F_modules/statwise/cleaning.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for statwise.cleaning</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+
+<div class="viewcode-block" id="DataCleaner">
+<a class="viewcode-back" href="../../api/cleaning.html#statwise.cleaning.DataCleaner">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DataCleaner</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Modular data cleaning pipeline for reproducible preprocessing of surgical outcomes data.</span>
+
+<span class="sd">    This class provides a structured approach to data cleaning with explicit,</span>
+<span class="sd">    user-controlled operations that ensure reproducibility. All operations are</span>
+<span class="sd">    logged and can be applied in a consistent order through the pipeline interface.</span>
+
+<span class="sd">    Core functionality:</span>
+<span class="sd">    - Remove irrelevant or unusable columns</span>
+<span class="sd">    - Filter datetime and outcome variables</span>
+<span class="sd">    - Drop statistically problematic variables (imbalanced, high missingness)</span>
+<span class="sd">    - Derive composite or standardized variables</span>
+<span class="sd">    - Clean and order categorical predictors</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        DataFrame to clean.</span>
+<span class="sd">    column_metadata : dict of {str: str}</span>
+<span class="sd">        Dictionary mapping column names to their role in analysis.</span>
+<span class="sd">        Valid values are &#39;response&#39; (outcome variables) or &#39;explanatory&#39; (predictors).</span>
+<span class="sd">    log : bool, default True</span>
+<span class="sd">        Whether to print log messages during cleaning operations.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        Working copy of the DataFrame being cleaned.</span>
+<span class="sd">    column_metadata : dict</span>
+<span class="sd">        Column role metadata for identifying response vs explanatory variables.</span>
+<span class="sd">    log : bool</span>
+<span class="sd">        Whether logging is enabled.</span>
+<span class="sd">    log_messages : list of str</span>
+<span class="sd">        Accumulated log messages from all cleaning operations.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; metadata = {</span>
+<span class="sd">    ...     &#39;SSI&#39;: &#39;response&#39;,</span>
+<span class="sd">    ...     &#39;Sepsis&#39;: &#39;response&#39;,</span>
+<span class="sd">    ...     &#39;Age&#39;: &#39;explanatory&#39;,</span>
+<span class="sd">    ...     &#39;BMI&#39;: &#39;explanatory&#39;,</span>
+<span class="sd">    ...     &#39;INPWT&#39;: &#39;explanatory&#39;</span>
+<span class="sd">    ... }</span>
+<span class="sd">    &gt;&gt;&gt; cleaner = DataCleaner(df, metadata)</span>
+<span class="sd">    &gt;&gt;&gt; cleaner.drop_columns([&#39;Patient_ID&#39;, &#39;MRN&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; cleaner.drop_imbalanced_variables(min_minority_count=10)</span>
+<span class="sd">    &gt;&gt;&gt; cleaned_df, logs = cleaner.df, cleaner.log_messages</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    DataPreparer : Prepares cleaned data for modeling.</span>
+<span class="sd">    CSVDataLoader : Loads CSV data with type inference.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The cleaning pipeline follows best practices for clinical research:</span>
+<span class="sd">    - Removes variables with insufficient statistical power (10 events per variable rule)</span>
+<span class="sd">    - Handles missing data conservatively (drops variables &gt;40% missing by default)</span>
+<span class="sd">    - Distinguishes between categorical and continuous integer variables</span>
+<span class="sd">    - Preserves data provenance through detailed logging</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Peduzzi P, Concato J, Kemper E, et al. &quot;A simulation study of the</span>
+<span class="sd">           number of events per variable in logistic regression analysis.&quot;</span>
+<span class="sd">           J Clin Epidemiol. 1996;49(12):1373-9.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DataCleaner.__init__">
+<a class="viewcode-back" href="../../api/cleaning.html#statwise.cleaning.DataCleaner.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">column_metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">log</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">column_metadata</span> <span class="o">=</span> <span class="n">column_metadata</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">log</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_messages</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Record a log message and optionally print it.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        message : str</span>
+<span class="sd">            Message to log.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="c1"># -------------------------------------------------------------------------</span>
+    <span class="c1"># 1. DROPPING METHODS</span>
+    <span class="c1"># -------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="DataCleaner.drop_columns">
+<a class="viewcode-back" href="../../api/cleaning.html#statwise.cleaning.DataCleaner.drop_columns">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">drop_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Drop specified columns immediately without any checks or conditions.</span>
+
+<span class="sd">        This method is useful for removing known unusable or irrelevant columns</span>
+<span class="sd">        upfront (e.g., patient identifiers, administrative fields, redundant dates).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        columns : list of str</span>
+<span class="sd">            List of column names to drop. Non-existent columns are silently ignored.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : DataCleaner</span>
+<span class="sd">            Returns self for method chaining.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; cleaner.drop_columns([&#39;Patient_ID&#39;, &#39;MRN&#39;, &#39;Attending_Surgeon&#39;])</span>
+<span class="sd">        Dropping 3 specified columns: [&#39;Patient_ID&#39;, &#39;MRN&#39;, &#39;Attending_Surgeon&#39;]</span>
+<span class="sd">        Shape changed from (165, 45) to (165, 42)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">existing</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">existing</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s2">&quot;No specified columns found to drop.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dropping </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">existing</span><span class="p">)</span><span class="si">}</span><span class="s2"> specified columns: </span><span class="si">{</span><span class="n">existing</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">before_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">existing</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape changed from </span><span class="si">{</span><span class="n">before_shape</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+<div class="viewcode-block" id="DataCleaner.keep_datetime_columns">
+<a class="viewcode-back" href="../../api/cleaning.html#statwise.cleaning.DataCleaner.keep_datetime_columns">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">keep_datetime_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Keep only specified datetime columns, dropping all other datetime columns.</span>
+
+<span class="sd">        If no columns are specified, drops all datetime columns. This is useful</span>
+<span class="sd">        because datetime variables typically cannot be directly used as predictors</span>
+<span class="sd">        in regression models and may indicate data linkage issues if present.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        columns : list of str or None, default None</span>
+<span class="sd">            List of datetime column names to keep. If None, drops all datetime columns.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : DataCleaner</span>
+<span class="sd">            Returns self for method chaining.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; # Drop all datetime columns</span>
+<span class="sd">        &gt;&gt;&gt; cleaner.keep_datetime_columns()</span>
+
+<span class="sd">        &gt;&gt;&gt; # Keep only surgery date</span>
+<span class="sd">        &gt;&gt;&gt; cleaner.keep_datetime_columns([&#39;Surgery_Date&#39;])</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Auto-detects datetime columns by checking for datetime64, datetime64[ns],</span>
+<span class="sd">        or datetimetz dtypes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Identify all datetime columns in the DataFrame</span>
+        <span class="n">datetime_cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span>
+            <span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;datetime64&quot;</span><span class="p">,</span> <span class="s2">&quot;datetime64[ns]&quot;</span><span class="p">,</span> <span class="s2">&quot;datetimetz&quot;</span><span class="p">]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">datetime_cols</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s2">&quot;No datetime columns detected in DataFrame.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="c1"># If no columns specified, drop all datetime columns</span>
+        <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;No datetime columns specified - dropping all </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">datetime_cols</span><span class="p">)</span><span class="si">}</span><span class="s2"> datetime columns: </span><span class="si">{</span><span class="n">datetime_cols</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">before_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">datetime_cols</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape changed from </span><span class="si">{</span><span class="n">before_shape</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="c1"># Find which specified columns actually exist and are datetime</span>
+        <span class="n">existing</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">datetime_cols</span><span class="p">]</span>
+
+        <span class="c1"># Find datetime columns to drop (not in keep list)</span>
+        <span class="n">to_drop</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">datetime_cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">to_drop</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s2">&quot;No datetime columns to drop - all are in the keep list.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Detected </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">datetime_cols</span><span class="p">)</span><span class="si">}</span><span class="s2"> datetime columns: </span><span class="si">{</span><span class="n">datetime_cols</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Keeping datetime columns: </span><span class="si">{</span><span class="n">existing</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dropping </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">to_drop</span><span class="p">)</span><span class="si">}</span><span class="s2"> datetime columns: </span><span class="si">{</span><span class="n">to_drop</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">before_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">to_drop</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape changed from </span><span class="si">{</span><span class="n">before_shape</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+<div class="viewcode-block" id="DataCleaner.keep_response_columns">
+<a class="viewcode-back" href="../../api/cleaning.html#statwise.cleaning.DataCleaner.keep_response_columns">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">keep_response_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Keep only specified response/outcome columns, dropping all other response columns.</span>
+
+<span class="sd">        Uses column_metadata to identify which columns are response variables,</span>
+<span class="sd">        then retains only those specified in the columns parameter.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        columns : list of str</span>
+<span class="sd">            List of response column names to keep.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : DataCleaner</span>
+<span class="sd">            Returns self for method chaining.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; # Keep only SSI and sepsis outcomes, drop other complications</span>
+<span class="sd">        &gt;&gt;&gt; cleaner.keep_response_columns([&#39;SSI&#39;, &#39;Sepsis&#39;])</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Response columns are identified from column_metadata where the value is &#39;response&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Identify all response columns from metadata</span>
+        <span class="n">response_cols</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">col</span>
+            <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">col_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_metadata</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">col_type</span> <span class="o">==</span> <span class="s2">&quot;response&quot;</span> <span class="ow">and</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+        <span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">response_cols</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s2">&quot;No response columns detected in DataFrame metadata.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="c1"># Find which specified columns actually exist and are responses</span>
+        <span class="n">existing</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">response_cols</span><span class="p">]</span>
+
+        <span class="c1"># Find response columns to drop (not in keep list)</span>
+        <span class="n">to_drop</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">response_cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">to_drop</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s2">&quot;No response columns to drop - all are in the keep list.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Detected </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">response_cols</span><span class="p">)</span><span class="si">}</span><span class="s2"> response columns from metadata&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Keeping response columns: </span><span class="si">{</span><span class="n">existing</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dropping </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">to_drop</span><span class="p">)</span><span class="si">}</span><span class="s2"> response columns: </span><span class="si">{</span><span class="n">to_drop</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">before_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">to_drop</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape changed from </span><span class="si">{</span><span class="n">before_shape</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+<div class="viewcode-block" id="DataCleaner.keep_explanatory_columns">
+<a class="viewcode-back" href="../../api/cleaning.html#statwise.cleaning.DataCleaner.keep_explanatory_columns">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">keep_explanatory_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Keep only specified explanatory/predictor columns, dropping all other explanatory columns.</span>
+
+<span class="sd">        Uses column_metadata to identify which columns are explanatory variables,</span>
+<span class="sd">        then retains only those specified in the columns parameter.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        columns : list of str</span>
+<span class="sd">            List of explanatory column names to keep.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : DataCleaner</span>
+<span class="sd">            Returns self for method chaining.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; # Keep only demographic and treatment variables</span>
+<span class="sd">        &gt;&gt;&gt; cleaner.keep_explanatory_columns([&#39;Age&#39;, &#39;Sex&#39;, &#39;BMI&#39;, &#39;INPWT&#39;])</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Explanatory columns are identified from column_metadata where the value</span>
+<span class="sd">        is &#39;explanatory&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Identify all explanatory columns from metadata</span>
+        <span class="n">explanatory_cols</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">col</span>
+            <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">col_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_metadata</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">col_type</span> <span class="o">==</span> <span class="s2">&quot;explanatory&quot;</span> <span class="ow">and</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+        <span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">explanatory_cols</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s2">&quot;No explanatory columns detected in DataFrame metadata.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="c1"># Find which specified columns actually exist and are explanatory</span>
+        <span class="n">existing</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">explanatory_cols</span><span class="p">]</span>
+
+        <span class="c1"># Find explanatory columns to drop (not in keep list)</span>
+        <span class="n">to_drop</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">explanatory_cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">to_drop</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s2">&quot;No explanatory columns to drop - all are in the keep list.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Detected </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">explanatory_cols</span><span class="p">)</span><span class="si">}</span><span class="s2"> explanatory columns from metadata&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Keeping explanatory columns: </span><span class="si">{</span><span class="n">existing</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dropping </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">to_drop</span><span class="p">)</span><span class="si">}</span><span class="s2"> explanatory columns: </span><span class="si">{</span><span class="n">to_drop</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">before_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">to_drop</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape changed from </span><span class="si">{</span><span class="n">before_shape</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_is_quasi_categorical</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">series</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
+        <span class="n">uniqueness_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.10</span><span class="p">,</span>
+        <span class="n">max_absolute_unique</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determine if an integer column behaves categorically using multiple criteria.</span>
+
+<span class="sd">        Treats a column as categorical if EITHER:</span>
+<span class="sd">        1. Has ≤10 unique values (regardless of sample size), OR</span>
+<span class="sd">        2. Unique/total ratio &lt; 10%</span>
+
+<span class="sd">        This approach correctly identifies:</span>
+<span class="sd">        - Binary/ordinal scales (0-5 ratings) → always categorical</span>
+<span class="sd">        - Low-cardinality counts in large samples → categorical</span>
+<span class="sd">        - High-cardinality true counts → continuous</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        series : pd.Series</span>
+<span class="sd">            Pandas Series to evaluate.</span>
+<span class="sd">        uniqueness_threshold : float, default 0.10</span>
+<span class="sd">            Maximum uniqueness ratio to treat as categorical.</span>
+<span class="sd">        max_absolute_unique : int, default 10</span>
+<span class="sd">            Maximum unique values to always treat as categorical.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">            True if should be treated as categorical, False if continuous.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; # Binary variable: 2 unique values → categorical</span>
+<span class="sd">        &gt;&gt;&gt; _is_quasi_categorical(pd.Series([0, 1, 0, 1, 0]))</span>
+<span class="sd">        True</span>
+
+<span class="sd">        &gt;&gt;&gt; # Ordinal scale: 5 unique values → categorical</span>
+<span class="sd">        &gt;&gt;&gt; _is_quasi_categorical(pd.Series([1, 2, 3, 4, 5, 3, 2, 1]))</span>
+<span class="sd">        True</span>
+
+<span class="sd">        &gt;&gt;&gt; # True count variable: 50 unique values in 200 obs → continuous</span>
+<span class="sd">        &gt;&gt;&gt; _is_quasi_categorical(pd.Series(range(200)))</span>
+<span class="sd">        False</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This heuristic is important for clinical data where integer columns may</span>
+<span class="sd">        represent either categorical scales (ASA class: 1-5) or true counts</span>
+<span class="sd">        (length of stay: 0-100+ days). The distinction affects whether balance</span>
+<span class="sd">        checking and other categorical-specific operations should apply.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n_unique</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
+        <span class="n">n_total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">series</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="n">n_total</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="c1"># Absolute criterion: very few unique values</span>
+        <span class="k">if</span> <span class="n">n_unique</span> <span class="o">&lt;=</span> <span class="n">max_absolute_unique</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="c1"># Relative criterion: low uniqueness ratio</span>
+        <span class="n">uniqueness_ratio</span> <span class="o">=</span> <span class="n">n_unique</span> <span class="o">/</span> <span class="n">n_total</span>
+        <span class="k">return</span> <span class="n">uniqueness_ratio</span> <span class="o">&lt;</span> <span class="n">uniqueness_threshold</span>
+
+<div class="viewcode-block" id="DataCleaner.drop_imbalanced_variables">
+<a class="viewcode-back" href="../../api/cleaning.html#statwise.cleaning.DataCleaner.drop_imbalanced_variables">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">drop_imbalanced_variables</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">min_minority_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">uniqueness_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.10</span><span class="p">,</span>
+        <span class="n">max_absolute_unique</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Drop categorical variables with insufficient observations in the second largest class.</span>
+
+<span class="sd">        Uses the second largest class (not smallest) to allow variables with long tails</span>
+<span class="sd">        of rare events, which can be merged during analysis. This is important for</span>
+<span class="sd">        clinical data where rare complications may exist but the main contrast</span>
+<span class="sd">        (e.g., None vs Any) is still meaningful.</span>
+
+<span class="sd">        Integer columns are only checked if they behave categorically based on:</span>
+<span class="sd">        - Having ≤10 unique values (regardless of sample size), OR</span>
+<span class="sd">        - Having &lt;10% unique-to-total ratio</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        min_minority_count : int, default 10</span>
+<span class="sd">            Minimum observations required in the second largest class.</span>
+<span class="sd">            Default of 10 follows the common &quot;10 events per variable&quot; rule</span>
+<span class="sd">            for logistic regression [1]_.</span>
+<span class="sd">        uniqueness_threshold : float, default 0.10</span>
+<span class="sd">            Maximum uniqueness ratio for integers to be checked.</span>
+<span class="sd">        max_absolute_unique : int, default 10</span>
+<span class="sd">            Maximum unique values to always treat as categorical.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : DataCleaner</span>
+<span class="sd">            Returns self for method chaining.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; cleaner.drop_imbalanced_variables(min_minority_count=10)</span>
+<span class="sd">        Checking class imbalance for 15 categorical and quasi-categorical integer columns</span>
+<span class="sd">        &#39;Rare_Complication&#39; (response): second largest class has 3 observations (&lt; 10)</span>
+<span class="sd">          Class counts: No: 162, Yes: 3</span>
+<span class="sd">        Dropping 1 imbalanced variables with insufficient second class size</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Variables with only one observed class are always dropped regardless of</span>
+<span class="sd">        min_minority_count, as they provide no statistical information.</span>
+
+<span class="sd">        References</span>
+<span class="sd">        ----------</span>
+<span class="sd">        .. [1] Peduzzi P, Concato J, Kemper E, et al. &quot;A simulation study of the</span>
+<span class="sd">               number of events per variable in logistic regression analysis.&quot;</span>
+<span class="sd">               J Clin Epidemiol. 1996;49(12):1373-9.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">before_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">to_drop</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Categorical columns always checked</span>
+        <span class="n">categorical_cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span>
+            <span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;object&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="c1"># Integer columns - filter to quasi-categorical only</span>
+        <span class="n">integer_cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span>
+            <span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;int64&quot;</span><span class="p">,</span> <span class="s2">&quot;int32&quot;</span><span class="p">,</span> <span class="s2">&quot;int16&quot;</span><span class="p">,</span> <span class="s2">&quot;int8&quot;</span><span class="p">,</span> <span class="s2">&quot;Int64&quot;</span><span class="p">]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="n">quasi_categorical_ints</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">col</span>
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">integer_cols</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_quasi_categorical</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">],</span>
+                <span class="n">uniqueness_threshold</span><span class="o">=</span><span class="n">uniqueness_threshold</span><span class="p">,</span>
+                <span class="n">max_absolute_unique</span><span class="o">=</span><span class="n">max_absolute_unique</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Track which integer columns are being skipped</span>
+        <span class="n">continuous_ints</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">integer_cols</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">quasi_categorical_ints</span>
+        <span class="p">]</span>
+
+        <span class="n">cols_to_check</span> <span class="o">=</span> <span class="n">categorical_cols</span> <span class="o">+</span> <span class="n">quasi_categorical_ints</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Checking class imbalance for </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cols_to_check</span><span class="p">)</span><span class="si">}</span><span class="s2"> categorical and quasi-categorical integer columns&quot;</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">continuous_ints</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Skipping </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">continuous_ints</span><span class="p">)</span><span class="si">}</span><span class="s2"> continuous integer columns (high cardinality): </span><span class="si">{</span><span class="n">continuous_ints</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols_to_check</span><span class="p">:</span>
+            <span class="n">value_counts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value_counts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value_counts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">to_drop</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+                <span class="n">col_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">)</span>
+                <span class="n">counts_str</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">value_counts</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+                <span class="p">)</span>
+                <span class="n">nan_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">nan_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">counts_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;, NaN: </span><span class="si">{</span><span class="n">nan_count</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  &#39;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">&#39; (</span><span class="si">{</span><span class="n">col_type</span><span class="si">}</span><span class="s2">): only one class present&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    Class counts: </span><span class="si">{</span><span class="n">counts_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Check second largest class</span>
+            <span class="n">sorted_counts</span> <span class="o">=</span> <span class="n">value_counts</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">second_largest_count</span> <span class="o">=</span> <span class="n">sorted_counts</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="n">col_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">second_largest_count</span> <span class="o">&lt;</span> <span class="n">min_minority_count</span><span class="p">:</span>
+                <span class="n">to_drop</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+                <span class="n">counts_str</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">value_counts</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+                <span class="p">)</span>
+
+                <span class="n">nan_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">nan_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">counts_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;, NaN: </span><span class="si">{</span><span class="n">nan_count</span><span class="si">}</span><span class="s2">&quot;</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;  &#39;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">&#39; (</span><span class="si">{</span><span class="n">col_type</span><span class="si">}</span><span class="s2">): second largest class has </span><span class="si">{</span><span class="n">second_largest_count</span><span class="si">}</span><span class="s2"> observations (&lt; </span><span class="si">{</span><span class="n">min_minority_count</span><span class="si">}</span><span class="s2">)&quot;</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    Class counts: </span><span class="si">{</span><span class="n">counts_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">to_drop</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Dropping </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">to_drop</span><span class="p">)</span><span class="si">}</span><span class="s2"> imbalanced variables with insufficient second class size&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">to_drop</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape changed from </span><span class="si">{</span><span class="n">before_shape</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s2">&quot;No imbalanced variables detected.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+<div class="viewcode-block" id="DataCleaner.drop_high_missingness_variables">
+<a class="viewcode-back" href="../../api/cleaning.html#statwise.cleaning.DataCleaner.drop_high_missingness_variables">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">drop_high_missingness_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_missing_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.40</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Drop variables with excessive missing data that would compromise statistical power.</span>
+
+<span class="sd">        Applies to both response and explanatory variables. Variables exceeding the</span>
+<span class="sd">        missingness threshold are removed because imputation becomes unreliable and</span>
+<span class="sd">        complete case analysis would lose too much data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        max_missing_rate : float, default 0.40</span>
+<span class="sd">            Maximum proportion of missing values allowed (0 to 1).</span>
+<span class="sd">            Default of 0.40 (40%) is a common threshold in clinical research [1]_.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : DataCleaner</span>
+<span class="sd">            Returns self for method chaining.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; cleaner.drop_high_missingness_variables(max_missing_rate=0.40)</span>
+<span class="sd">        Checking missingness for 42 columns</span>
+<span class="sd">        &#39;Albumin&#39; (explanatory): 65.5% missing (&gt; 40%)</span>
+<span class="sd">        Dropping 1 variables with excessive missingness</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The 40% threshold represents a balance between preserving variables and</span>
+<span class="sd">        maintaining data quality. Higher missingness rates make multiple imputation</span>
+<span class="sd">        less reliable and reduce effective sample size substantially.</span>
+
+<span class="sd">        References</span>
+<span class="sd">        ----------</span>
+<span class="sd">        .. [1] Jakobsen JC, Gluud C, Wetterslev J, Winkel P. &quot;When and how should</span>
+<span class="sd">               multiple imputation be used for handling missing data in randomised</span>
+<span class="sd">               clinical trials - a practical guide with flowcharts.&quot;</span>
+<span class="sd">               BMC Med Res Methodol. 2017;17(1):162.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">before_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">to_drop</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">all_cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Checking missingness for </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_cols</span><span class="p">)</span><span class="si">}</span><span class="s2"> columns&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">all_cols</span><span class="p">:</span>
+            <span class="n">missing_rate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">)</span>
+
+            <span class="n">col_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">missing_rate</span> <span class="o">&gt;</span> <span class="n">max_missing_rate</span><span class="p">:</span>
+                <span class="n">to_drop</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;  &#39;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">&#39; (</span><span class="si">{</span><span class="n">col_type</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">missing_rate</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">% missing (&gt; </span><span class="si">{</span><span class="n">max_missing_rate</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">%)&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">to_drop</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dropping </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">to_drop</span><span class="p">)</span><span class="si">}</span><span class="s2"> variables with excessive missingness&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">to_drop</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape changed from </span><span class="si">{</span><span class="n">before_shape</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s2">&quot;No variables with excessive missingness detected.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+    <span class="c1"># -------------------------------------------------------------------------</span>
+    <span class="c1"># 2. DERIVED VARIABLES</span>
+    <span class="c1"># -------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="DataCleaner.derive_variables">
+<a class="viewcode-back" href="../../api/cleaning.html#statwise.cleaning.DataCleaner.derive_variables">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">derive_variables</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">derivation_map</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">callable</span><span class="p">],</span>
+        <span class="n">drop_components</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create new variables from existing columns using user-supplied functions.</span>
+
+<span class="sd">        Automatically infers metadata type (response/explanatory) for derived columns</span>
+<span class="sd">        based on their component columns. Optionally drops component columns after</span>
+<span class="sd">        derivation to avoid multicollinearity.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        derivation_map : dict of {str: callable}</span>
+<span class="sd">            Dictionary mapping new column names to derivation functions.</span>
+<span class="sd">            Each function should take the full DataFrame as input and return a Series.</span>
+<span class="sd">        drop_components : dict of {str: list of str}, optional</span>
+<span class="sd">            Dictionary mapping new column names to lists of component columns to drop</span>
+<span class="sd">            after derivation. If None, component columns are retained.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : DataCleaner</span>
+<span class="sd">            Returns self for method chaining.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; def standardize_height(df):</span>
+<span class="sd">        ...     # Convert all heights to cm</span>
+<span class="sd">        ...     heights = df[&#39;Height&#39;].copy()</span>
+<span class="sd">        ...     heights[df[&#39;Height_Unit&#39;] == &#39;in&#39;] *= 2.54</span>
+<span class="sd">        ...     return heights</span>
+
+<span class="sd">        &gt;&gt;&gt; def composite_sepsis(df):</span>
+<span class="sd">        ...     # Any postoperative sepsis or septic shock</span>
+<span class="sd">        ...     return ((df[&#39;Postop_Sepsis&#39;] &gt; 0) | (df[&#39;Postop_Septic_Shock&#39;] &gt; 0)).astype(int)</span>
+
+<span class="sd">        &gt;&gt;&gt; derivation_map = {</span>
+<span class="sd">        ...     &#39;Height_cm&#39;: standardize_height,</span>
+<span class="sd">        ...     &#39;Any_Postop_Sepsis&#39;: composite_sepsis</span>
+<span class="sd">        ... }</span>
+<span class="sd">        &gt;&gt;&gt; drop_components = {</span>
+<span class="sd">        ...     &#39;Height_cm&#39;: [&#39;Height&#39;, &#39;Height_Unit&#39;],</span>
+<span class="sd">        ...     &#39;Any_Postop_Sepsis&#39;: [&#39;Postop_Sepsis&#39;, &#39;Postop_Septic_Shock&#39;]</span>
+<span class="sd">        ... }</span>
+<span class="sd">        &gt;&gt;&gt; cleaner.derive_variables(derivation_map, drop_components)</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Metadata type inference rules:</span>
+<span class="sd">        - If all component columns have the same type (all &#39;response&#39; or all</span>
+<span class="sd">          &#39;explanatory&#39;), the derived column inherits that type</span>
+<span class="sd">        - If component columns have mixed types, defaults to &#39;explanatory&#39;</span>
+<span class="sd">        - If no component metadata found, defaults to &#39;explanatory&#39;</span>
+
+<span class="sd">        Common use cases in clinical data:</span>
+<span class="sd">        - Standardizing measurements (height in cm, weight in kg)</span>
+<span class="sd">        - Creating composite outcomes (any complication = SSI OR sepsis OR readmission)</span>
+<span class="sd">        - Binary indicators from counts (any event = count &gt; 0)</span>
+<span class="sd">        - Risk scores from multiple predictors</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">drop_components</span> <span class="o">=</span> <span class="n">drop_components</span> <span class="ow">or</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">new_col</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">derivation_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deriving variable: &#39;</span><span class="si">{</span><span class="n">new_col</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+            <span class="n">before_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">new_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Added &#39;</span><span class="si">{</span><span class="n">new_col</span><span class="si">}</span><span class="s2">&#39; | Shape: </span><span class="si">{</span><span class="n">before_shape</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Infer metadata type from component columns</span>
+            <span class="k">if</span> <span class="n">new_col</span> <span class="ow">in</span> <span class="n">drop_components</span><span class="p">:</span>
+                <span class="n">component_types</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">column_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">drop_components</span><span class="p">[</span><span class="n">new_col</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">comp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_metadata</span>
+                <span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">component_types</span><span class="p">:</span>
+                    <span class="n">unique_types</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">component_types</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_types</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">inferred_type</span> <span class="o">=</span> <span class="n">component_types</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">column_metadata</span><span class="p">[</span><span class="n">new_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">inferred_type</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;  Inferred metadata type &#39;</span><span class="si">{</span><span class="n">inferred_type</span><span class="si">}</span><span class="s2">&#39; for &#39;</span><span class="si">{</span><span class="n">new_col</span><span class="si">}</span><span class="s2">&#39; based on component columns&quot;</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">column_metadata</span><span class="p">[</span><span class="n">new_col</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;explanatory&quot;</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;  Warning: Component columns have mixed types </span><span class="si">{</span><span class="n">unique_types</span><span class="si">}</span><span class="s2">. Defaulting &#39;</span><span class="si">{</span><span class="n">new_col</span><span class="si">}</span><span class="s2">&#39; to &#39;explanatory&#39;&quot;</span>
+                        <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">column_metadata</span><span class="p">[</span><span class="n">new_col</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;explanatory&quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;  No component metadata found. Defaulting &#39;</span><span class="si">{</span><span class="n">new_col</span><span class="si">}</span><span class="s2">&#39; to &#39;explanatory&#39;&quot;</span>
+                    <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">column_metadata</span><span class="p">[</span><span class="n">new_col</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;explanatory&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;  No component columns specified. Defaulting &#39;</span><span class="si">{</span><span class="n">new_col</span><span class="si">}</span><span class="s2">&#39; to &#39;explanatory&#39;&quot;</span>
+                <span class="p">)</span>
+
+            <span class="c1"># Drop component columns if specified</span>
+            <span class="k">if</span> <span class="n">new_col</span> <span class="ow">in</span> <span class="n">drop_components</span><span class="p">:</span>
+                <span class="n">components_to_drop</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">drop_components</span><span class="p">[</span><span class="n">new_col</span><span class="p">]</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+                <span class="p">]</span>
+                <span class="k">if</span> <span class="n">components_to_drop</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Dropping component columns: </span><span class="si">{</span><span class="n">components_to_drop</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">components_to_drop</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Shape after dropping components: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  No component columns found to drop for &#39;</span><span class="si">{</span><span class="n">new_col</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+    <span class="c1"># -------------------------------------------------------------------------</span>
+    <span class="c1"># 3. CLEANING CATEGORICAL PREDICTORS</span>
+    <span class="c1"># -------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="DataCleaner.clean_categorical_predictors">
+<a class="viewcode-back" href="../../api/cleaning.html#statwise.cleaning.DataCleaner.clean_categorical_predictors">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clean_categorical_predictors</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">consolidation_maps</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">],</span> <span class="n">ordered_maps</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply user-supplied mappings to consolidate and order categorical predictors.</span>
+
+<span class="sd">        This method enables two types of categorical cleaning:</span>
+<span class="sd">        1. Consolidation: Merge or rename categories (e.g., combine rare races)</span>
+<span class="sd">        2. Ordering: Apply ordinal relationships (e.g., ASA class I &lt; II &lt; III)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        consolidation_maps : dict of {str: dict}</span>
+<span class="sd">            Dictionary mapping column names to category consolidation mappings.</span>
+<span class="sd">            Each mapping is a dict of {old_value: new_value}.</span>
+<span class="sd">        ordered_maps : dict of {str: list}, optional</span>
+<span class="sd">            Dictionary mapping column names to ordered lists of categories.</span>
+<span class="sd">            Categories will be treated as ordinal in this order.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : DataCleaner</span>
+<span class="sd">            Returns self for method chaining.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; consolidation_maps = {</span>
+<span class="sd">        ...     &#39;Race&#39;: {</span>
+<span class="sd">        ...         &#39;Black or African American&#39;: &#39;Black&#39;,</span>
+<span class="sd">        ...         &#39;White&#39;: &#39;White&#39;,</span>
+<span class="sd">        ...         &#39;Asian&#39;: &#39;Other&#39;,</span>
+<span class="sd">        ...         &#39;Some Other Race&#39;: &#39;Other&#39;</span>
+<span class="sd">        ...     },</span>
+<span class="sd">        ...     &#39;Smoking_Status&#39;: {</span>
+<span class="sd">        ...         &#39;Current&#39;: &#39;Current&#39;,</span>
+<span class="sd">        ...         &#39;Former&#39;: &#39;Former&#39;,</span>
+<span class="sd">        ...         &#39;Never&#39;: &#39;Never&#39;,</span>
+<span class="sd">        ...         &#39;Unknown&#39;: &#39;Never&#39;  # Conservative assumption</span>
+<span class="sd">        ...     }</span>
+<span class="sd">        ... }</span>
+<span class="sd">        &gt;&gt;&gt; ordered_maps = {</span>
+<span class="sd">        ...     &#39;ASA_Class&#39;: [</span>
+<span class="sd">        ...         &#39;ASA I - Normal healthy&#39;,</span>
+<span class="sd">        ...         &#39;ASA II - Mild systemic disease&#39;,</span>
+<span class="sd">        ...         &#39;ASA III - Severe systemic disease&#39;,</span>
+<span class="sd">        ...         &#39;ASA IV - Severe disease, constant threat to life&#39;</span>
+<span class="sd">        ...     ]</span>
+<span class="sd">        ... }</span>
+<span class="sd">        &gt;&gt;&gt; cleaner.clean_categorical_predictors(consolidation_maps, ordered_maps)</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Consolidation is often necessary to:</span>
+<span class="sd">        - Merge rare categories with insufficient sample size</span>
+<span class="sd">        - Group conceptually similar categories</span>
+<span class="sd">        - Handle data entry variations (e.g., &quot;Hispanic&quot; vs &quot;Hispanic or Latino&quot;)</span>
+
+<span class="sd">        Ordering is important for:</span>
+<span class="sd">        - Ordinal scales (ASA class, pain scores, disease stages)</span>
+<span class="sd">        - Enabling ordinal encoding in models that can leverage order</span>
+<span class="sd">        - Correct interpretation of trends across ordered categories</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">before_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="c1"># Apply consolidation</span>
+        <span class="k">for</span> <span class="n">column</span><span class="p">,</span> <span class="n">mapping</span> <span class="ow">in</span> <span class="n">consolidation_maps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">column</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skipping </span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2"> (not found in DataFrame).&quot;</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Consolidating categories in &#39;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">&#39; using mapping with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">mapping</span><span class="p">)</span><span class="si">}</span><span class="s2"> entries.&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">mapping</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Apply ordering</span>
+        <span class="k">if</span> <span class="n">ordered_maps</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">column</span><span class="p">,</span> <span class="n">categories</span> <span class="ow">in</span> <span class="n">ordered_maps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">column</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                    <span class="n">cat_type</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">CategoricalDtype</span><span class="p">(</span>
+                        <span class="n">categories</span><span class="o">=</span><span class="n">categories</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">True</span>
+                    <span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">cat_type</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Applied ordered categorical type to &#39;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Finished categorical cleaning | Shape changed from </span><span class="si">{</span><span class="n">before_shape</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+    <span class="c1"># -------------------------------------------------------------------------</span>
+    <span class="c1"># 4. RUN FULL PIPELINE</span>
+    <span class="c1"># -------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="DataCleaner.run_cleaning_pipeline">
+<a class="viewcode-back" href="../../api/cleaning.html#statwise.cleaning.DataCleaner.run_cleaning_pipeline">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_cleaning_pipeline</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">drop_cols</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">keep_datetime_cols</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">keep_response_cols</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">keep_explanatory_cols</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">derivation_map</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">drop_components</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">categorical_config</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">min_minority_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">max_missing_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.40</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute all cleaning steps in a standardized sequence.</span>
+
+<span class="sd">        This pipeline method provides a single entry point for reproducible data</span>
+<span class="sd">        cleaning with explicit parameter documentation. The execution order is</span>
+<span class="sd">        optimized to prevent conflicts between operations.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        drop_cols : list of str, optional</span>
+<span class="sd">            Columns to drop immediately (e.g., identifiers, administrative fields).</span>
+<span class="sd">        keep_datetime_cols : list of str, optional</span>
+<span class="sd">            Datetime columns to keep. If None, all datetime columns are dropped.</span>
+<span class="sd">        keep_response_cols : list of str, optional</span>
+<span class="sd">            Response/outcome columns to keep.</span>
+<span class="sd">        keep_explanatory_cols : list of str, optional</span>
+<span class="sd">            Explanatory/predictor columns to keep.</span>
+<span class="sd">        derivation_map : dict of {str: callable}, optional</span>
+<span class="sd">            New variables to derive from existing columns.</span>
+<span class="sd">        drop_components : dict of {str: list of str}, optional</span>
+<span class="sd">            Component columns to drop after deriving new variables.</span>
+<span class="sd">        categorical_config : dict, optional</span>
+<span class="sd">            Configuration for categorical cleaning with keys:</span>
+<span class="sd">            - &#39;consolidation_maps&#39;: dict for category consolidation</span>
+<span class="sd">            - &#39;ordered_maps&#39;: dict for applying ordinal structure</span>
+<span class="sd">        min_minority_count : int, default 10</span>
+<span class="sd">            Minimum observations in second largest class for balance check.</span>
+<span class="sd">        max_missing_rate : float, default 0.40</span>
+<span class="sd">            Maximum proportion of missing data allowed (0 to 1).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        df : pd.DataFrame</span>
+<span class="sd">            Cleaned DataFrame ready for preprocessing and modeling.</span>
+<span class="sd">        log_messages : list of str</span>
+<span class="sd">            Complete log of all cleaning operations performed.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; cleaner = DataCleaner(df, column_metadata)</span>
+<span class="sd">        &gt;&gt;&gt; cleaned_df, logs = cleaner.run_cleaning_pipeline(</span>
+<span class="sd">        ...     drop_cols=[&#39;Patient_ID&#39;, &#39;MRN&#39;],</span>
+<span class="sd">        ...     keep_datetime_cols=None,  # Drop all datetime columns</span>
+<span class="sd">        ...     keep_response_cols=[&#39;SSI&#39;, &#39;Sepsis&#39;, &#39;Length_of_Stay&#39;, &#39;Readmission&#39;],</span>
+<span class="sd">        ...     keep_explanatory_cols=[&#39;Age&#39;, &#39;Sex&#39;, &#39;BMI&#39;, &#39;Diabetes&#39;, &#39;INPWT&#39;],</span>
+<span class="sd">        ...     derivation_map={&#39;Any_SSI&#39;: lambda df: (df[&#39;SSI&#39;] &gt; 0).astype(int)},</span>
+<span class="sd">        ...     categorical_config={&#39;consolidation_maps&#39;: {...}},</span>
+<span class="sd">        ...     min_minority_count=10,</span>
+<span class="sd">        ...     max_missing_rate=0.40</span>
+<span class="sd">        ... )</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Pipeline execution order:</span>
+<span class="sd">        1. Drop specified columns</span>
+<span class="sd">        2. Filter datetime columns (drops all by default)</span>
+<span class="sd">        3. Filter response columns</span>
+<span class="sd">        4. Filter explanatory columns</span>
+<span class="sd">        5. Derive new variables</span>
+<span class="sd">        6. Clean categorical variables</span>
+<span class="sd">        7. Drop high-missingness variables</span>
+<span class="sd">        8. Drop imbalanced variables</span>
+
+<span class="sd">        This order ensures that:</span>
+<span class="sd">        - Unwanted columns are removed early to improve clarity</span>
+<span class="sd">        - Derived variables are available for subsequent operations</span>
+<span class="sd">        - Statistical filtering happens after manual curation is complete</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s2">&quot;=== Starting Dataset Cleaning Pipeline ===&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Drop specified columns first</span>
+        <span class="k">if</span> <span class="n">drop_cols</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">drop_columns</span><span class="p">(</span><span class="n">drop_cols</span><span class="p">)</span>
+
+        <span class="c1"># Always run datetime column filtering (drops all by default)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keep_datetime_columns</span><span class="p">(</span><span class="n">keep_datetime_cols</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">keep_response_cols</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">keep_response_columns</span><span class="p">(</span><span class="n">keep_response_cols</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">keep_explanatory_cols</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">keep_explanatory_columns</span><span class="p">(</span><span class="n">keep_explanatory_cols</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">derivation_map</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">derive_variables</span><span class="p">(</span><span class="n">derivation_map</span><span class="p">,</span> <span class="n">drop_components</span><span class="o">=</span><span class="n">drop_components</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">categorical_config</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">clean_categorical_predictors</span><span class="p">(</span>
+                <span class="n">consolidation_maps</span><span class="o">=</span><span class="n">categorical_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;consolidation_maps&quot;</span><span class="p">,</span> <span class="p">{}),</span>
+                <span class="n">ordered_maps</span><span class="o">=</span><span class="n">categorical_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ordered_maps&quot;</span><span class="p">,</span> <span class="p">{}),</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Apply statistical power-based filtering</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">drop_high_missingness_variables</span><span class="p">(</span><span class="n">max_missing_rate</span><span class="o">=</span><span class="n">max_missing_rate</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">drop_imbalanced_variables</span><span class="p">(</span><span class="n">min_minority_count</span><span class="o">=</span><span class="n">min_minority_count</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s2">&quot;=== Dataset Cleaning Complete ===&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_messages</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Derek Zhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>
+Statistical analysis of INPWT outcomes in pancreatic surgery.
+</p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
