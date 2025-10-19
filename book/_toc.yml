@@ -5,15 +5,10 @@ chapters:
   - file: api/index
     sections:
       - file: api/loading
-        title: Data Loading
       - file: api/cleaning
-        title: Data Cleaning
       - file: api/preparation
-        title: Data Preparation
       - file: api/selection
-        title: Variable Selection
       - file: api/modeling
-        title: Statistical Modeling
 
 # format: jb-book
 # root: intro

@@ -5,7 +5,8 @@ copyright: "2025"
 
 # Force re-execution of notebooks on each build
 execute:
-  execute_notebooks: cache
+  # execute_notebooks: cache
+  execute_notebooks: off
   timeout: 300
 
 # # Add a bibtex file so that we can create citations
