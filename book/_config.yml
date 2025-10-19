@@ -1,0 +1,153 @@
+# Book settings
+title: Whipple INPWT Analysis
+author: Derek Zhang
+copyright: "2025"
+
+# Force re-execution of notebooks on each build
+execute:
+  execute_notebooks: cache
+  timeout: 300
+
+# # Add a bibtex file so that we can create citations
+# bibtex_bibfiles:
+#   - references.bib
+
+# Information about where the book exists on the web
+repository:
+  url: https://github.com/derek-yn-zhang/whipple
+  path_to_book: book
+  branch: main
+
+# HTML-specific settings
+html:
+  use_edit_page_button: true
+  use_repository_button: true
+  use_issues_button: true
+  home_page_in_navbar: true
+  extra_footer: |
+    <p>
+    Statistical analysis of INPWT outcomes in pancreatic surgery.
+    </p>
+
+# Sphinx configuration for API documentation
+sphinx:
+  extra_extensions:
+    - sphinx.ext.autodoc
+    - sphinx.ext.napoleon
+    - sphinx.ext.autosummary
+    - sphinx.ext.viewcode
+    - sphinx.ext.intersphinx
+  config:
+    # Napoleon settings for NumPy-style docstrings
+    napoleon_google_docstring: false
+    napoleon_numpy_docstring: true
+    napoleon_include_init_with_doc: true
+    napoleon_include_private_with_doc: false
+    napoleon_include_special_with_doc: true
+    napoleon_use_admonition_for_examples: false
+    napoleon_use_admonition_for_notes: true
+    napoleon_use_admonition_for_references: true
+    napoleon_use_ivar: false
+    napoleon_use_param: true
+    napoleon_use_rtype: true
+    napoleon_preprocess_types: true
+    napoleon_type_aliases: null
+    napoleon_attr_annotations: true
+    
+    # Autodoc settings
+    autodoc_member_order: 'bysource'
+    autodoc_typehints: 'description'
+    autodoc_typehints_description_target: 'documented'
+    
+    # Autosummary settings
+    autosummary_generate: true
+    
+    # Intersphinx mapping (links to other documentation)
+    intersphinx_mapping:
+      python: ['https://docs.python.org/3', null]
+      pandas: ['https://pandas.pydata.org/docs/', null]
+      numpy: ['https://numpy.org/doc/stable/', null]
+      scipy: ['https://docs.scipy.org/doc/scipy/', null]
+      sklearn: ['https://scikit-learn.org/stable/', null]
+      statsmodels: ['https://www.statsmodels.org/stable/', null]
+
+# Launch button settings
+launch_buttons:
+  notebook_interface: "jupyterlab"
+  binderhub_url: ""
+  
+# Advanced options
+parse:
+  myst_enable_extensions:
+    - dollarmath
+    - colon_fence
+    - deflist
+    - html_image
+  myst_url_schemes: [mailto, http, https]
+
+# # Book settings
+# # Learn more at https://jupyterbook.org/customize/config.html
+
+# title: "INPWT Outcomes"
+# author: Derek Zhang
+# # logo: logo.png
+
+# # Force re-execution of notebooks on each build.
+# # See https://jupyterbook.org/content/execute.html
+# execute:
+#   execute_notebooks: off  # Don't re-run notebooks on build (faster)
+
+# # HTML settings
+# html:
+#   baseurl: "/whipple/"
+#   use_repository_button: false
+#   use_issues_button: false
+#   use_edit_page_button: false
+
+# # # Add GitHub buttons to your book
+# # # See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
+# # html:
+# #   use_issues_button: true
+# #   use_repository_button: true
+
+# # Define the name of the latex output file for PDF builds
+# latex:
+#   latex_documents:
+#     targetname: analysis.tex
+
+# # # Add a bibtex file so that we can create citations
+# # bibtex_bibfiles:
+# #   - references.bib
+
+# # # Information about where the book exists on the web
+# # repository:
+# #   url: https://github.com/executablebooks/jupyter-book  # Online location of your book
+# #   path_to_book: docs  # Optional path to your book, relative to the repository root
+# #   branch: master  # Which branch of the repository should be used when creating links (optional)
+
+# pip install jupyter-book
+# jupyter-book create book
+# cp analysis.ipynb book/analysis.ipynb
+# cp -r statwise book/statwise
+
+# edit _toc.yml
+# format: jb-book
+# root: intro
+# chapters:
+#   - file: analysis
+#     title: INPWT Analysis
+
+# edit intro.md
+
+# cd book
+# jupyter-book clean . --all
+# jupyter-book build .
+# open _build/html/index.html
+
+# rm -rf docs
+# cp -r book/_build/html docs
+# touch docs/.nojekyll
+
+# git add docs
+# git commit -m "Update docs with new build"
+# git push

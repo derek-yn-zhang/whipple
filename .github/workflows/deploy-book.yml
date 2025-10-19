@@ -1,0 +1,32 @@
+name: Deploy Jupyter Book
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-book:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Set up Python
+        run: uv python install 3.10
+
+      - name: Install dependencies
+        run: uv sync --extra docs
+
+      - name: Build the book
+        run: uv run jupyter-book build book/
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: book/_build/html

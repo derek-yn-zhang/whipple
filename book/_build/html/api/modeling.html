@@ -1,0 +1,1509 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Statistical Modeling &#8212; Whipple INPWT Analysis</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/modeling';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Variable Selection" href="selection.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Whipple INPWT Analysis</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../analysis.html">Analysis</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="loading.html">Data Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cleaning.html">Data Cleaning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preparation.html">Data Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="selection.html">Variable Selection</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Statistical Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loading.html">Data Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cleaning.html">Data Cleaning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preparation.html">Data Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="selection.html">Variable Selection</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Statistical Modeling</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/derek-yn-zhang/whipple" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/derek-yn-zhang/whipple/edit/main/book/api/modeling.md" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/derek-yn-zhang/whipple/issues/new?title=Issue%20on%20page%20%2Fapi/modeling.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/modeling.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Statistical Modeling</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basemodel">BaseModel</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.BaseModel"><code class="docutils literal notranslate"><span class="pre">BaseModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.BaseModel.model"><code class="docutils literal notranslate"><span class="pre">BaseModel.model</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.BaseModel.X"><code class="docutils literal notranslate"><span class="pre">BaseModel.X</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.BaseModel.y"><code class="docutils literal notranslate"><span class="pre">BaseModel.y</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.BaseModel.converged"><code class="docutils literal notranslate"><span class="pre">BaseModel.converged</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.BaseModel.__init__"><code class="docutils literal notranslate"><span class="pre">BaseModel.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.BaseModel.fit"><code class="docutils literal notranslate"><span class="pre">BaseModel.fit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.BaseModel.summary"><code class="docutils literal notranslate"><span class="pre">BaseModel.summary()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.BaseModel.check_convergence"><code class="docutils literal notranslate"><span class="pre">BaseModel.check_convergence()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logisticregressionmodel">LogisticRegressionModel</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.LogisticRegressionModel"><code class="docutils literal notranslate"><span class="pre">LogisticRegressionModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.LogisticRegressionModel.model"><code class="docutils literal notranslate"><span class="pre">LogisticRegressionModel.model</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.LogisticRegressionModel.X"><code class="docutils literal notranslate"><span class="pre">LogisticRegressionModel.X</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.LogisticRegressionModel.y"><code class="docutils literal notranslate"><span class="pre">LogisticRegressionModel.y</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.LogisticRegressionModel.converged"><code class="docutils literal notranslate"><span class="pre">LogisticRegressionModel.converged</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.LogisticRegressionModel.__init__"><code class="docutils literal notranslate"><span class="pre">LogisticRegressionModel.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.LogisticRegressionModel.fit"><code class="docutils literal notranslate"><span class="pre">LogisticRegressionModel.fit()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#negativebinomialregressionmodel">NegativeBinomialRegressionModel</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.NegativeBinomialRegressionModel"><code class="docutils literal notranslate"><span class="pre">NegativeBinomialRegressionModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.NegativeBinomialRegressionModel.model"><code class="docutils literal notranslate"><span class="pre">NegativeBinomialRegressionModel.model</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.NegativeBinomialRegressionModel.X"><code class="docutils literal notranslate"><span class="pre">NegativeBinomialRegressionModel.X</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.NegativeBinomialRegressionModel.y"><code class="docutils literal notranslate"><span class="pre">NegativeBinomialRegressionModel.y</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.NegativeBinomialRegressionModel.converged"><code class="docutils literal notranslate"><span class="pre">NegativeBinomialRegressionModel.converged</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.NegativeBinomialRegressionModel.__init__"><code class="docutils literal notranslate"><span class="pre">NegativeBinomialRegressionModel.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.NegativeBinomialRegressionModel.fit"><code class="docutils literal notranslate"><span class="pre">NegativeBinomialRegressionModel.fit()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-examples">Usage Examples</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression-for-binary-outcomes">Logistic Regression for Binary Outcomes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#negative-binomial-for-count-outcomes">Negative Binomial for Count Outcomes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-multiple-models">Comparing Multiple Models</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-results">Interpreting Results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">Logistic Regression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#negative-binomial-regression">Negative Binomial Regression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#p-values-and-confidence-intervals">P-values and Confidence Intervals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-fit-statistics">Model Fit Statistics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-issues">Convergence Issues</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#causes">Causes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diagnostics">Diagnostics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solutions">Solutions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-assumptions">Model Assumptions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Logistic Regression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Negative Binomial Regression</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-workflow-example">Complete Workflow Example</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="statistical-modeling">
+<h1>Statistical Modeling<a class="headerlink" href="#statistical-modeling" title="Link to this heading">#</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">modeling</span></code> module provides regression models for binary and count outcomes with automatic convergence checking.</p>
+<section id="basemodel">
+<h2>BaseModel<a class="headerlink" href="#basemodel" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="statwise.modeling.BaseModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statwise.modeling.</span></span><span class="sig-name descname"><span class="pre">BaseModel</span></span><a class="reference internal" href="../_modules/statwise/modeling.html#BaseModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.modeling.BaseModel" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Base class for regression models providing common interface and convergence checking.</p>
+<p>This abstract base class defines the interface for all regression models
+and provides shared functionality for model fitting and convergence diagnostics.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.modeling.BaseModel.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#statwise.modeling.BaseModel.model" title="Link to this definition">#</a></dt>
+<dd><p>Fitted statsmodels regression model (None until fit() is called).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">fitted</span> <span class="pre">model</span></code> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.modeling.BaseModel.X">
+<span class="sig-name descname"><span class="pre">X</span></span><a class="headerlink" href="#statwise.modeling.BaseModel.X" title="Link to this definition">#</a></dt>
+<dd><p>Feature matrix used for fitting (None until fit() is called).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.modeling.BaseModel.y">
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#statwise.modeling.BaseModel.y" title="Link to this definition">#</a></dt>
+<dd><p>Response variable used for fitting (None until fit() is called).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.Series</span></code> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.modeling.BaseModel.converged">
+<span class="sig-name descname"><span class="pre">converged</span></span><a class="headerlink" href="#statwise.modeling.BaseModel.converged" title="Link to this definition">#</a></dt>
+<dd><p>Whether maximum likelihood optimization converged successfully.
+None until convergence is checked.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>This class should not be instantiated directly. Use subclasses:
+- LogisticRegressionModel for binary outcomes
+- NegativeBinomialRegressionModel for count outcomes</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.modeling.BaseModel.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/modeling.html#BaseModel.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.modeling.BaseModel.__init__" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.modeling.BaseModel.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/modeling.html#BaseModel.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.modeling.BaseModel.fit" title="Link to this definition">#</a></dt>
+<dd><p>Fit the regression model.</p>
+<p>Must be implemented by subclasses.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>) – Feature matrix with shape (n_samples, n_features).</p></li>
+<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pd.Series</span></code>) – Response variable with shape (n_samples,).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.14)"><strong>NotImplementedError</strong></a> – If called on BaseModel directly rather than a subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.modeling.BaseModel.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/modeling.html#BaseModel.summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.modeling.BaseModel.summary" title="Link to this definition">#</a></dt>
+<dd><p>Display comprehensive model summary with coefficients and fit statistics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Summary object containing coefficient estimates, standard errors,
+z-statistics, p-values, confidence intervals, and model fit statistics.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://www.statsmodels.org/stable/generated/statsmodels.iolib.summary.Summary.html#statsmodels.iolib.summary.Summary" title="(in statsmodels 0.14.4 v0.14.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">statsmodels.iolib.summary.Summary</span></code></a></p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If model has not been fitted yet.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegressionModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.modeling.BaseModel.check_convergence">
+<span class="sig-name descname"><span class="pre">check_convergence</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/modeling.html#BaseModel.check_convergence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.modeling.BaseModel.check_convergence" title="Link to this definition">#</a></dt>
+<dd><p>Check if maximum likelihood optimization converged successfully.</p>
+<p>Prints a warning message if convergence failed. Non-convergence indicates
+that parameter estimates may be unreliable due to numerical issues, perfect
+separation, or other optimization problems.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if model converged or convergence status unavailable.
+False if convergence explicitly failed.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If model has not been fitted yet.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="ow">not</span> <span class="n">model</span><span class="o">.</span><span class="n">check_convergence</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Consider using regularization or checking for separation&quot;</span><span class="p">)</span>
+<span class="go">WARNING: Maximum Likelihood optimization failed to converge.</span>
+<span class="go">    Results may be unreliable. Check coefficients and standard errors.</span>
+</pre></div>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>Common causes of convergence failure:
+- Perfect or quasi-perfect separation in logistic regression
+- Multicollinearity among predictors
+- Insufficient sample size relative to number of parameters
+- Numerical instability in parameter space</p>
+<p>Solutions for convergence issues:
+- Use penalized regression (Firth, Ridge, elastic net)
+- Remove perfectly predictive variables
+- Increase sample size or reduce number of predictors
+- Check for separation using DataPreparer.check_separation()</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="logisticregressionmodel">
+<h2>LogisticRegressionModel<a class="headerlink" href="#logisticregressionmodel" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="statwise.modeling.LogisticRegressionModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statwise.modeling.</span></span><span class="sig-name descname"><span class="pre">LogisticRegressionModel</span></span><a class="reference internal" href="../_modules/statwise/modeling.html#LogisticRegressionModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.modeling.LogisticRegressionModel" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#statwise.modeling.BaseModel" title="statwise.modeling.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></a></p>
+<p>Logistic regression model for binary outcome variables.</p>
+<p>Fits a maximum likelihood logistic regression using statsmodels,
+automatically handling categorical responses and adding an intercept term.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.modeling.LogisticRegressionModel.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#statwise.modeling.LogisticRegressionModel.model" title="Link to this definition">#</a></dt>
+<dd><p>Fitted logistic regression model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://www.statsmodels.org/stable/generated/statsmodels.discrete.discrete_model.LogitResults.html#statsmodels.discrete.discrete_model.LogitResults" title="(in statsmodels 0.14.4 v0.14.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">statsmodels.discrete.discrete_model.LogitResults</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.modeling.LogisticRegressionModel.X">
+<span class="sig-name descname"><span class="pre">X</span></span><a class="headerlink" href="#statwise.modeling.LogisticRegressionModel.X" title="Link to this definition">#</a></dt>
+<dd><p>Feature matrix used for fitting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.modeling.LogisticRegressionModel.y">
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#statwise.modeling.LogisticRegressionModel.y" title="Link to this definition">#</a></dt>
+<dd><p>Binary response variable used for fitting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.Series</span></code> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.modeling.LogisticRegressionModel.converged">
+<span class="sig-name descname"><span class="pre">converged</span></span><a class="headerlink" href="#statwise.modeling.LogisticRegressionModel.converged" title="Link to this definition">#</a></dt>
+<dd><p>Whether optimization converged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegressionModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Check convergence</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">check_convergence</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get odds ratios</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">odds_ratios</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">odds_ratios</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#statwise.modeling.NegativeBinomialRegressionModel" title="statwise.modeling.NegativeBinomialRegressionModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NegativeBinomialRegressionModel</span></code></a></dt><dd><p>For count outcomes.</p>
+</dd>
+<dt><a class="reference external" href="https://www.statsmodels.org/stable/generated/statsmodels.discrete.discrete_model.Logit.html#statsmodels.discrete.discrete_model.Logit" title="(in statsmodels 0.14.4 v0.14.4)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statsmodels.discrete.discrete_model.Logit</span></code></a></dt><dd><p>Underlying statsmodels class.</p>
+</dd>
+</dl>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>The model estimates the probability of the outcome as:</p>
+<p>P(Y=1|X) = 1 / (1 + exp(-(beta_0 + beta_1*X_1 + … + beta_p*X_p)))</p>
+<p>Coefficients represent log odds ratios:
+- Positive coefficient: Predictor increases odds of outcome
+- Negative coefficient: Predictor decreases odds of outcome
+- exp(coefficient): Multiplicative change in odds for 1-unit increase</p>
+<p>For clinical interpretation:
+- Odds ratio = 1: No association
+- Odds ratio &gt; 1: Increased odds (e.g., OR=2.0 means 2x higher odds)
+- Odds ratio &lt; 1: Decreased odds (e.g., OR=0.5 means 50% lower odds)</p>
+<p>Model fitting uses maximum likelihood estimation with Newton-Raphson
+optimization. If convergence fails, consider checking for separation
+or using penalized methods.</p>
+</div>
+<div class="admonition-references admonition">
+<p class="admonition-title">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id1" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<p>Hosmer DW, Lemeshow S, Sturdivant RX. “Applied Logistic Regression.”
+3rd ed. Wiley; 2013.</p>
+</aside>
+</aside>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.modeling.LogisticRegressionModel.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/modeling.html#LogisticRegressionModel.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.modeling.LogisticRegressionModel.__init__" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.modeling.LogisticRegressionModel.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/modeling.html#LogisticRegressionModel.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.modeling.LogisticRegressionModel.fit" title="Link to this definition">#</a></dt>
+<dd><p>Fit logistic regression model to the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>) – Feature matrix with shape (n_samples, n_features).
+Should contain preprocessed numeric and one-hot encoded variables.</p></li>
+<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pd.Series</span></code>) – Binary response variable with shape (n_samples,).
+Automatically converted to 0/1 integers if categorical.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>model</strong> – Fitted logistic regression model.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://www.statsmodels.org/stable/generated/statsmodels.discrete.discrete_model.LogitResults.html#statsmodels.discrete.discrete_model.LogitResults" title="(in statsmodels 0.14.4 v0.14.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">statsmodels.discrete.discrete_model.LogitResults</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">statwise.preparation</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataPreparer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">preparer</span> <span class="o">=</span> <span class="n">DataPreparer</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;SSI&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">,</span> <span class="s1">&#39;BMI&#39;</span><span class="p">,</span> <span class="s1">&#39;INPWT&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">preparer</span><span class="o">.</span><span class="n">preprocess</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegressionModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fitted</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">fitted</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>Data preprocessing steps:
+1. Creates copies of X and y to avoid modifying originals
+2. Ensures X is float type for optimization
+3. Converts categorical y to 0/1 integers
+4. Adds constant term for intercept
+5. Fits using maximum likelihood
+6. Checks convergence and warns if failed</p>
+<p>The intercept represents the log odds when all predictors are zero
+(or at reference categories for one-hot encoded variables).</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="negativebinomialregressionmodel">
+<h2>NegativeBinomialRegressionModel<a class="headerlink" href="#negativebinomialregressionmodel" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="statwise.modeling.NegativeBinomialRegressionModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statwise.modeling.</span></span><span class="sig-name descname"><span class="pre">NegativeBinomialRegressionModel</span></span><a class="reference internal" href="../_modules/statwise/modeling.html#NegativeBinomialRegressionModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.modeling.NegativeBinomialRegressionModel" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#statwise.modeling.BaseModel" title="statwise.modeling.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></a></p>
+<p>Negative binomial regression model for overdispersed count outcome variables.</p>
+<p>Fits a maximum likelihood negative binomial regression, appropriate for
+count outcomes with variance exceeding the mean (overdispersion). More
+flexible than Poisson regression for clinical count data.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.modeling.NegativeBinomialRegressionModel.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#statwise.modeling.NegativeBinomialRegressionModel.model" title="Link to this definition">#</a></dt>
+<dd><p>Fitted negative binomial regression model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://www.statsmodels.org/stable/generated/statsmodels.discrete.discrete_model.NegativeBinomialResults.html#statsmodels.discrete.discrete_model.NegativeBinomialResults" title="(in statsmodels 0.14.4 v0.14.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">statsmodels.discrete.discrete_model.NegativeBinomialResults</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.modeling.NegativeBinomialRegressionModel.X">
+<span class="sig-name descname"><span class="pre">X</span></span><a class="headerlink" href="#statwise.modeling.NegativeBinomialRegressionModel.X" title="Link to this definition">#</a></dt>
+<dd><p>Feature matrix used for fitting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.modeling.NegativeBinomialRegressionModel.y">
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#statwise.modeling.NegativeBinomialRegressionModel.y" title="Link to this definition">#</a></dt>
+<dd><p>Count response variable used for fitting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.Series</span></code> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.modeling.NegativeBinomialRegressionModel.converged">
+<span class="sig-name descname"><span class="pre">converged</span></span><a class="headerlink" href="#statwise.modeling.NegativeBinomialRegressionModel.converged" title="Link to this definition">#</a></dt>
+<dd><p>Whether optimization converged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">NegativeBinomialRegressionModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_los</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get incidence rate ratios</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">irr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">irr</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#statwise.modeling.LogisticRegressionModel" title="statwise.modeling.LogisticRegressionModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LogisticRegressionModel</span></code></a></dt><dd><p>For binary outcomes.</p>
+</dd>
+<dt><a class="reference external" href="https://www.statsmodels.org/stable/generated/statsmodels.discrete.discrete_model.NegativeBinomial.html#statsmodels.discrete.discrete_model.NegativeBinomial" title="(in statsmodels 0.14.4 v0.14.4)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statsmodels.discrete.discrete_model.NegativeBinomial</span></code></a></dt><dd><p>Underlying statsmodels class.</p>
+</dd>
+</dl>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>The negative binomial model is appropriate when:
+- Outcome is a non-negative count (0, 1, 2, …)
+- Variance exceeds mean (overdispersion)
+- Poisson regression fits poorly (deviance &gt;&gt; degrees of freedom)</p>
+<p>Common clinical applications:
+- Length of hospital stay (days)
+- Number of complications
+- Number of readmissions
+- Healthcare utilization counts</p>
+<p>The model estimates expected count as:</p>
+<p>E[Y|X] = exp(beta_0 + beta_1*X_1 + … + beta_p*X_p)</p>
+<p>Coefficients represent log incidence rate ratios:
+- Positive coefficient: Predictor increases expected count
+- Negative coefficient: Predictor decreases expected count
+- exp(coefficient): Multiplicative change in expected count</p>
+<p>The dispersion parameter alpha quantifies overdispersion:
+- alpha = 0: Reduces to Poisson (variance = mean)
+- alpha &gt; 0: Overdispersion present (variance = mean + alpha*mean^2)
+- Larger alpha: Greater overdispersion</p>
+</div>
+<div class="admonition-references admonition">
+<p class="admonition-title">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id1" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<p>Hilbe JM. “Negative Binomial Regression.” 2nd ed.
+Cambridge University Press; 2011.</p>
+</aside>
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<p>Cameron AC, Trivedi PK. “Regression Analysis of Count Data.”
+2nd ed. Cambridge University Press; 2013.</p>
+</aside>
+</aside>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.modeling.NegativeBinomialRegressionModel.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/modeling.html#NegativeBinomialRegressionModel.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.modeling.NegativeBinomialRegressionModel.__init__" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.modeling.NegativeBinomialRegressionModel.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/modeling.html#NegativeBinomialRegressionModel.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.modeling.NegativeBinomialRegressionModel.fit" title="Link to this definition">#</a></dt>
+<dd><p>Fit negative binomial regression model to count data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>) – Feature matrix with shape (n_samples, n_features).
+Should contain preprocessed numeric and one-hot encoded variables.</p></li>
+<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pd.Series</span></code>) – Count response variable with shape (n_samples,).
+Must contain non-negative integers.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>model</strong> – Fitted negative binomial regression model.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://www.statsmodels.org/stable/generated/statsmodels.discrete.discrete_model.NegativeBinomialResults.html#statsmodels.discrete.discrete_model.NegativeBinomialResults" title="(in statsmodels 0.14.4 v0.14.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">statsmodels.discrete.discrete_model.NegativeBinomialResults</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">statwise.preparation</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataPreparer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">preparer</span> <span class="o">=</span> <span class="n">DataPreparer</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;Length_of_Stay&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">,</span> <span class="s1">&#39;BMI&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">preparer</span><span class="o">.</span><span class="n">preprocess</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">NegativeBinomialRegressionModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fitted</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">fitted</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Check dispersion parameter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dispersion alpha: </span><span class="si">{</span><span class="n">fitted</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>Data preprocessing steps:
+1. Stores X and y for reference
+2. Adds constant term for intercept
+3. Fits using maximum likelihood
+4. Checks convergence and warns if failed</p>
+<p>The model simultaneously estimates:
+- Beta coefficients (predictor effects on log-scale)
+- Alpha parameter (overdispersion)</p>
+<p>Interpretation of incidence rate ratios (IRR = exp(beta)):
+- IRR = 1: No effect on expected count
+- IRR = 1.5: 50% increase in expected count
+- IRR = 0.7: 30% decrease in expected count</p>
+<p>For length of stay analysis:
+- IRR = 1.2 for treatment means 20% longer expected LOS
+- IRR = 0.8 for treatment means 20% shorter expected LOS</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="usage-examples">
+<h2>Usage Examples<a class="headerlink" href="#usage-examples" title="Link to this heading">#</a></h2>
+<section id="logistic-regression-for-binary-outcomes">
+<h3>Logistic Regression for Binary Outcomes<a class="headerlink" href="#logistic-regression-for-binary-outcomes" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">statwise.modeling</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegressionModel</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Fit model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegressionModel</span><span class="p">()</span>
+<span class="n">fitted</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Check convergence</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">model</span><span class="o">.</span><span class="n">check_convergence</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Model did not converge - check for separation&quot;</span><span class="p">)</span>
+
+<span class="c1"># View full summary</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+
+<span class="c1"># Extract key results</span>
+<span class="n">coefficients</span> <span class="o">=</span> <span class="n">fitted</span><span class="o">.</span><span class="n">params</span>
+<span class="n">std_errors</span> <span class="o">=</span> <span class="n">fitted</span><span class="o">.</span><span class="n">bse</span>
+<span class="n">p_values</span> <span class="o">=</span> <span class="n">fitted</span><span class="o">.</span><span class="n">pvalues</span>
+<span class="n">conf_int</span> <span class="o">=</span> <span class="n">fitted</span><span class="o">.</span><span class="n">conf_int</span><span class="p">()</span>
+
+<span class="c1"># Calculate odds ratios and 95% CIs</span>
+<span class="n">odds_ratios</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+<span class="n">or_ci_lower</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">conf_int</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">or_ci_upper</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">conf_int</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Odds Ratios (95% CI):&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">or_val</span> <span class="o">=</span> <span class="n">odds_ratios</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+    <span class="n">ci_low</span> <span class="o">=</span> <span class="n">or_ci_lower</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+    <span class="n">ci_high</span> <span class="o">=</span> <span class="n">or_ci_upper</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+    <span class="n">p_val</span> <span class="o">=</span> <span class="n">p_values</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">: OR=</span><span class="si">{</span><span class="n">or_val</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (95% CI: </span><span class="si">{</span><span class="n">ci_low</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">ci_high</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">), p=</span><span class="si">{</span><span class="n">p_val</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Example output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Odds</span> <span class="n">Ratios</span> <span class="p">(</span><span class="mi">95</span><span class="o">%</span> <span class="n">CI</span><span class="p">):</span>
+<span class="n">const</span><span class="p">:</span> <span class="n">OR</span><span class="o">=</span><span class="mf">0.15</span> <span class="p">(</span><span class="mi">95</span><span class="o">%</span> <span class="n">CI</span><span class="p">:</span> <span class="mf">0.08</span><span class="o">-</span><span class="mf">0.28</span><span class="p">),</span> <span class="n">p</span><span class="o">&lt;</span><span class="mf">0.001</span>
+<span class="n">Age</span><span class="p">:</span> <span class="n">OR</span><span class="o">=</span><span class="mf">1.02</span> <span class="p">(</span><span class="mi">95</span><span class="o">%</span> <span class="n">CI</span><span class="p">:</span> <span class="mf">0.99</span><span class="o">-</span><span class="mf">1.05</span><span class="p">),</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.234</span>
+<span class="n">BMI</span><span class="p">:</span> <span class="n">OR</span><span class="o">=</span><span class="mf">1.08</span> <span class="p">(</span><span class="mi">95</span><span class="o">%</span> <span class="n">CI</span><span class="p">:</span> <span class="mf">1.01</span><span class="o">-</span><span class="mf">1.16</span><span class="p">),</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.032</span>
+<span class="n">Sex_Male</span><span class="p">:</span> <span class="n">OR</span><span class="o">=</span><span class="mf">1.45</span> <span class="p">(</span><span class="mi">95</span><span class="o">%</span> <span class="n">CI</span><span class="p">:</span> <span class="mf">0.78</span><span class="o">-</span><span class="mf">2.70</span><span class="p">),</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.242</span>
+<span class="n">Diabetes_Yes</span><span class="p">:</span> <span class="n">OR</span><span class="o">=</span><span class="mf">2.34</span> <span class="p">(</span><span class="mi">95</span><span class="o">%</span> <span class="n">CI</span><span class="p">:</span> <span class="mf">1.21</span><span class="o">-</span><span class="mf">4.52</span><span class="p">),</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.012</span>
+<span class="n">INPWT_Yes</span><span class="p">:</span> <span class="n">OR</span><span class="o">=</span><span class="mf">0.62</span> <span class="p">(</span><span class="mi">95</span><span class="o">%</span> <span class="n">CI</span><span class="p">:</span> <span class="mf">0.31</span><span class="o">-</span><span class="mf">1.24</span><span class="p">),</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.175</span>
+</pre></div>
+</div>
+</section>
+<section id="negative-binomial-for-count-outcomes">
+<h3>Negative Binomial for Count Outcomes<a class="headerlink" href="#negative-binomial-for-count-outcomes" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">statwise.modeling</span><span class="w"> </span><span class="kn">import</span> <span class="n">NegativeBinomialRegressionModel</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Fit model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">NegativeBinomialRegressionModel</span><span class="p">()</span>
+<span class="n">fitted</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_los</span><span class="p">)</span>  <span class="c1"># Length of stay</span>
+
+<span class="c1"># Check convergence</span>
+<span class="n">model</span><span class="o">.</span><span class="n">check_convergence</span><span class="p">()</span>
+
+<span class="c1"># View summary</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+
+<span class="c1"># Calculate incidence rate ratios</span>
+<span class="n">irr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">fitted</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+<span class="n">irr_ci_lower</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">fitted</span><span class="o">.</span><span class="n">conf_int</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">irr_ci_upper</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">fitted</span><span class="o">.</span><span class="n">conf_int</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Incidence Rate Ratios (95% CI):&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">irr_val</span> <span class="o">=</span> <span class="n">irr</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+    <span class="n">ci_low</span> <span class="o">=</span> <span class="n">irr_ci_lower</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+    <span class="n">ci_high</span> <span class="o">=</span> <span class="n">irr_ci_upper</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+    <span class="n">p_val</span> <span class="o">=</span> <span class="n">fitted</span><span class="o">.</span><span class="n">pvalues</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">: IRR=</span><span class="si">{</span><span class="n">irr_val</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (95% CI: </span><span class="si">{</span><span class="n">ci_low</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">ci_high</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">), p=</span><span class="si">{</span><span class="n">p_val</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Check dispersion</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="n">fitted</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Dispersion parameter (alpha): </span><span class="si">{</span><span class="n">alpha</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">alpha</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Substantial overdispersion detected - NB model appropriate&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="comparing-multiple-models">
+<h3>Comparing Multiple Models<a class="headerlink" href="#comparing-multiple-models" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">statwise.modeling</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegressionModel</span>
+
+<span class="c1"># Unadjusted (treatment only)</span>
+<span class="n">model_unadj</span> <span class="o">=</span> <span class="n">LogisticRegressionModel</span><span class="p">()</span>
+<span class="n">model_unadj</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[[</span><span class="s1">&#39;INPWT_Yes&#39;</span><span class="p">]],</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Univariate-adjusted</span>
+<span class="n">model_univ</span> <span class="o">=</span> <span class="n">LogisticRegressionModel</span><span class="p">()</span>
+<span class="n">model_univ</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">univariate_selected</span><span class="p">],</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Elastic net-adjusted</span>
+<span class="n">model_en</span> <span class="o">=</span> <span class="n">LogisticRegressionModel</span><span class="p">()</span>
+<span class="n">model_en</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">elasticnet_selected</span><span class="p">],</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Consensus-adjusted</span>
+<span class="n">model_consensus</span> <span class="o">=</span> <span class="n">LogisticRegressionModel</span><span class="p">()</span>
+<span class="n">model_consensus</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">consensus_selected</span><span class="p">],</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Compare treatment effect across models</span>
+<span class="n">models</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Unadjusted&#39;</span><span class="p">:</span> <span class="n">model_unadj</span><span class="p">,</span>
+    <span class="s1">&#39;Univariate-adjusted&#39;</span><span class="p">:</span> <span class="n">model_univ</span><span class="p">,</span>
+    <span class="s1">&#39;Elastic net-adjusted&#39;</span><span class="p">:</span> <span class="n">model_en</span><span class="p">,</span>
+    <span class="s1">&#39;Consensus-adjusted&#39;</span><span class="p">:</span> <span class="n">model_consensus</span>
+<span class="p">}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Treatment Effect (INPWT) Across Models:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">coef</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;INPWT_Yes&#39;</span><span class="p">]</span>
+    <span class="n">se</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">bse</span><span class="p">[</span><span class="s1">&#39;INPWT_Yes&#39;</span><span class="p">]</span>
+    <span class="n">or_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span>
+    <span class="n">ci</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">conf_int</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;INPWT_Yes&#39;</span><span class="p">])</span>
+    <span class="n">p_val</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">pvalues</span><span class="p">[</span><span class="s1">&#39;INPWT_Yes&#39;</span><span class="p">]</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  OR = </span><span class="si">{</span><span class="n">or_val</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (95% CI: </span><span class="si">{</span><span class="n">ci</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">ci</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">), p=</span><span class="si">{</span><span class="n">p_val</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="interpreting-results">
+<h2>Interpreting Results<a class="headerlink" href="#interpreting-results" title="Link to this heading">#</a></h2>
+<section id="logistic-regression">
+<h3>Logistic Regression<a class="headerlink" href="#logistic-regression" title="Link to this heading">#</a></h3>
+<p><strong>Odds Ratio (OR) = exp(coefficient)</strong></p>
+<ul class="simple">
+<li><p><strong>OR = 1.0:</strong> No effect (predictor doesn’t change odds)</p></li>
+<li><p><strong>OR &gt; 1.0:</strong> Increases odds</p>
+<ul>
+<li><p>OR = 1.5: 50% increase in odds</p></li>
+<li><p>OR = 2.0: 100% increase (doubling) in odds</p></li>
+<li><p>OR = 3.0: 200% increase (tripling) in odds</p></li>
+</ul>
+</li>
+<li><p><strong>OR &lt; 1.0:</strong> Decreases odds</p>
+<ul>
+<li><p>OR = 0.5: 50% decrease (halving) in odds</p></li>
+<li><p>OR = 0.33: 67% decrease in odds</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Example interpretations:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Diabetes_Yes:</span> <span class="pre">OR=2.34</span></code> → Patients with diabetes have 2.34 times the odds of SSI compared to non-diabetics</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">INPWT_Yes:</span> <span class="pre">OR=0.62</span></code> → Patients receiving INPWT have 38% lower odds of SSI compared to standard care</p></li>
+</ul>
+<p><strong>Note:</strong> Odds ratios approximate risk ratios when outcomes are rare (&lt;10% prevalence).</p>
+</section>
+<section id="negative-binomial-regression">
+<h3>Negative Binomial Regression<a class="headerlink" href="#negative-binomial-regression" title="Link to this heading">#</a></h3>
+<p><strong>Incidence Rate Ratio (IRR) = exp(coefficient)</strong></p>
+<ul class="simple">
+<li><p><strong>IRR = 1.0:</strong> No effect on expected count</p></li>
+<li><p><strong>IRR &gt; 1.0:</strong> Increases expected count</p>
+<ul>
+<li><p>IRR = 1.2: 20% increase in expected count</p></li>
+<li><p>IRR = 1.5: 50% increase in expected count</p></li>
+</ul>
+</li>
+<li><p><strong>IRR &lt; 1.0:</strong> Decreases expected count</p>
+<ul>
+<li><p>IRR = 0.8: 20% decrease in expected count</p></li>
+<li><p>IRR = 0.5: 50% decrease in expected count</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Example interpretations:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">INPWT_Yes:</span> <span class="pre">IRR=0.85</span></code> → INPWT reduces expected length of stay by 15%</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Diabetes_Yes:</span> <span class="pre">IRR=1.35</span></code> → Diabetes increases expected length of stay by 35%</p></li>
+</ul>
+</section>
+<section id="p-values-and-confidence-intervals">
+<h3>P-values and Confidence Intervals<a class="headerlink" href="#p-values-and-confidence-intervals" title="Link to this heading">#</a></h3>
+<p><strong>P-value interpretation:</strong></p>
+<ul class="simple">
+<li><p>p &lt; 0.05: Statistically significant at conventional level</p></li>
+<li><p>p &lt; 0.01: Highly significant</p></li>
+<li><p>p &lt; 0.001: Very highly significant</p></li>
+</ul>
+<p><strong>Confidence interval interpretation:</strong></p>
+<ul class="simple">
+<li><p>If 95% CI excludes 1.0 (OR or IRR): Significant at p&lt;0.05</p></li>
+<li><p>If 95% CI includes 1.0: Not significant at p&lt;0.05</p></li>
+<li><p>Wider CIs indicate greater uncertainty (smaller sample, rare events)</p></li>
+</ul>
+</section>
+<section id="model-fit-statistics">
+<h3>Model Fit Statistics<a class="headerlink" href="#model-fit-statistics" title="Link to this heading">#</a></h3>
+<p><strong>AIC (Akaike Information Criterion):</strong></p>
+<ul class="simple">
+<li><p>Lower is better</p></li>
+<li><p>Use to compare non-nested models</p></li>
+<li><p>Penalizes model complexity</p></li>
+</ul>
+<p><strong>BIC (Bayesian Information Criterion):</strong></p>
+<ul class="simple">
+<li><p>Lower is better</p></li>
+<li><p>More strongly penalizes complexity than AIC</p></li>
+<li><p>Useful for model selection</p></li>
+</ul>
+<p><strong>Pseudo-R²:</strong></p>
+<ul class="simple">
+<li><p>Ranges from 0 to 1</p></li>
+<li><p>Not directly comparable to R² in linear regression</p></li>
+<li><p>Values &gt;0.2 indicate reasonably good fit</p></li>
+</ul>
+<p><strong>Log-Likelihood:</strong></p>
+<ul class="simple">
+<li><p>Higher (less negative) is better</p></li>
+<li><p>Used in likelihood ratio tests</p></li>
+</ul>
+</section>
+</section>
+<section id="convergence-issues">
+<h2>Convergence Issues<a class="headerlink" href="#convergence-issues" title="Link to this heading">#</a></h2>
+<section id="causes">
+<h3>Causes<a class="headerlink" href="#causes" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Separation</strong> - Perfect or quasi-perfect prediction</p></li>
+<li><p><strong>Multicollinearity</strong> - Highly correlated predictors</p></li>
+<li><p><strong>Small sample size</strong> - Too few events per variable</p></li>
+<li><p><strong>Numerical instability</strong> - Extreme parameter values</p></li>
+</ol>
+</section>
+<section id="diagnostics">
+<h3>Diagnostics<a class="headerlink" href="#diagnostics" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check convergence</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">model</span><span class="o">.</span><span class="n">check_convergence</span><span class="p">():</span>
+    <span class="c1"># Inspect coefficients and standard errors</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">params</span>
+    <span class="n">std_errors</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">bse</span>
+    
+    <span class="c1"># Look for warning signs:</span>
+    <span class="c1"># - Very large coefficients (&gt;10)</span>
+    <span class="c1"># - Very large standard errors (&gt;10)</span>
+    <span class="c1"># - Coefficients approaching infinity</span>
+    
+    <span class="n">problematic</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">problematic</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Large coefficients detected: </span><span class="si">{</span><span class="n">problematic</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="solutions">
+<h3>Solutions<a class="headerlink" href="#solutions" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Check for separation:</strong></p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">statwise.preparation</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataPreparer</span>
+<span class="n">preparer</span> <span class="o">=</span> <span class="n">DataPreparer</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">outcome</span><span class="p">,</span> <span class="n">predictors</span><span class="p">)</span>
+<span class="n">problematic</span> <span class="o">=</span> <span class="n">preparer</span><span class="o">.</span><span class="n">check_separation</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p><strong>Use penalized regression:</strong></p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.discrete.discrete_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">Logit</span>
+
+<span class="c1"># Firth&#39;s penalized likelihood</span>
+<span class="n">X_const</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">firth_model</span> <span class="o">=</span> <span class="n">Logit</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X_const</span><span class="p">)</span><span class="o">.</span><span class="n">fit_regularized</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;l1&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p><strong>Reduce predictors:</strong></p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use elastic net for variable selection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">statwise.selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">ElasticNetVariableSelection</span>
+<span class="n">selector</span> <span class="o">=</span> <span class="n">ElasticNetVariableSelection</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">outcome</span><span class="p">,</span> <span class="n">predictors</span><span class="p">)</span>
+<span class="n">reduced_predictors</span> <span class="o">=</span> <span class="n">selector</span><span class="o">.</span><span class="n">selected_explanatory_variables</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p><strong>Increase sample size</strong> or <strong>merge categories</strong> to reduce sparsity</p></li>
+</ol>
+</section>
+</section>
+<section id="model-assumptions">
+<h2>Model Assumptions<a class="headerlink" href="#model-assumptions" title="Link to this heading">#</a></h2>
+<section id="id1">
+<h3>Logistic Regression<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Binary outcome</strong> - Response must be 0/1</p></li>
+<li><p><strong>Independence</strong> - Observations are independent</p></li>
+<li><p><strong>Linearity</strong> - Log odds linear in predictors (for continuous predictors)</p></li>
+<li><p><strong>No perfect multicollinearity</strong> - Predictors not perfectly correlated</p></li>
+<li><p><strong>Large sample</strong> - Sufficient events per variable (~10 EPV rule)</p></li>
+</ol>
+<p><strong>Check linearity for continuous predictors:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add quadratic term if non-linear</span>
+<span class="n">X</span><span class="p">[</span><span class="s1">&#39;BMI_squared&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="s1">&#39;BMI&#39;</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3>Negative Binomial Regression<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Non-negative integer outcome</strong> - Counts (0, 1, 2, …)</p></li>
+<li><p><strong>Independence</strong> - Observations are independent</p></li>
+<li><p><strong>Overdispersion present</strong> - Variance &gt; mean</p></li>
+<li><p><strong>Log-linear relationship</strong> - Log of expected count linear in predictors</p></li>
+</ol>
+<p><strong>Check for overdispersion:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fit Poisson first</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.discrete.discrete_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">Poisson</span>
+<span class="n">X_const</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">poisson_model</span> <span class="o">=</span> <span class="n">Poisson</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X_const</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+<span class="c1"># Check deviance</span>
+<span class="n">residual_deviance</span> <span class="o">=</span> <span class="n">poisson_model</span><span class="o">.</span><span class="n">deviance</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">poisson_model</span><span class="o">.</span><span class="n">df_resid</span>
+
+<span class="k">if</span> <span class="n">residual_deviance</span> <span class="o">/</span> <span class="n">df</span> <span class="o">&gt;</span> <span class="mf">1.5</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Overdispersion detected - use Negative Binomial&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Poisson may be sufficient&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="complete-workflow-example">
+<h2>Complete Workflow Example<a class="headerlink" href="#complete-workflow-example" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">statwise.preparation</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataPreparer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">statwise.modeling</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegressionModel</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># Prepare data</span>
+<span class="n">preparer</span> <span class="o">=</span> <span class="n">DataPreparer</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;SSI&#39;</span><span class="p">,</span> <span class="n">selected_predictors</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">preparer</span><span class="o">.</span><span class="n">preprocess</span><span class="p">(</span>
+    <span class="n">drop_first_category</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">scale_numeric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">check_separation</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># Fit model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegressionModel</span><span class="p">()</span>
+<span class="n">fitted</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Check convergence</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">model</span><span class="o">.</span><span class="n">check_convergence</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Convergence issues detected&quot;</span><span class="p">)</span>
+    
+<span class="c1"># Display summary</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+
+<span class="c1"># Extract and format results</span>
+<span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Variable&#39;</span><span class="p">:</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+    <span class="s1">&#39;Coefficient&#39;</span><span class="p">:</span> <span class="n">fitted</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">],</span>
+    <span class="s1">&#39;Std Error&#39;</span><span class="p">:</span> <span class="n">fitted</span><span class="o">.</span><span class="n">bse</span><span class="p">[</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">],</span>
+    <span class="s1">&#39;OR&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">fitted</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">]),</span>
+    <span class="s1">&#39;OR 95% CI Lower&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">fitted</span><span class="o">.</span><span class="n">conf_int</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">]),</span>
+    <span class="s1">&#39;OR 95% CI Upper&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">fitted</span><span class="o">.</span><span class="n">conf_int</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">]),</span>
+    <span class="s1">&#39;P-value&#39;</span><span class="p">:</span> <span class="n">fitted</span><span class="o">.</span><span class="n">pvalues</span><span class="p">[</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="p">})</span>
+
+<span class="n">results_df</span><span class="p">[</span><span class="s1">&#39;Significant&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">results_df</span><span class="p">[</span><span class="s1">&#39;P-value&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.05</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">results_df</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+<span class="c1"># Save results</span>
+<span class="n">results_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;logistic_regression_results.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./api"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="selection.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Variable Selection</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basemodel">BaseModel</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.BaseModel"><code class="docutils literal notranslate"><span class="pre">BaseModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.BaseModel.model"><code class="docutils literal notranslate"><span class="pre">BaseModel.model</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.BaseModel.X"><code class="docutils literal notranslate"><span class="pre">BaseModel.X</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.BaseModel.y"><code class="docutils literal notranslate"><span class="pre">BaseModel.y</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.BaseModel.converged"><code class="docutils literal notranslate"><span class="pre">BaseModel.converged</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.BaseModel.__init__"><code class="docutils literal notranslate"><span class="pre">BaseModel.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.BaseModel.fit"><code class="docutils literal notranslate"><span class="pre">BaseModel.fit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.BaseModel.summary"><code class="docutils literal notranslate"><span class="pre">BaseModel.summary()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.BaseModel.check_convergence"><code class="docutils literal notranslate"><span class="pre">BaseModel.check_convergence()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logisticregressionmodel">LogisticRegressionModel</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.LogisticRegressionModel"><code class="docutils literal notranslate"><span class="pre">LogisticRegressionModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.LogisticRegressionModel.model"><code class="docutils literal notranslate"><span class="pre">LogisticRegressionModel.model</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.LogisticRegressionModel.X"><code class="docutils literal notranslate"><span class="pre">LogisticRegressionModel.X</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.LogisticRegressionModel.y"><code class="docutils literal notranslate"><span class="pre">LogisticRegressionModel.y</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.LogisticRegressionModel.converged"><code class="docutils literal notranslate"><span class="pre">LogisticRegressionModel.converged</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.LogisticRegressionModel.__init__"><code class="docutils literal notranslate"><span class="pre">LogisticRegressionModel.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.LogisticRegressionModel.fit"><code class="docutils literal notranslate"><span class="pre">LogisticRegressionModel.fit()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#negativebinomialregressionmodel">NegativeBinomialRegressionModel</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.NegativeBinomialRegressionModel"><code class="docutils literal notranslate"><span class="pre">NegativeBinomialRegressionModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.NegativeBinomialRegressionModel.model"><code class="docutils literal notranslate"><span class="pre">NegativeBinomialRegressionModel.model</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.NegativeBinomialRegressionModel.X"><code class="docutils literal notranslate"><span class="pre">NegativeBinomialRegressionModel.X</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.NegativeBinomialRegressionModel.y"><code class="docutils literal notranslate"><span class="pre">NegativeBinomialRegressionModel.y</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.NegativeBinomialRegressionModel.converged"><code class="docutils literal notranslate"><span class="pre">NegativeBinomialRegressionModel.converged</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.NegativeBinomialRegressionModel.__init__"><code class="docutils literal notranslate"><span class="pre">NegativeBinomialRegressionModel.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.modeling.NegativeBinomialRegressionModel.fit"><code class="docutils literal notranslate"><span class="pre">NegativeBinomialRegressionModel.fit()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-examples">Usage Examples</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression-for-binary-outcomes">Logistic Regression for Binary Outcomes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#negative-binomial-for-count-outcomes">Negative Binomial for Count Outcomes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-multiple-models">Comparing Multiple Models</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-results">Interpreting Results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">Logistic Regression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#negative-binomial-regression">Negative Binomial Regression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#p-values-and-confidence-intervals">P-values and Confidence Intervals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-fit-statistics">Model Fit Statistics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-issues">Convergence Issues</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#causes">Causes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diagnostics">Diagnostics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solutions">Solutions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-assumptions">Model Assumptions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Logistic Regression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Negative Binomial Regression</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-workflow-example">Complete Workflow Example</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Derek Zhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>
+Statistical analysis of INPWT outcomes in pancreatic surgery.
+</p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1129 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>statwise.selection &#8212; Whipple INPWT Analysis</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/statwise/selection';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Whipple INPWT Analysis</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../analysis.html">Analysis</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../api/index.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/loading.html">Data Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/cleaning.html">Data Cleaning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/preparation.html">Data Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/selection.html">Variable Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/modeling.html">Statistical Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/loading.html">Data Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/cleaning.html">Data Cleaning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/preparation.html">Data Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/selection.html">Variable Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/modeling.html">Statistical Modeling</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/derek-yn-zhang/whipple" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/derek-yn-zhang/whipple/issues/new?title=Issue%20on%20page%20%2F_modules/statwise/selection.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for statwise.selection</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">ElasticNetCV</span><span class="p">,</span> <span class="n">LogisticRegressionCV</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas.api.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">CategoricalDtype</span><span class="p">,</span> <span class="n">is_object_dtype</span><span class="p">,</span> <span class="n">is_numeric_dtype</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.preparation</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataPreparer</span>
+
+
+<div class="viewcode-block" id="UnivariateVariableSelection">
+<a class="viewcode-back" href="../../api/selection.html#statwise.selection.UnivariateVariableSelection">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">UnivariateVariableSelection</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform univariate statistical testing for variable selection.</span>
+
+<span class="sd">    Tests the association between each explanatory variable and the response</span>
+<span class="sd">    variable individually, using appropriate statistical tests based on variable</span>
+<span class="sd">    types. Variables with p-values below the significance threshold are selected.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        DataFrame containing response and explanatory variables.</span>
+<span class="sd">    response_variable : str</span>
+<span class="sd">        Name of the response/outcome variable.</span>
+<span class="sd">    explanatory_variables : list of str</span>
+<span class="sd">        List of candidate predictor variable names.</span>
+<span class="sd">    alpha : float, default 0.1</span>
+<span class="sd">        Significance level for variable selection. Variables with p &lt; alpha</span>
+<span class="sd">        are selected. Default of 0.1 is common for initial screening.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        Subset DataFrame with response and explanatory variables (missing response removed).</span>
+<span class="sd">    response_variable : str</span>
+<span class="sd">        Response variable name.</span>
+<span class="sd">    explanatory_variables : list of str</span>
+<span class="sd">        Explanatory variable names.</span>
+<span class="sd">    alpha : float</span>
+<span class="sd">        Significance threshold for selection.</span>
+<span class="sd">    n : int</span>
+<span class="sd">        Number of observations after removing missing response values.</span>
+<span class="sd">    p : int</span>
+<span class="sd">        Number of explanatory variables.</span>
+<span class="sd">    results_df : pd.DataFrame</span>
+<span class="sd">        DataFrame containing test results for each variable, sorted by p-value.</span>
+<span class="sd">    selected_explanatory_variables : list of str</span>
+<span class="sd">        Variables with p-value &lt; alpha.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; selector = UnivariateVariableSelection(</span>
+<span class="sd">    ...     df=cleaned_df,</span>
+<span class="sd">    ...     response_variable=&#39;SSI&#39;,</span>
+<span class="sd">    ...     explanatory_variables=[&#39;Age&#39;, &#39;Sex&#39;, &#39;BMI&#39;, &#39;Diabetes&#39;, &#39;INPWT&#39;],</span>
+<span class="sd">    ...     alpha=0.1</span>
+<span class="sd">    ... )</span>
+<span class="sd">    Selected 3 of 5 variables (p &lt; 0.1)</span>
+
+<span class="sd">    &gt;&gt;&gt; print(selector.results_df)</span>
+<span class="sd">       variable       test   p_value  statistic</span>
+<span class="sd">    0      INPWT  chi-square   0.023       5.17</span>
+<span class="sd">    1   Diabetes  chi-square   0.067       3.36</span>
+<span class="sd">    2        BMI    pearson   0.089       0.28</span>
+
+<span class="sd">    &gt;&gt;&gt; print(selector.selected_explanatory_variables)</span>
+<span class="sd">    [&#39;INPWT&#39;, &#39;Diabetes&#39;, &#39;BMI&#39;]</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    ElasticNetVariableSelection : Regularization-based variable selection.</span>
+<span class="sd">    scipy.stats : Statistical functions used for testing.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Statistical tests applied based on variable types:</span>
+
+<span class="sd">    +-------------------+-------------------+-------------------------+</span>
+<span class="sd">    | Response Type     | Predictor Type    | Test                    |</span>
+<span class="sd">    +===================+===================+=========================+</span>
+<span class="sd">    | Continuous        | Continuous        | Pearson correlation     |</span>
+<span class="sd">    +-------------------+-------------------+-------------------------+</span>
+<span class="sd">    | Continuous        | Binary            | Independent t-test      |</span>
+<span class="sd">    +-------------------+-------------------+-------------------------+</span>
+<span class="sd">    | Continuous        | Multi-category    | One-way ANOVA           |</span>
+<span class="sd">    +-------------------+-------------------+-------------------------+</span>
+<span class="sd">    | Binary/Categorical| Continuous        | Independent t-test      |</span>
+<span class="sd">    |                   |                   | or ANOVA                |</span>
+<span class="sd">    +-------------------+-------------------+-------------------------+</span>
+<span class="sd">    | Binary/Categorical| Binary/Categorical| Chi-square or           |</span>
+<span class="sd">    |                   |                   | Fisher&#39;s exact (2x2)    |</span>
+<span class="sd">    +-------------------+-------------------+-------------------------+</span>
+
+<span class="sd">    Univariate selection limitations:</span>
+<span class="sd">    - Does not account for confounding or interaction effects</span>
+<span class="sd">    - May select collinear variables</span>
+<span class="sd">    - Multiple testing increases false positive risk</span>
+<span class="sd">    - Should be combined with other selection methods</span>
+
+<span class="sd">    The default alpha=0.1 (rather than 0.05) is intentional for initial</span>
+<span class="sd">    screening, as overly stringent thresholds may miss important confounders.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Bursac Z, Gauss CH, Williams DK, Hosmer DW. &quot;Purposeful selection of</span>
+<span class="sd">           variables in logistic regression.&quot; Source Code Biol Med. 2008;3:17.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="UnivariateVariableSelection.__init__">
+<a class="viewcode-back" href="../../api/selection.html#statwise.selection.UnivariateVariableSelection.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+        <span class="n">response_variable</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">explanatory_variables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">response_variable</span> <span class="o">=</span> <span class="n">response_variable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">explanatory_variables</span> <span class="o">=</span> <span class="n">explanatory_variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">response_variable</span><span class="p">]</span> <span class="o">+</span> <span class="n">explanatory_variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subset_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_perform_univariate_selection</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Selected </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selected_explanatory_variables</span><span class="p">)</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explanatory_variables</span><span class="p">)</span><span class="si">}</span><span class="s2"> variables (p &lt; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_subset_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Subset DataFrame and remove rows with missing response values.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        df : pd.DataFrame</span>
+<span class="sd">            Input DataFrame.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pd.DataFrame</span>
+<span class="sd">            Subset containing only relevant columns with non-missing response.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">response_variable</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()][</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">response_variable</span><span class="si">:</span><span class="s2">&lt;60</span><span class="si">}{</span><span class="nb">str</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return shape of the analysis DataFrame.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple of int</span>
+<span class="sd">            (n_rows, n_columns) of the DataFrame.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">selected_explanatory_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return list of variables selected by univariate testing.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of str</span>
+<span class="sd">            Variables with p-value below the alpha threshold.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">results_df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">results_df</span><span class="p">[</span><span class="s2">&quot;p_value&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">][</span>
+            <span class="s2">&quot;variable&quot;</span>
+        <span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+
+<div class="viewcode-block" id="UnivariateVariableSelection.get_col_scale">
+<a class="viewcode-back" href="../../api/selection.html#statwise.selection.UnivariateVariableSelection.get_col_scale">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_col_scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determine if a column is continuous or categorical.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        column : str</span>
+<span class="sd">            Column name to evaluate.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            Either &#39;continuous&#39; or &#39;categorical&#39;.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If column is neither numeric nor categorical.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_col_scale</span><span class="p">(</span><span class="n">column</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_col_scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Internal method to determine column type.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        column : str</span>
+<span class="sd">            Column name.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            &#39;continuous&#39; or &#39;categorical&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">CategoricalDtype</span><span class="p">)</span> <span class="ow">or</span> <span class="n">is_object_dtype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]):</span>
+            <span class="k">return</span> <span class="s2">&quot;categorical&quot;</span>
+        <span class="k">elif</span> <span class="n">is_numeric_dtype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]):</span>
+            <span class="k">return</span> <span class="s2">&quot;continuous&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Column &#39;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">&#39; must be numeric or categorical, got </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_perform_univariate_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute univariate tests for all explanatory variables.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pd.DataFrame</span>
+<span class="sd">            Results with columns: variable, test, p_value, statistic.</span>
+<span class="sd">            Sorted by p_value (ascending).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">response_variable</span><span class="p">]</span>
+        <span class="n">y_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_col_scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">response_variable</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">explanatory_variables</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+            <span class="n">x_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_col_scale</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">&#39; has less than 2 unique values, skipping.&quot;</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="n">test_name</span><span class="p">,</span> <span class="n">p_val</span><span class="p">,</span> <span class="n">stat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_type</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y_type</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">p_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">var</span><span class="p">,</span>
+                        <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="n">test_name</span><span class="p">,</span>
+                        <span class="s2">&quot;p_value&quot;</span><span class="p">:</span> <span class="n">p_val</span><span class="p">,</span>
+                        <span class="s2">&quot;statistic&quot;</span><span class="p">:</span> <span class="n">stat</span><span class="p">,</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;p_value&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_run_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run appropriate statistical test based on variable types.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : pd.Series</span>
+<span class="sd">            Explanatory variable.</span>
+<span class="sd">        x_type : str</span>
+<span class="sd">            Type of x (&#39;continuous&#39; or &#39;categorical&#39;).</span>
+<span class="sd">        y : pd.Series</span>
+<span class="sd">            Response variable.</span>
+<span class="sd">        y_type : str</span>
+<span class="sd">            Type of y (&#39;continuous&#39; or &#39;categorical&#39;).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        test_name : str or None</span>
+<span class="sd">            Name of the test performed.</span>
+<span class="sd">        p_val : float or None</span>
+<span class="sd">            P-value from the test.</span>
+<span class="sd">        stat : float or None</span>
+<span class="sd">            Test statistic value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">stat</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Continuous outcome</span>
+        <span class="k">if</span> <span class="n">y_type</span> <span class="o">==</span> <span class="s2">&quot;continuous&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">x_type</span> <span class="o">==</span> <span class="s2">&quot;continuous&quot;</span><span class="p">:</span>
+                <span class="n">r</span><span class="p">,</span> <span class="n">p_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pearson</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+                <span class="n">test_name</span> <span class="o">=</span> <span class="s2">&quot;pearson&quot;</span>
+                <span class="n">stat</span> <span class="o">=</span> <span class="n">r</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="n">x</span> <span class="o">==</span> <span class="n">lvl</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span> <span class="k">for</span> <span class="n">lvl</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">unique</span><span class="p">()]</span>
+                <span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="n">g</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">groups</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; has insufficient non-missing data, skipping.&quot;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">stat</span><span class="p">,</span> <span class="n">p_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_t_test</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+                    <span class="n">test_name</span> <span class="o">=</span> <span class="s2">&quot;t-test&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">stat</span><span class="p">,</span> <span class="n">p_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_anova</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+                    <span class="n">test_name</span> <span class="o">=</span> <span class="s2">&quot;ANOVA&quot;</span>
+
+        <span class="c1"># Categorical outcome</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">x_type</span> <span class="o">==</span> <span class="s2">&quot;categorical&quot;</span><span class="p">:</span>
+                <span class="n">table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">table</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">values</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+                    <span class="n">stat</span><span class="p">,</span> <span class="n">p_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fisher</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+                    <span class="n">test_name</span> <span class="o">=</span> <span class="s2">&quot;fisher&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">chi_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filter_crosstab</span><span class="p">(</span>
+                        <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">margins</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">margins_name</span><span class="o">=</span><span class="s2">&quot;class_count&quot;</span><span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">chi_table</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">chi_table</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+                    <span class="n">stat</span><span class="p">,</span> <span class="n">p_val</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chi_square</span><span class="p">(</span><span class="n">chi_table</span><span class="p">)</span>
+                    <span class="n">test_name</span> <span class="o">=</span> <span class="s2">&quot;chi-square&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="n">lvl</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span> <span class="k">for</span> <span class="n">lvl</span> <span class="ow">in</span> <span class="n">y</span><span class="o">.</span><span class="n">unique</span><span class="p">()]</span>
+                <span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="n">g</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">groups</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">stat</span><span class="p">,</span> <span class="n">p_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_t_test</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+                    <span class="n">test_name</span> <span class="o">=</span> <span class="s2">&quot;t-test&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">stat</span><span class="p">,</span> <span class="n">p_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_anova</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+                    <span class="n">test_name</span> <span class="o">=</span> <span class="s2">&quot;ANOVA&quot;</span>
+
+        <span class="k">return</span> <span class="n">test_name</span><span class="p">,</span> <span class="n">p_val</span><span class="p">,</span> <span class="n">stat</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_filter_crosstab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">min_class_size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove rows/columns with class counts below threshold.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        table : pd.DataFrame</span>
+<span class="sd">            Crosstab with margins.</span>
+<span class="sd">        min_class_size : int, default 5</span>
+<span class="sd">            Minimum class size to retain.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pd.DataFrame</span>
+<span class="sd">            Filtered crosstab.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;class_count&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">min_class_size</span><span class="p">]</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">table</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;class_count&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">min_class_size</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">table</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">table</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">table</span>
+        <span class="k">return</span> <span class="n">table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_pearson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute Pearson correlation coefficient.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x, y : pd.Series</span>
+<span class="sd">            Variables to correlate.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        r : float</span>
+<span class="sd">            Correlation coefficient.</span>
+<span class="sd">        p_val : float</span>
+<span class="sd">            Two-tailed p-value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">pearsonr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_t_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">groups</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform independent samples t-test (Welch&#39;s t-test).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        groups : list of pd.Series</span>
+<span class="sd">            Two groups to compare (length must be 2).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        statistic : float</span>
+<span class="sd">            T-statistic.</span>
+<span class="sd">        p_val : float</span>
+<span class="sd">            Two-tailed p-value.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Uses Welch&#39;s t-test (equal_var=False) which does not assume equal variances.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">groups</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">groups</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">equal_var</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_anova</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">groups</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform one-way ANOVA F-test.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        groups : list of pd.Series</span>
+<span class="sd">            Groups to compare (length must be &gt;= 2).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        statistic : float</span>
+<span class="sd">            F-statistic.</span>
+<span class="sd">        p_val : float</span>
+<span class="sd">            P-value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">f_oneway</span><span class="p">(</span><span class="o">*</span><span class="n">groups</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fisher</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform Fisher&#39;s exact test for 2x2 contingency tables.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        table : pd.DataFrame</span>
+<span class="sd">            2x2 contingency table.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        statistic : float</span>
+<span class="sd">            Odds ratio.</span>
+<span class="sd">        p_val : float</span>
+<span class="sd">            Two-tailed p-value.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If table is not 2x2.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Fisher&#39;s exact test is used when expected cell counts are &lt;5 in a 2x2 table,</span>
+<span class="sd">        where chi-square test assumptions are violated.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">table</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Fisher&#39;s exact test requires a 2x2 table&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">fisher_exact</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_chi_square</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform chi-square test of independence.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        table : pd.DataFrame</span>
+<span class="sd">            Contingency table.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        statistic : float</span>
+<span class="sd">            Chi-square statistic.</span>
+<span class="sd">        p_val : float</span>
+<span class="sd">            P-value.</span>
+<span class="sd">        dof : int</span>
+<span class="sd">            Degrees of freedom.</span>
+<span class="sd">        expected : ndarray</span>
+<span class="sd">            Expected frequencies.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">chi2_contingency</span><span class="p">(</span><span class="n">table</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ElasticNetVariableSelection">
+<a class="viewcode-back" href="../../api/selection.html#statwise.selection.ElasticNetVariableSelection">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ElasticNetVariableSelection</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform variable selection using elastic net regularization with cross-validation.</span>
+
+<span class="sd">    Elastic net combines L1 (Lasso) and L2 (Ridge) penalties, providing both</span>
+<span class="sd">    variable selection and handling of multicollinearity. Variables with non-zero</span>
+<span class="sd">    coefficients after regularization are selected.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        Dataset containing response and explanatory variables.</span>
+<span class="sd">    response_variable : str</span>
+<span class="sd">        Name of the response/outcome variable.</span>
+<span class="sd">    explanatory_variables : list of str</span>
+<span class="sd">        List of candidate predictor variable names.</span>
+<span class="sd">    outcome_type : str, default &#39;binary&#39;</span>
+<span class="sd">        Type of outcome variable:</span>
+<span class="sd">        - &#39;binary&#39;: Binary outcomes (uses logistic regression)</span>
+<span class="sd">        - &#39;count&#39;: Count outcomes (uses Poisson-like regression)</span>
+<span class="sd">    alpha_ratio : float, default 0.5</span>
+<span class="sd">        L1 ratio for elastic net, must be in [0, 1]:</span>
+<span class="sd">        - 0.0: Pure Ridge regression (L2 penalty only)</span>
+<span class="sd">        - 0.5: Balanced elastic net (equal L1 and L2)</span>
+<span class="sd">        - 1.0: Pure Lasso (L1 penalty only)</span>
+<span class="sd">        Default of 0.5 balances variable selection and multicollinearity handling.</span>
+<span class="sd">    cv : int, default 5</span>
+<span class="sd">        Number of cross-validation folds for regularization parameter selection.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        Subset DataFrame with response and explanatory variables.</span>
+<span class="sd">    response_variable : str</span>
+<span class="sd">        Response variable name.</span>
+<span class="sd">    explanatory_variables : list of str</span>
+<span class="sd">        Explanatory variable names.</span>
+<span class="sd">    outcome_type : str</span>
+<span class="sd">        Type of outcome (&#39;binary&#39; or &#39;count&#39;).</span>
+<span class="sd">    alpha_ratio : float</span>
+<span class="sd">        L1 ratio used.</span>
+<span class="sd">    cv : int</span>
+<span class="sd">        Number of CV folds used.</span>
+<span class="sd">    selected_explanatory_variables : list of str</span>
+<span class="sd">        Original variable names selected by elastic net.</span>
+<span class="sd">    results_df : pd.DataFrame</span>
+<span class="sd">        Results showing coefficients for all one-hot encoded features.</span>
+<span class="sd">    model : fitted model</span>
+<span class="sd">        Trained elastic net model (LogisticRegressionCV or ElasticNetCV).</span>
+<span class="sd">    X_prepared : pd.DataFrame</span>
+<span class="sd">        Preprocessed feature matrix used for fitting.</span>
+<span class="sd">    y_prepared : pd.Series</span>
+<span class="sd">        Preprocessed response used for fitting.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; selector = ElasticNetVariableSelection(</span>
+<span class="sd">    ...     df=cleaned_df,</span>
+<span class="sd">    ...     response_variable=&#39;SSI&#39;,</span>
+<span class="sd">    ...     explanatory_variables=[&#39;Age&#39;, &#39;Sex&#39;, &#39;BMI&#39;, &#39;Diabetes&#39;, &#39;INPWT&#39;],</span>
+<span class="sd">    ...     outcome_type=&#39;binary&#39;,</span>
+<span class="sd">    ...     alpha_ratio=0.5,</span>
+<span class="sd">    ...     cv=5</span>
+<span class="sd">    ... )</span>
+<span class="sd">    Elastic Net selected 3 of 5 variables</span>
+<span class="sd">    Selected variables: [&#39;BMI&#39;, &#39;Diabetes&#39;, &#39;INPWT&#39;]</span>
+
+<span class="sd">    &gt;&gt;&gt; print(selector.results_df)</span>
+<span class="sd">              Variable  Coefficient  Abs_Coefficient  Selected</span>
+<span class="sd">    0             INPWT       0.8234           0.8234      True</span>
+<span class="sd">    1          Diabetes       0.4521           0.4521      True</span>
+<span class="sd">    2               BMI       0.3012           0.3012      True</span>
+<span class="sd">    3        Sex_Female       0.0000           0.0000     False</span>
+<span class="sd">    4               Age       0.0000           0.0000     False</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    UnivariateVariableSelection : Univariate statistical testing for selection.</span>
+<span class="sd">    sklearn.linear_model.LogisticRegressionCV : Logistic regression with CV.</span>
+<span class="sd">    sklearn.linear_model.ElasticNetCV : Elastic net regression with CV.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Advantages of elastic net for variable selection:</span>
+<span class="sd">    - Handles multicollinearity better than univariate methods</span>
+<span class="sd">    - Performs automatic variable selection (L1 penalty)</span>
+<span class="sd">    - Maintains stability with correlated predictors (L2 penalty)</span>
+<span class="sd">    - Cross-validation prevents overfitting</span>
+<span class="sd">    - Works with p &gt;&gt; n (more predictors than observations)</span>
+
+<span class="sd">    The alpha_ratio parameter controls the penalty balance:</span>
+<span class="sd">    - Lower values (closer to 0) emphasize multicollinearity handling</span>
+<span class="sd">    - Higher values (closer to 1) emphasize sparse solutions</span>
+<span class="sd">    - Default 0.5 is generally robust for clinical data</span>
+
+<span class="sd">    Preprocessing is automatic and includes:</span>
+<span class="sd">    - Standardization of numeric variables (required for regularization)</span>
+<span class="sd">    - One-hot encoding of categorical variables</span>
+<span class="sd">    - Removal of rare categories (&lt;5 observations)</span>
+<span class="sd">    - Complete case analysis (missing data removed)</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Zou H, Hastie T. &quot;Regularization and variable selection via the elastic net.&quot;</span>
+<span class="sd">           J R Stat Soc Series B Stat Methodol. 2005;67(2):301-320.</span>
+<span class="sd">    .. [2] Friedman J, Hastie T, Tibshirani R. &quot;Regularization paths for generalized</span>
+<span class="sd">           linear models via coordinate descent.&quot; J Stat Softw. 2010;33(1):1-22.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ElasticNetVariableSelection.__init__">
+<a class="viewcode-back" href="../../api/selection.html#statwise.selection.ElasticNetVariableSelection.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+        <span class="n">response_variable</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">explanatory_variables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">outcome_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;binary&quot;</span><span class="p">,</span>
+        <span class="n">alpha_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">cv</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">response_variable</span><span class="p">]</span> <span class="o">+</span> <span class="n">explanatory_variables</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">response_variable</span> <span class="o">=</span> <span class="n">response_variable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">explanatory_variables</span> <span class="o">=</span> <span class="n">explanatory_variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outcome_type</span> <span class="o">=</span> <span class="n">outcome_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha_ratio</span> <span class="o">=</span> <span class="n">alpha_ratio</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cv</span> <span class="o">=</span> <span class="n">cv</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">selected_explanatory_variables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results_df</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X_prepared</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_prepared</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Perform selection</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_data</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fit_elastic_net</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_extract_selected_variables</span><span class="p">()</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_prepare_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prepare data for elastic net using DataPreparer.</span>
+
+<span class="sd">        Applies standardization and one-hot encoding required for regularization.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">preparer</span> <span class="o">=</span> <span class="n">DataPreparer</span><span class="p">(</span>
+            <span class="n">df</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span>
+            <span class="n">response_variable</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">response_variable</span><span class="p">,</span>
+            <span class="n">explanatory_variables</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">explanatory_variables</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">X_prepared</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_prepared</span> <span class="o">=</span> <span class="n">preparer</span><span class="o">.</span><span class="n">preprocess</span><span class="p">(</span>
+            <span class="n">drop_first_category</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">scale_numeric</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Required for elastic net</span>
+            <span class="n">min_category_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">check_separation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># Not needed for regularized models</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fit_elastic_net</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit elastic net model with cross-validation for regularization parameter selection.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If outcome_type is not &#39;binary&#39; or &#39;count&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">outcome_type</span> <span class="o">==</span> <span class="s2">&quot;binary&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegressionCV</span><span class="p">(</span>
+                <span class="n">penalty</span><span class="o">=</span><span class="s2">&quot;elasticnet&quot;</span><span class="p">,</span>
+                <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;saga&quot;</span><span class="p">,</span>
+                <span class="n">l1_ratios</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha_ratio</span><span class="p">],</span>
+                <span class="n">cv</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cv</span><span class="p">,</span>
+                <span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+                <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+                <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">outcome_type</span> <span class="o">==</span> <span class="s2">&quot;count&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">ElasticNetCV</span><span class="p">(</span>
+                <span class="n">l1_ratio</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha_ratio</span><span class="p">,</span>
+                <span class="n">cv</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cv</span><span class="p">,</span>
+                <span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+                <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+                <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;outcome_type must be &#39;binary&#39; or &#39;count&#39;, got &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">outcome_type</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_prepared</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_prepared</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_extract_selected_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extract variables with non-zero coefficients and map back to original names.</span>
+
+<span class="sd">        Creates results_df with coefficient information and populates</span>
+<span class="sd">        selected_explanatory_variables with original variable names.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Get coefficients</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">outcome_type</span> <span class="o">==</span> <span class="s2">&quot;binary&quot;</span><span class="p">:</span>
+            <span class="n">coefs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">coefs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span>
+
+        <span class="c1"># Create results dataframe for one-hot encoded features</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;Variable&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_prepared</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+                <span class="s2">&quot;Coefficient&quot;</span><span class="p">:</span> <span class="n">coefs</span><span class="p">,</span>
+                <span class="s2">&quot;Abs_Coefficient&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">coefs</span><span class="p">),</span>
+                <span class="s2">&quot;Selected&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">coefs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-5</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;Abs_Coefficient&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Get selected encoded features</span>
+        <span class="n">selected_encoded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">results_df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">results_df</span><span class="p">[</span><span class="s2">&quot;Selected&quot;</span><span class="p">]][</span>
+            <span class="s2">&quot;Variable&quot;</span>
+        <span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="c1"># Map back to original variable names</span>
+        <span class="n">original_vars</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">encoded_var</span> <span class="ow">in</span> <span class="n">selected_encoded</span><span class="p">:</span>
+            <span class="c1"># Check if it&#39;s a one-hot encoded variable</span>
+            <span class="n">found</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">orig_var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">explanatory_variables</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">encoded_var</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">orig_var</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span><span class="p">):</span>
+                    <span class="n">original_vars</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">orig_var</span><span class="p">)</span>
+                    <span class="n">found</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">break</span>
+
+            <span class="c1"># If not one-hot encoded, it&#39;s a numeric variable</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">found</span> <span class="ow">and</span> <span class="n">encoded_var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">explanatory_variables</span><span class="p">:</span>
+                <span class="n">original_vars</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">encoded_var</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">selected_explanatory_variables</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">original_vars</span><span class="p">))</span>
+
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Elastic Net selected </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selected_explanatory_variables</span><span class="p">)</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explanatory_variables</span><span class="p">)</span><span class="si">}</span><span class="s2"> variables&quot;</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selected_explanatory_variables</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Selected variables: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">selected_explanatory_variables</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: No variables selected - regularization may be too strong&quot;</span><span class="p">)</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Derek Zhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>
+Statistical analysis of INPWT outcomes in pancreatic surgery.
+</p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

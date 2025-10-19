@@ -30,9 +30,11 @@ dev = [
     "ruff>=0.1.0",
 ]
 docs = [
-    "jupyter-book>=0.15.0",
-    "sphinx>=5.0.0",
-    "sphinx-autodoc-typehints>=1.24.0",
+    "jupyter-book>=1.0.0",
+    "sphinx>=7.0.0",
+    "sphinx-book-theme>=1.0.0",
+    "myst-nb>=1.0.0",
+    "myst-parser>=2.0.0",
 ]
 
 [build-system]

@@ -3,34 +3,91 @@ import pandas as pd
 
 class DataCleaner:
     """
-    A modular, user-guided data cleaning class designed for reproducible preprocessing
-    of surgical outcomes data.
+    Modular data cleaning pipeline for reproducible preprocessing of surgical outcomes data.
+
+    This class provides a structured approach to data cleaning with explicit,
+    user-controlled operations that ensure reproducibility. All operations are
+    logged and can be applied in a consistent order through the pipeline interface.
 
     Core functionality:
-      - Keep only relevant fields (user-defined)
-      - Drop highly imbalanced predictors (automated)
-      - Derive composite or standardized variables (user-defined functions)
-      - Clean categorical predictors and apply ordered categorical types
+    - Remove irrelevant or unusable columns
+    - Filter datetime and outcome variables
+    - Drop statistically problematic variables (imbalanced, high missingness)
+    - Derive composite or standardized variables
+    - Clean and order categorical predictors
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        DataFrame to clean.
+    column_metadata : dict of {str: str}
+        Dictionary mapping column names to their role in analysis.
+        Valid values are 'response' (outcome variables) or 'explanatory' (predictors).
+    log : bool, default True
+        Whether to print log messages during cleaning operations.
+
+    Attributes
+    ----------
+    df : pd.DataFrame
+        Working copy of the DataFrame being cleaned.
+    column_metadata : dict
+        Column role metadata for identifying response vs explanatory variables.
+    log : bool
+        Whether logging is enabled.
+    log_messages : list of str
+        Accumulated log messages from all cleaning operations.
+
+    Examples
+    --------
+    >>> metadata = {
+    ...     'SSI': 'response',
+    ...     'Sepsis': 'response',
+    ...     'Age': 'explanatory',
+    ...     'BMI': 'explanatory',
+    ...     'INPWT': 'explanatory'
+    ... }
+    >>> cleaner = DataCleaner(df, metadata)
+    >>> cleaner.drop_columns(['Patient_ID', 'MRN'])
+    >>> cleaner.drop_imbalanced_variables(min_minority_count=10)
+    >>> cleaned_df, logs = cleaner.df, cleaner.log_messages
+
+    See Also
+    --------
+    DataPreparer : Prepares cleaned data for modeling.
+    CSVDataLoader : Loads CSV data with type inference.
+
+    Notes
+    -----
+    The cleaning pipeline follows best practices for clinical research:
+    - Removes variables with insufficient statistical power (10 events per variable rule)
+    - Handles missing data conservatively (drops variables >40% missing by default)
+    - Distinguishes between categorical and continuous integer variables
+    - Preserves data provenance through detailed logging
+
+    References
+    ----------
+    .. [1] Peduzzi P, Concato J, Kemper E, et al. "A simulation study of the
+           number of events per variable in logistic regression analysis."
+           J Clin Epidemiol. 1996;49(12):1373-9.
     """
 
     def __init__(
         self, df: pd.DataFrame, column_metadata: dict[str, str], log: bool = True
     ):
-        """
-        Initialize DatasetCleaner with required column metadata.
-
-        Parameters:
-            df: DataFrame to clean
-            column_metadata: Dictionary mapping column names to types ('response' or 'explanatory')
-            log: Whether to print log messages
-        """
         self.df = df.copy()
         self.column_metadata = column_metadata
         self.log = log
         self.log_messages = []
 
     def _log(self, message: str):
-        """Print and record a log message if logging is enabled."""
+        """
+        Record a log message and optionally print it.
+
+        Parameters
+        ----------
+        message : str
+            Message to log.
+        """
         if self.log:
             print(message)
         self.log_messages.append(message)
@@ -41,10 +98,25 @@ class DataCleaner:
     def drop_columns(self, columns: list[str]):
         """
         Drop specified columns immediately without any checks or conditions.
-        Useful for removing known unusable or irrelevant columns upfront.
 
-        Parameters:
-            columns: List of column names to drop
+        This method is useful for removing known unusable or irrelevant columns
+        upfront (e.g., patient identifiers, administrative fields, redundant dates).
+
+        Parameters
+        ----------
+        columns : list of str
+            List of column names to drop. Non-existent columns are silently ignored.
+
+        Returns
+        -------
+        self : DataCleaner
+            Returns self for method chaining.
+
+        Examples
+        --------
+        >>> cleaner.drop_columns(['Patient_ID', 'MRN', 'Attending_Surgeon'])
+        Dropping 3 specified columns: ['Patient_ID', 'MRN', 'Attending_Surgeon']
+        Shape changed from (165, 45) to (165, 42)
         """
         existing = [c for c in columns if c in self.df.columns]
         if not existing:
@@ -59,12 +131,34 @@ class DataCleaner:
 
     def keep_datetime_columns(self, columns: list[str] = None):
         """
-        Keep only the specified datetime columns, dropping all other datetime columns.
-        If no columns specified, drops all datetime columns.
-        Auto-detects datetime columns by dtype.
+        Keep only specified datetime columns, dropping all other datetime columns.
 
-        Parameters:
-            columns: List of datetime column names to keep. If None, drops all datetime columns.
+        If no columns are specified, drops all datetime columns. This is useful
+        because datetime variables typically cannot be directly used as predictors
+        in regression models and may indicate data linkage issues if present.
+
+        Parameters
+        ----------
+        columns : list of str or None, default None
+            List of datetime column names to keep. If None, drops all datetime columns.
+
+        Returns
+        -------
+        self : DataCleaner
+            Returns self for method chaining.
+
+        Examples
+        --------
+        >>> # Drop all datetime columns
+        >>> cleaner.keep_datetime_columns()
+
+        >>> # Keep only surgery date
+        >>> cleaner.keep_datetime_columns(['Surgery_Date'])
+
+        Notes
+        -----
+        Auto-detects datetime columns by checking for datetime64, datetime64[ns],
+        or datetimetz dtypes.
         """
         # Identify all datetime columns in the DataFrame
         datetime_cols = self.df.select_dtypes(
@@ -106,7 +200,28 @@ class DataCleaner:
     def keep_response_columns(self, columns: list[str]):
         """
         Keep only specified response/outcome columns, dropping all other response columns.
-        Uses column_metadata to identify response columns.
+
+        Uses column_metadata to identify which columns are response variables,
+        then retains only those specified in the columns parameter.
+
+        Parameters
+        ----------
+        columns : list of str
+            List of response column names to keep.
+
+        Returns
+        -------
+        self : DataCleaner
+            Returns self for method chaining.
+
+        Examples
+        --------
+        >>> # Keep only SSI and sepsis outcomes, drop other complications
+        >>> cleaner.keep_response_columns(['SSI', 'Sepsis'])
+
+        Notes
+        -----
+        Response columns are identified from column_metadata where the value is 'response'.
         """
         # Identify all response columns from metadata
         response_cols = [
@@ -140,7 +255,29 @@ class DataCleaner:
     def keep_explanatory_columns(self, columns: list[str]):
         """
         Keep only specified explanatory/predictor columns, dropping all other explanatory columns.
-        Uses column_metadata to identify explanatory columns.
+
+        Uses column_metadata to identify which columns are explanatory variables,
+        then retains only those specified in the columns parameter.
+
+        Parameters
+        ----------
+        columns : list of str
+            List of explanatory column names to keep.
+
+        Returns
+        -------
+        self : DataCleaner
+            Returns self for method chaining.
+
+        Examples
+        --------
+        >>> # Keep only demographic and treatment variables
+        >>> cleaner.keep_explanatory_columns(['Age', 'Sex', 'BMI', 'INPWT'])
+
+        Notes
+        -----
+        Explanatory columns are identified from column_metadata where the value
+        is 'explanatory'.
         """
         # Identify all explanatory columns from metadata
         explanatory_cols = [
@@ -172,97 +309,155 @@ class DataCleaner:
         return self
 
     def _is_quasi_categorical(
-        self, 
-        series: pd.Series, 
+        self,
+        series: pd.Series,
         uniqueness_threshold: float = 0.10,
-        max_absolute_unique: int = 10
+        max_absolute_unique: int = 10,
     ) -> bool:
         """
-        Multi-criteria approach to determine if an integer column behaves categorically.
-        
-        Treats as categorical if EITHER:
+        Determine if an integer column behaves categorically using multiple criteria.
+
+        Treats a column as categorical if EITHER:
         1. Has ≤10 unique values (regardless of sample size), OR
         2. Unique/total ratio < 10%
-        
-        This catches:
+
+        This approach correctly identifies:
         - Binary/ordinal scales (0-5 ratings) → always categorical
-        - Low-cardinality counts in large samples (5 unique in 10,000 obs) → categorical
-        - Skips high-cardinality even in small samples (100 unique in 200 obs) → continuous
-        
-        Parameters:
-            series: Pandas Series to evaluate
-            uniqueness_threshold: Maximum uniqueness ratio (default 0.10)
-            max_absolute_unique: Maximum unique values to always treat as categorical (default 10)
-        
-        Returns:
-            True if should be treated as categorical, False if continuous
+        - Low-cardinality counts in large samples → categorical
+        - High-cardinality true counts → continuous
+
+        Parameters
+        ----------
+        series : pd.Series
+            Pandas Series to evaluate.
+        uniqueness_threshold : float, default 0.10
+            Maximum uniqueness ratio to treat as categorical.
+        max_absolute_unique : int, default 10
+            Maximum unique values to always treat as categorical.
+
+        Returns
+        -------
+        bool
+            True if should be treated as categorical, False if continuous.
+
+        Examples
+        --------
+        >>> # Binary variable: 2 unique values → categorical
+        >>> _is_quasi_categorical(pd.Series([0, 1, 0, 1, 0]))
+        True
+
+        >>> # Ordinal scale: 5 unique values → categorical
+        >>> _is_quasi_categorical(pd.Series([1, 2, 3, 4, 5, 3, 2, 1]))
+        True
+
+        >>> # True count variable: 50 unique values in 200 obs → continuous
+        >>> _is_quasi_categorical(pd.Series(range(200)))
+        False
+
+        Notes
+        -----
+        This heuristic is important for clinical data where integer columns may
+        represent either categorical scales (ASA class: 1-5) or true counts
+        (length of stay: 0-100+ days). The distinction affects whether balance
+        checking and other categorical-specific operations should apply.
         """
         n_unique = series.nunique()
         n_total = len(series.dropna())
-        
+
         if n_total == 0:
             return False
-        
+
         # Absolute criterion: very few unique values
         if n_unique <= max_absolute_unique:
             return True
-        
+
         # Relative criterion: low uniqueness ratio
         uniqueness_ratio = n_unique / n_total
         return uniqueness_ratio < uniqueness_threshold
 
     def drop_imbalanced_variables(
-        self, 
+        self,
         min_minority_count: int = 10,
         uniqueness_threshold: float = 0.10,
-        max_absolute_unique: int = 10
+        max_absolute_unique: int = 10,
     ):
         """
-        Drop categorical and quasi-categorical integer variables where the second largest class
-        has too few observations for adequate statistical power.
-        
-        Uses second largest class (not smallest) to allow variables with long tails of rare events,
-        which can be merged or handled during analysis. This is important for clinical data where
-        rare complications may exist but the main contrast (e.g., None vs Any) is still meaningful.
-        
-        Integer columns are only checked if they behave like categorical variables based on:
+        Drop categorical variables with insufficient observations in the second largest class.
+
+        Uses the second largest class (not smallest) to allow variables with long tails
+        of rare events, which can be merged during analysis. This is important for
+        clinical data where rare complications may exist but the main contrast
+        (e.g., None vs Any) is still meaningful.
+
+        Integer columns are only checked if they behave categorically based on:
         - Having ≤10 unique values (regardless of sample size), OR
         - Having <10% unique-to-total ratio
-        
-        Truly continuous count variables are automatically exempt from balance checking.
-        
-        Parameters:
-            min_minority_count: Minimum number of observations required in the second largest class.
-                            Default is 10, which is a common rule of thumb for regression modeling
-                            (10 events per variable for logistic regression).
-            uniqueness_threshold: Maximum uniqueness ratio for integers to be checked (default 0.10).
-            max_absolute_unique: Maximum unique values to always treat as categorical (default 10).
+
+        Parameters
+        ----------
+        min_minority_count : int, default 10
+            Minimum observations required in the second largest class.
+            Default of 10 follows the common "10 events per variable" rule
+            for logistic regression [1]_.
+        uniqueness_threshold : float, default 0.10
+            Maximum uniqueness ratio for integers to be checked.
+        max_absolute_unique : int, default 10
+            Maximum unique values to always treat as categorical.
+
+        Returns
+        -------
+        self : DataCleaner
+            Returns self for method chaining.
+
+        Examples
+        --------
+        >>> cleaner.drop_imbalanced_variables(min_minority_count=10)
+        Checking class imbalance for 15 categorical and quasi-categorical integer columns
+        'Rare_Complication' (response): second largest class has 3 observations (< 10)
+          Class counts: No: 162, Yes: 3
+        Dropping 1 imbalanced variables with insufficient second class size
+
+        Notes
+        -----
+        Variables with only one observed class are always dropped regardless of
+        min_minority_count, as they provide no statistical information.
+
+        References
+        ----------
+        .. [1] Peduzzi P, Concato J, Kemper E, et al. "A simulation study of the
+               number of events per variable in logistic regression analysis."
+               J Clin Epidemiol. 1996;49(12):1373-9.
         """
         before_shape = self.df.shape
         to_drop = []
 
         # Categorical columns always checked
-        categorical_cols = self.df.select_dtypes(include=["object", "category"]).columns.tolist()
-        
+        categorical_cols = self.df.select_dtypes(
+            include=["object", "category"]
+        ).columns.tolist()
+
         # Integer columns - filter to quasi-categorical only
         integer_cols = self.df.select_dtypes(
             include=["int64", "int32", "int16", "int8", "Int64"]
         ).columns.tolist()
-        
+
         quasi_categorical_ints = [
-            col for col in integer_cols 
+            col
+            for col in integer_cols
             if self._is_quasi_categorical(
-                self.df[col], 
+                self.df[col],
                 uniqueness_threshold=uniqueness_threshold,
-                max_absolute_unique=max_absolute_unique
+                max_absolute_unique=max_absolute_unique,
             )
         ]
-        
+
         # Track which integer columns are being skipped
-        continuous_ints = [col for col in integer_cols if col not in quasi_categorical_ints]
-        
+        continuous_ints = [
+            col for col in integer_cols if col not in quasi_categorical_ints
+        ]
+
         cols_to_check = categorical_cols + quasi_categorical_ints
-        
+
         self._log(
             f"Checking class imbalance for {len(cols_to_check)} categorical and quasi-categorical integer columns"
         )
@@ -272,12 +467,12 @@ class DataCleaner:
             )
 
         for col in cols_to_check:
-            value_counts = self.df[col].value_counts(dropna=True)  # Exclude NaN from counts
+            value_counts = self.df[col].value_counts(dropna=True)
 
-            if len(value_counts) == 0:  # All values are NaN
+            if len(value_counts) == 0:
                 continue
 
-            if len(value_counts) == 1:  # Only one class - definitely drop
+            if len(value_counts) == 1:
                 to_drop.append(col)
                 col_type = self.column_metadata.get(col, "unknown")
                 counts_str = ", ".join(
@@ -298,12 +493,10 @@ class DataCleaner:
 
             if second_largest_count < min_minority_count:
                 to_drop.append(col)
-                # Format value counts for logging
                 counts_str = ", ".join(
                     [f"{val}: {count}" for val, count in value_counts.items()]
                 )
 
-                # Add NaN count if present
                 nan_count = self.df[col].isna().sum()
                 if nan_count > 0:
                     counts_str += f", NaN: {nan_count}"
@@ -325,18 +518,46 @@ class DataCleaner:
 
     def drop_high_missingness_variables(self, max_missing_rate: float = 0.40):
         """
-        Drop variables (both explanatory and response) with excessive missing data
-        that would compromise statistical power.
+        Drop variables with excessive missing data that would compromise statistical power.
 
-        Parameters:
-            max_missing_rate: Maximum proportion of missing values allowed (0 to 1).
-                             Default is 0.40 (40%), a common threshold where imputation becomes unreliable
-                             and complete case analysis would lose too much data.
+        Applies to both response and explanatory variables. Variables exceeding the
+        missingness threshold are removed because imputation becomes unreliable and
+        complete case analysis would lose too much data.
+
+        Parameters
+        ----------
+        max_missing_rate : float, default 0.40
+            Maximum proportion of missing values allowed (0 to 1).
+            Default of 0.40 (40%) is a common threshold in clinical research [1]_.
+
+        Returns
+        -------
+        self : DataCleaner
+            Returns self for method chaining.
+
+        Examples
+        --------
+        >>> cleaner.drop_high_missingness_variables(max_missing_rate=0.40)
+        Checking missingness for 42 columns
+        'Albumin' (explanatory): 65.5% missing (> 40%)
+        Dropping 1 variables with excessive missingness
+
+        Notes
+        -----
+        The 40% threshold represents a balance between preserving variables and
+        maintaining data quality. Higher missingness rates make multiple imputation
+        less reliable and reduce effective sample size substantially.
+
+        References
+        ----------
+        .. [1] Jakobsen JC, Gluud C, Wetterslev J, Winkel P. "When and how should
+               multiple imputation be used for handling missing data in randomised
+               clinical trials - a practical guide with flowcharts."
+               BMC Med Res Methodol. 2017;17(1):162.
         """
         before_shape = self.df.shape
         to_drop = []
 
-        # Check all columns (both explanatory and response)
         all_cols = self.df.columns.tolist()
 
         self._log(f"Checking missingness for {len(all_cols)} columns")
@@ -369,25 +590,61 @@ class DataCleaner:
         drop_components: dict[str, list[str]] = None,
     ):
         """
-        Create new variables based on user-supplied functions and optionally drop component columns.
-        Automatically infers the metadata type (response/explanatory) for derived columns based on
-        component columns.
+        Create new variables from existing columns using user-supplied functions.
 
-        Each function should take the full DataFrame as input and return a Series.
+        Automatically infers metadata type (response/explanatory) for derived columns
+        based on their component columns. Optionally drops component columns after
+        derivation to avoid multicollinearity.
 
-        Parameters:
-            derivation_map: Dictionary mapping new column names to derivation functions.
-            drop_components: Dictionary mapping new column names to lists of component columns to drop.
+        Parameters
+        ----------
+        derivation_map : dict of {str: callable}
+            Dictionary mapping new column names to derivation functions.
+            Each function should take the full DataFrame as input and return a Series.
+        drop_components : dict of {str: list of str}, optional
+            Dictionary mapping new column names to lists of component columns to drop
+            after derivation. If None, component columns are retained.
 
-        Example:
-            derivation_map = {
-                "Height (cm)": lambda df: df.apply(standardize_height_to_cm, axis=1),
-                "Any Postop Sepsis": lambda df: df.apply(composite_sepsis, axis=1)
-            }
-            drop_components = {
-                "Height (cm)": ["Height", "Height Unit"],
-                "Any Postop Sepsis": ["# of Postop Sepsis", "# of Postop Septic Shock"]
-            }
+        Returns
+        -------
+        self : DataCleaner
+            Returns self for method chaining.
+
+        Examples
+        --------
+        >>> def standardize_height(df):
+        ...     # Convert all heights to cm
+        ...     heights = df['Height'].copy()
+        ...     heights[df['Height_Unit'] == 'in'] *= 2.54
+        ...     return heights
+
+        >>> def composite_sepsis(df):
+        ...     # Any postoperative sepsis or septic shock
+        ...     return ((df['Postop_Sepsis'] > 0) | (df['Postop_Septic_Shock'] > 0)).astype(int)
+
+        >>> derivation_map = {
+        ...     'Height_cm': standardize_height,
+        ...     'Any_Postop_Sepsis': composite_sepsis
+        ... }
+        >>> drop_components = {
+        ...     'Height_cm': ['Height', 'Height_Unit'],
+        ...     'Any_Postop_Sepsis': ['Postop_Sepsis', 'Postop_Septic_Shock']
+        ... }
+        >>> cleaner.derive_variables(derivation_map, drop_components)
+
+        Notes
+        -----
+        Metadata type inference rules:
+        - If all component columns have the same type (all 'response' or all
+          'explanatory'), the derived column inherits that type
+        - If component columns have mixed types, defaults to 'explanatory'
+        - If no component metadata found, defaults to 'explanatory'
+
+        Common use cases in clinical data:
+        - Standardizing measurements (height in cm, weight in kg)
+        - Creating composite outcomes (any complication = SSI OR sepsis OR readmission)
+        - Binary indicators from counts (any event = count > 0)
+        - Risk scores from multiple predictors
         """
         drop_components = drop_components or {}
 
@@ -406,7 +663,6 @@ class DataCleaner:
                 ]
 
                 if component_types:
-                    # If all components are the same type, use that type
                     unique_types = set(component_types)
                     if len(unique_types) == 1:
                         inferred_type = component_types[0]
@@ -415,19 +671,16 @@ class DataCleaner:
                             f"  Inferred metadata type '{inferred_type}' for '{new_col}' based on component columns"
                         )
                     else:
-                        # Mixed types - log warning and default to explanatory
                         self.column_metadata[new_col] = "explanatory"
                         self._log(
                             f"  Warning: Component columns have mixed types {unique_types}. Defaulting '{new_col}' to 'explanatory'"
                         )
                 else:
-                    # No component metadata found - default to explanatory
                     self.column_metadata[new_col] = "explanatory"
                     self._log(
                         f"  No component metadata found. Defaulting '{new_col}' to 'explanatory'"
                     )
             else:
-                # No components specified - default to explanatory
                 self.column_metadata[new_col] = "explanatory"
                 self._log(
                     f"  No component columns specified. Defaulting '{new_col}' to 'explanatory'"
@@ -455,23 +708,65 @@ class DataCleaner:
     ):
         """
         Apply user-supplied mappings to consolidate and order categorical predictors.
-        Example:
-            consolidation_maps = {
-                "Race/Ethnicity": {
-                    "Black or African American": "Black",
-                    "White": "White",
-                    "Some Other Race": "Other"
-                }
-            }
-            ordered_maps = {
-                "ASA Classification": [
-                    "ASA II - Mild systemic disease",
-                    "ASA III - Severe systemic disease",
-                    "ASA IV - Severe systemic disease threat to life"
-                ]
-            }
+
+        This method enables two types of categorical cleaning:
+        1. Consolidation: Merge or rename categories (e.g., combine rare races)
+        2. Ordering: Apply ordinal relationships (e.g., ASA class I < II < III)
+
+        Parameters
+        ----------
+        consolidation_maps : dict of {str: dict}
+            Dictionary mapping column names to category consolidation mappings.
+            Each mapping is a dict of {old_value: new_value}.
+        ordered_maps : dict of {str: list}, optional
+            Dictionary mapping column names to ordered lists of categories.
+            Categories will be treated as ordinal in this order.
+
+        Returns
+        -------
+        self : DataCleaner
+            Returns self for method chaining.
+
+        Examples
+        --------
+        >>> consolidation_maps = {
+        ...     'Race': {
+        ...         'Black or African American': 'Black',
+        ...         'White': 'White',
+        ...         'Asian': 'Other',
+        ...         'Some Other Race': 'Other'
+        ...     },
+        ...     'Smoking_Status': {
+        ...         'Current': 'Current',
+        ...         'Former': 'Former',
+        ...         'Never': 'Never',
+        ...         'Unknown': 'Never'  # Conservative assumption
+        ...     }
+        ... }
+        >>> ordered_maps = {
+        ...     'ASA_Class': [
+        ...         'ASA I - Normal healthy',
+        ...         'ASA II - Mild systemic disease',
+        ...         'ASA III - Severe systemic disease',
+        ...         'ASA IV - Severe disease, constant threat to life'
+        ...     ]
+        ... }
+        >>> cleaner.clean_categorical_predictors(consolidation_maps, ordered_maps)
+
+        Notes
+        -----
+        Consolidation is often necessary to:
+        - Merge rare categories with insufficient sample size
+        - Group conceptually similar categories
+        - Handle data entry variations (e.g., "Hispanic" vs "Hispanic or Latino")
+
+        Ordering is important for:
+        - Ordinal scales (ASA class, pain scores, disease stages)
+        - Enabling ordinal encoding in models that can leverage order
+        - Correct interpretation of trends across ordered categories
         """
         before_shape = self.df.shape
+
         # Apply consolidation
         for column, mapping in consolidation_maps.items():
             if column not in self.df.columns:
@@ -513,18 +808,72 @@ class DataCleaner:
         max_missing_rate: float = 0.40,
     ):
         """
-        Run all cleaning steps in sequence.
+        Execute all cleaning steps in a standardized sequence.
 
-        Parameters:
-            drop_cols: List of columns to drop immediately without any checks
-            keep_datetime_cols: List of datetime columns to keep. If None, all datetime columns are dropped.
-            keep_response_cols: List of response/outcome columns to keep
-            keep_explanatory_cols: List of explanatory/predictor columns to keep
-            derivation_map: Dictionary of new variables to derive
-            drop_components: Dictionary mapping derived columns to component columns to drop
-            categorical_config: Configuration for categorical cleaning
-            min_minority_count: Minimum observations in second largest class (default 10)
-            max_missing_rate: Maximum proportion of missing data allowed (default 0.40)
+        This pipeline method provides a single entry point for reproducible data
+        cleaning with explicit parameter documentation. The execution order is
+        optimized to prevent conflicts between operations.
+
+        Parameters
+        ----------
+        drop_cols : list of str, optional
+            Columns to drop immediately (e.g., identifiers, administrative fields).
+        keep_datetime_cols : list of str, optional
+            Datetime columns to keep. If None, all datetime columns are dropped.
+        keep_response_cols : list of str, optional
+            Response/outcome columns to keep.
+        keep_explanatory_cols : list of str, optional
+            Explanatory/predictor columns to keep.
+        derivation_map : dict of {str: callable}, optional
+            New variables to derive from existing columns.
+        drop_components : dict of {str: list of str}, optional
+            Component columns to drop after deriving new variables.
+        categorical_config : dict, optional
+            Configuration for categorical cleaning with keys:
+            - 'consolidation_maps': dict for category consolidation
+            - 'ordered_maps': dict for applying ordinal structure
+        min_minority_count : int, default 10
+            Minimum observations in second largest class for balance check.
+        max_missing_rate : float, default 0.40
+            Maximum proportion of missing data allowed (0 to 1).
+
+        Returns
+        -------
+        df : pd.DataFrame
+            Cleaned DataFrame ready for preprocessing and modeling.
+        log_messages : list of str
+            Complete log of all cleaning operations performed.
+
+        Examples
+        --------
+        >>> cleaner = DataCleaner(df, column_metadata)
+        >>> cleaned_df, logs = cleaner.run_cleaning_pipeline(
+        ...     drop_cols=['Patient_ID', 'MRN'],
+        ...     keep_datetime_cols=None,  # Drop all datetime columns
+        ...     keep_response_cols=['SSI', 'Sepsis', 'Length_of_Stay', 'Readmission'],
+        ...     keep_explanatory_cols=['Age', 'Sex', 'BMI', 'Diabetes', 'INPWT'],
+        ...     derivation_map={'Any_SSI': lambda df: (df['SSI'] > 0).astype(int)},
+        ...     categorical_config={'consolidation_maps': {...}},
+        ...     min_minority_count=10,
+        ...     max_missing_rate=0.40
+        ... )
+
+        Notes
+        -----
+        Pipeline execution order:
+        1. Drop specified columns
+        2. Filter datetime columns (drops all by default)
+        3. Filter response columns
+        4. Filter explanatory columns
+        5. Derive new variables
+        6. Clean categorical variables
+        7. Drop high-missingness variables
+        8. Drop imbalanced variables
+
+        This order ensures that:
+        - Unwanted columns are removed early to improve clarity
+        - Derived variables are available for subsequent operations
+        - Statistical filtering happens after manual curation is complete
         """
         self._log("=== Starting Dataset Cleaning Pipeline ===")
 
@@ -532,7 +881,7 @@ class DataCleaner:
         if drop_cols is not None:
             self.drop_columns(drop_cols)
 
-        # Always run datetime column filtering (drops all by default if keep_datetime_cols not specified)
+        # Always run datetime column filtering (drops all by default)
         self.keep_datetime_columns(keep_datetime_cols)
 
         if keep_response_cols is not None:
