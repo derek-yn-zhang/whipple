@@ -72,16 +72,3 @@ model = LogisticRegressionModel()
 model.fit(X, y)
 print(model.summary())
 ```
-
-## Module Reference
-
-```{eval-rst}
-.. toctree::
-   :maxdepth: 2
-   
-   loading
-   cleaning
-   preparation
-   selection
-   modeling
-```

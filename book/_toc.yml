@@ -9,9 +9,3 @@ chapters:
       - file: api/preparation
       - file: api/selection
       - file: api/modeling
-
-# format: jb-book
-# root: intro
-# chapters:
-#   - file: analysis
-#   - file: code_appendix

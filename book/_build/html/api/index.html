@@ -181,11 +181,6 @@
 <li class="toctree-l2"><a class="reference internal" href="preparation.html">Data Preparation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="selection.html">Variable Selection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modeling.html">Statistical Modeling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="loading.html">Data Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cleaning.html">Data Cleaning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="preparation.html">Data Preparation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="selection.html">Variable Selection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modeling.html">Statistical Modeling</a></li>
 </ul>
 </details></li>
 </ul>
@@ -406,7 +401,6 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-principles">Design Principles</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick Start</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-reference">Module Reference</a></li>
 </ul>
             </nav>
         </div>
@@ -479,55 +473,6 @@ document.write(`
 <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
 </pre></div>
-</div>
-</section>
-<section id="module-reference">
-<h2>Module Reference<a class="headerlink" href="#module-reference" title="Link to this heading">#</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="loading.html">Data Loading</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="loading.html#csvdataloader">CSVDataLoader</a></li>
-<li class="toctree-l2"><a class="reference internal" href="loading.html#usage-examples">Usage Examples</a></li>
-<li class="toctree-l2"><a class="reference internal" href="loading.html#design-rationale">Design Rationale</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="cleaning.html">Data Cleaning</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cleaning.html#datacleaner">DataCleaner</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cleaning.html#usage-examples">Usage Examples</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cleaning.html#statistical-power-considerations">Statistical Power Considerations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cleaning.html#design-philosophy">Design Philosophy</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="preparation.html">Data Preparation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="preparation.html#datapreparer">DataPreparer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="preparation.html#usage-examples">Usage Examples</a></li>
-<li class="toctree-l2"><a class="reference internal" href="preparation.html#understanding-separation">Understanding Separation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="preparation.html#preprocessing-operations">Preprocessing Operations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="preparation.html#complete-case-analysis">Complete Case Analysis</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="selection.html">Variable Selection</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="selection.html#univariatevariableselection">UnivariateVariableSelection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="selection.html#elasticnetvariableselection">ElasticNetVariableSelection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="selection.html#usage-examples">Usage Examples</a></li>
-<li class="toctree-l2"><a class="reference internal" href="selection.html#statistical-tests-by-variable-type">Statistical Tests by Variable Type</a></li>
-<li class="toctree-l2"><a class="reference internal" href="selection.html#selection-strategy-comparison">Selection Strategy Comparison</a></li>
-<li class="toctree-l2"><a class="reference internal" href="selection.html#alpha-parameter-selection">Alpha Parameter Selection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="selection.html#recommended-workflow">Recommended Workflow</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="modeling.html">Statistical Modeling</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="modeling.html#basemodel">BaseModel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modeling.html#logisticregressionmodel">LogisticRegressionModel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modeling.html#negativebinomialregressionmodel">NegativeBinomialRegressionModel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modeling.html#usage-examples">Usage Examples</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modeling.html#interpreting-results">Interpreting Results</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modeling.html#convergence-issues">Convergence Issues</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modeling.html#model-assumptions">Model Assumptions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modeling.html#complete-workflow-example">Complete Workflow Example</a></li>
-</ul>
-</li>
-</ul>
 </div>
 </section>
 <div class="toctree-wrapper compound">
@@ -604,7 +549,6 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-principles">Design Principles</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick Start</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-reference">Module Reference</a></li>
 </ul>
   </nav></div>
 
