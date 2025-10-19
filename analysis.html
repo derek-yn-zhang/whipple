@@ -8880,10 +8880,17 @@ dtype: object
 <h2 id="Statistical-Modeling">Statistical Modeling<a class="anchor-link" href="#Statistical-Modeling">¶</a></h2><h3 id="Sample-Size-and-Model-Specification">Sample Size and Model Specification<a class="anchor-link" href="#Sample-Size-and-Model-Specification">¶</a></h3><p>We determined the maximum number of predictors that could be reliably estimated given our sample size, following established guidelines for regression modeling. For binary outcomes, we applied the criterion of 10 events in the minority class per variable (Peduzzi et al., 1996). For count outcomes, we used a more conservative threshold of 15 observations per variable to account for the additional variance and reduced information content per observation in overdispersed count data. The treatment variable counted toward this limit.</p>
 <p>When variable selection methods identified more candidate predictors than the calculated maximum, we retained only the top N variables to remain within sample size guidelines. For univariate selection, we retained variables with the smallest p-values. For elastic net selection, we retained variables with the largest absolute coefficients. This approach balanced the information provided by variable selection methods with the statistical requirement for adequate sample size relative to model complexity.</p>
 <h3 id="Separation-and-Convergence">Separation and Convergence<a class="anchor-link" href="#Separation-and-Convergence">¶</a></h3><p>Prior to model fitting, we assessed all selected variables for quasi-perfect separation—patterns where certain predictor levels were associated with near-complete homogeneity in the outcome. Separation was defined as 95% or more observations in a predictor level falling into a single outcome category. While separation is particularly problematic for logistic regression, where it can cause coefficient estimates to diverge toward infinity, it is less catastrophic for count models. We proceeded with model fitting using standard maximum likelihood estimation regardless of separation patterns. When models failed to converge despite appropriate sample size considerations, we concluded the data were insufficient to support that particular covariate structure and report this limitation explicitly rather than employing alternative estimation methods.</p>
-<h3 id="Binary-Outcomes">Binary Outcomes<a class="anchor-link" href="#Binary-Outcomes">¶</a></h3><p>Postoperative sepsis, surgical site infection, and readmission related to the primary procedure were treated as binary outcomes. To assess the robustness of treatment effects to covariate selection, we attempted to fit three separate logistic regression models for each binary outcome: one with univariate-selected covariates, one with elastic net-selected covariates, and one with consensus covariates selected by both methods. The treatment variable was included in all models.</p>
-<p>Prior to modeling, continuous predictors were standardized to facilitate comparison of effect sizes and improve convergence. Categorical variables were one-hot encoded with the first category dropped as reference, and rare categories (fewer than 5 observations) were excluded to avoid sparse cells. Observations with missing data in either the outcome or selected predictors were removed via listwise deletion.</p>
-<h3 id="Count-Outcomes">Count Outcomes<a class="anchor-link" href="#Count-Outcomes">¶</a></h3><p>Surgical length of stay was measured in days and treated as a count outcome. Observed variance substantially exceeded the mean, indicating overdispersion; therefore, negative binomial regression was used rather than Poisson regression. We attempted to fit three models paralleling the binary outcome approach: univariate selection, elastic net selection, and consensus selection. Continuous predictors were not standardized for count models, as negative binomial regression coefficients have natural interpretability on the log scale. Categorical encoding and missing data handling followed the same protocol as binary outcomes.</p>
-<h3 id="Model-Reporting">Model Reporting<a class="anchor-link" href="#Model-Reporting">¶</a></h3><p>Convergence was assessed for all fitted models. Treatment effects and covariate associations were reported as odds ratios for binary outcomes and incidence rate ratios for length of stay, with corresponding 95% confidence intervals and p-values. By attempting to fit multiple models with different selection strategies, we evaluated whether the estimated treatment effect remained consistent across reasonable modeling choices. This approach provided evidence for the robustness of findings to covariate adjustment decisions when models converged successfully, and transparently documented limitations when sample size or data structure precluded stable parameter estimation.</p>
+<h3 id="Model-Fitting-Strategy">Model Fitting Strategy<a class="anchor-link" href="#Model-Fitting-Strategy">¶</a></h3><p>For each outcome, we attempted to fit four models to comprehensively assess treatment effects and potential confounding:</p>
+<ol>
+<li><strong>Unadjusted model</strong>: Treatment variable only, using all available observations with complete outcome data</li>
+<li><strong>Univariate-adjusted model</strong>: Treatment plus covariates selected by univariate testing</li>
+<li><strong>Elastic net-adjusted model</strong>: Treatment plus covariates selected by elastic net regularization</li>
+<li><strong>Consensus-adjusted model</strong>: Treatment plus covariates selected by both methods</li>
+</ol>
+<p>This strategy allowed comparison of unadjusted and adjusted estimates to evaluate confounding. When adjusted models failed to converge due to separation or other numerical issues, unadjusted estimates provided important context about marginal treatment associations, with appropriate caveats about potential unmeasured or unmeasurable confounding.</p>
+<h3 id="Binary-Outcomes">Binary Outcomes<a class="anchor-link" href="#Binary-Outcomes">¶</a></h3><p>Postoperative sepsis, surgical site infection, and readmission related to the primary procedure were treated as binary outcomes. Prior to modeling, continuous predictors were standardized to facilitate comparison of effect sizes and improve convergence. Categorical variables were one-hot encoded with the first category dropped as reference, and rare categories (fewer than 5 observations) were excluded to avoid sparse cells. Observations with missing data in either the outcome or selected predictors were removed via listwise deletion.</p>
+<h3 id="Count-Outcomes">Count Outcomes<a class="anchor-link" href="#Count-Outcomes">¶</a></h3><p>Surgical length of stay was measured in days and treated as a count outcome. Observed variance substantially exceeded the mean, indicating overdispersion; therefore, negative binomial regression was used rather than Poisson regression. Continuous predictors were not standardized for count models, as negative binomial regression coefficients have natural interpretability on the log scale. Categorical encoding and missing data handling followed the same protocol as binary outcomes.</p>
+<h3 id="Model-Reporting">Model Reporting<a class="anchor-link" href="#Model-Reporting">¶</a></h3><p>Convergence was assessed for all fitted models. Treatment effects and covariate associations were reported as odds ratios for binary outcomes and incidence rate ratios for length of stay, with corresponding 95% confidence intervals and p-values. By fitting both unadjusted and adjusted models with different selection strategies, we evaluated whether the estimated treatment effect remained consistent across reasonable modeling choices and assessed the degree of confounding by measured covariates. This approach provided evidence for the robustness of findings to covariate adjustment decisions when models converged successfully, and transparently documented limitations when sample size or data structure precluded stable parameter estimation. When adjusted models failed to converge but unadjusted models succeeded, we reported unadjusted estimates with explicit acknowledgment of their limitations regarding causal inference.</p>
 </div>
 </div>
 </div>
@@ -9065,6 +9072,25 @@ Name: count, dtype: int64
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Maximum covariates (excluding treatment): </span><span class="si">{</span><span class="n">max_covariates</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         
         <span class="n">model_results</span><span class="p">[</span><span class="n">response_variable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        
+        <span class="c1"># =====================================================================</span>
+        <span class="c1"># METHOD 0: UNADJUSTED (TREATMENT ONLY)</span>
+        <span class="c1"># =====================================================================</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="si">{</span><span class="s1">'-'</span><span class="o">*</span><span class="mi">80</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Method 0: Unadjusted (Treatment Only)"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'-'</span><span class="o">*</span><span class="mi">80</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Model variables: [</span><span class="si">{</span><span class="n">treatment_variable</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+        
+        <span class="c1"># Fit unadjusted model</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">_fit_model_with_checks</span><span class="p">(</span>
+            <span class="n">df</span><span class="p">,</span> <span class="n">response_variable</span><span class="p">,</span> <span class="p">[</span><span class="n">treatment_variable</span><span class="p">],</span> <span class="n">outcome_type</span><span class="p">,</span> <span class="n">is_binary</span>
+        <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">model_results</span><span class="p">[</span><span class="n">response_variable</span><span class="p">][</span><span class="s1">'unadjusted'</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unadjusted model could not be fit for </span><span class="si">{</span><span class="n">response_variable</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         
         <span class="c1"># =====================================================================</span>
         <span class="c1"># METHOD 1: UNIVARIATE VARIABLE SELECTION</span>
@@ -9337,6 +9363,23 @@ EPV calculation: 152 observations / 15 = 10 max variables total
 Maximum covariates (excluding treatment): 9
 
 --------------------------------------------------------------------------------
+Method 0: Unadjusted (Treatment Only)
+--------------------------------------------------------------------------------
+Model variables: [INPWT]
+
+Preparing data...
+Checking for separation issues...
+Final preprocessed data: X.shape=(163, 1), y.shape=(163,)
+
+Fitting negative binomial regression...
+WARNING: Maximum Likelihood optimization failed to converge.
+    Results may be unreliable. Check coefficients and standard errors.
+
+❌ MODEL FAILED TO CONVERGE
+Insufficient data to reliably estimate parameters.
+Unadjusted model could not be fit for Surgical Length of Stay
+
+--------------------------------------------------------------------------------
 Method 1: Univariate Variable Selection (alpha=0.1)
 --------------------------------------------------------------------------------
 
@@ -9364,8 +9407,8 @@ Fitting negative binomial regression...
 Dep. Variable:     Surgical Length of Stay   No. Observations:                  130
 Model:                    NegativeBinomial   Df Residuals:                      118
 Method:                                MLE   Df Model:                           11
-Date:                     Sat, 18 Oct 2025   Pseudo R-squ.:                 0.06463
-Time:                             03:26:44   Log-Likelihood:                -346.45
+Date:                     Sun, 19 Oct 2025   Pseudo R-squ.:                 0.06463
+Time:                             00:59:47   Log-Likelihood:                -346.45
 converged:                            True   LL-Null:                       -370.39
 Covariance Type:                 nonrobust   LLR p-value:                 1.501e-06
 ===============================================================================================================
@@ -9427,6 +9470,34 @@ EPV calculation: 27 events / 10 = 2 max variables total
 Maximum covariates (excluding treatment): 1
 
 --------------------------------------------------------------------------------
+Method 0: Unadjusted (Treatment Only)
+--------------------------------------------------------------------------------
+Model variables: [INPWT]
+
+Preparing data...
+Checking for separation issues...
+Final preprocessed data: X.shape=(163, 1), y.shape=(163,)
+
+Fitting logistic regression...
+
+✅ Model converged successfully
+                           Logit Regression Results                           
+==============================================================================
+Dep. Variable:                      y   No. Observations:                  163
+Model:                          Logit   Df Residuals:                      161
+Method:                           MLE   Df Model:                            1
+Date:                Sun, 19 Oct 2025   Pseudo R-squ.:                 0.03857
+Time:                        00:59:47   Log-Likelihood:                -70.351
+converged:                       True   LL-Null:                       -73.173
+Covariance Type:            nonrobust   LLR p-value:                   0.01752
+==============================================================================
+                 coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+const         -1.0776      0.289     -3.723      0.000      -1.645      -0.510
+INPWT_Yes     -1.0132      0.431     -2.350      0.019      -1.858      -0.168
+==============================================================================
+
+--------------------------------------------------------------------------------
 Method 1: Univariate Variable Selection (alpha=0.1)
 --------------------------------------------------------------------------------
 
@@ -9449,8 +9520,8 @@ Fitting logistic regression...
 Dep. Variable:                      y   No. Observations:                  163
 Model:                          Logit   Df Residuals:                      161
 Method:                           MLE   Df Model:                            1
-Date:                Sat, 18 Oct 2025   Pseudo R-squ.:                 0.03857
-Time:                        03:26:44   Log-Likelihood:                -70.351
+Date:                Sun, 19 Oct 2025   Pseudo R-squ.:                 0.03857
+Time:                        00:59:47   Log-Likelihood:                -70.351
 converged:                       True   LL-Null:                       -73.173
 Covariance Type:            nonrobust   LLR p-value:                   0.01752
 ==============================================================================
@@ -9481,8 +9552,8 @@ Fitting logistic regression...
 Dep. Variable:                      y   No. Observations:                  163
 Model:                          Logit   Df Residuals:                      161
 Method:                           MLE   Df Model:                            1
-Date:                Sat, 18 Oct 2025   Pseudo R-squ.:                 0.03857
-Time:                        03:26:44   Log-Likelihood:                -70.351
+Date:                Sun, 19 Oct 2025   Pseudo R-squ.:                 0.03857
+Time:                        00:59:47   Log-Likelihood:                -70.351
 converged:                       True   LL-Null:                       -73.173
 Covariance Type:            nonrobust   LLR p-value:                   0.01752
 ==============================================================================
@@ -9511,8 +9582,8 @@ Fitting logistic regression...
 Dep. Variable:                      y   No. Observations:                  163
 Model:                          Logit   Df Residuals:                      161
 Method:                           MLE   Df Model:                            1
-Date:                Sat, 18 Oct 2025   Pseudo R-squ.:                 0.03857
-Time:                        03:26:44   Log-Likelihood:                -70.351
+Date:                Sun, 19 Oct 2025   Pseudo R-squ.:                 0.03857
+Time:                        00:59:47   Log-Likelihood:                -70.351
 converged:                       True   LL-Null:                       -73.173
 Covariance Type:            nonrobust   LLR p-value:                   0.01752
 ==============================================================================
@@ -9538,6 +9609,34 @@ Outcome type: binary
 Event counts: {'No': 139, 'Yes': 26}
 EPV calculation: 26 events / 10 = 2 max variables total
 Maximum covariates (excluding treatment): 1
+
+--------------------------------------------------------------------------------
+Method 0: Unadjusted (Treatment Only)
+--------------------------------------------------------------------------------
+Model variables: [INPWT]
+
+Preparing data...
+Checking for separation issues...
+Final preprocessed data: X.shape=(163, 1), y.shape=(163,)
+
+Fitting logistic regression...
+
+✅ Model converged successfully
+                           Logit Regression Results                           
+==============================================================================
+Dep. Variable:                      y   No. Observations:                  163
+Model:                          Logit   Df Residuals:                      161
+Method:                           MLE   Df Model:                            1
+Date:                Sun, 19 Oct 2025   Pseudo R-squ.:               0.0001618
+Time:                        00:59:47   Log-Likelihood:                -69.837
+converged:                       True   LL-Null:                       -69.848
+Covariance Type:            nonrobust   LLR p-value:                    0.8805
+==============================================================================
+                 coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+const         -1.6677      0.345     -4.837      0.000      -2.343      -0.992
+INPWT_Yes     -0.0669      0.444     -0.151      0.880      -0.937       0.804
+==============================================================================
 
 --------------------------------------------------------------------------------
 Method 1: Univariate Variable Selection (alpha=0.1)
@@ -9603,6 +9702,34 @@ EPV calculation: 23 events / 10 = 2 max variables total
 Maximum covariates (excluding treatment): 1
 
 --------------------------------------------------------------------------------
+Method 0: Unadjusted (Treatment Only)
+--------------------------------------------------------------------------------
+Model variables: [INPWT]
+
+Preparing data...
+Checking for separation issues...
+Final preprocessed data: X.shape=(163, 1), y.shape=(163,)
+
+Fitting logistic regression...
+
+✅ Model converged successfully
+                           Logit Regression Results                           
+==============================================================================
+Dep. Variable:                      y   No. Observations:                  163
+Model:                          Logit   Df Residuals:                      161
+Method:                           MLE   Df Model:                            1
+Date:                Sun, 19 Oct 2025   Pseudo R-squ.:               1.960e-05
+Time:                        00:59:48   Log-Likelihood:                -66.334
+converged:                       True   LL-Null:                       -66.335
+Covariance Type:            nonrobust   LLR p-value:                    0.9593
+==============================================================================
+                 coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+const         -1.7918      0.360     -4.977      0.000      -2.497      -1.086
+INPWT_Yes     -0.0235      0.461     -0.051      0.959      -0.927       0.880
+==============================================================================
+
+--------------------------------------------------------------------------------
 Method 1: Univariate Variable Selection (alpha=0.1)
 --------------------------------------------------------------------------------
 
@@ -9651,8 +9778,8 @@ Fitting logistic regression...
 Dep. Variable:                      y   No. Observations:                  163
 Model:                          Logit   Df Residuals:                      161
 Method:                           MLE   Df Model:                            1
-Date:                Sat, 18 Oct 2025   Pseudo R-squ.:               1.960e-05
-Time:                        03:26:45   Log-Likelihood:                -66.334
+Date:                Sun, 19 Oct 2025   Pseudo R-squ.:               1.960e-05
+Time:                        00:59:48   Log-Likelihood:                -66.334
 converged:                       True   LL-Null:                       -66.335
 Covariance Type:            nonrobust   LLR p-value:                    0.9593
 ==============================================================================
@@ -9667,7 +9794,7 @@ INPWT_Yes     -0.0235      0.461     -0.051      0.959      -0.927       0.880
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d44b63aa">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=13c01c5d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9675,7 +9802,7 @@ INPWT_Yes     -0.0235      0.461     -0.051      0.959      -0.927       0.880
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="Results">Results<a class="anchor-link" href="#Results">¶</a></h2><h3 id="Overview-of-Variable-Selection-and-Modeling">Overview of Variable Selection and Modeling<a class="anchor-link" href="#Overview-of-Variable-Selection-and-Modeling">¶</a></h3><p>We employed a systematic two-stage approach to variable selection and model fitting. First, we applied two independent variable selection methods—univariate testing (p &lt; 0.1) and elastic net regularization (L1 ratio = 0.5, 5-fold cross-validation)—to identify candidate predictors for each outcome. Second, we determined the maximum number of covariates that could be reliably estimated given our sample size, using established guidelines: 10 events per variable for binary outcomes (Peduzzi et al., 1996) and 15 observations per variable for count outcomes, the latter being more conservative to account for increased variance in count data.</p>
 <p>When either selection method identified more variables than the sample size threshold permitted, we retained only the top N variables ranked by statistical strength (smallest p-values for univariate, largest absolute coefficients for elastic net). The treatment variable (incisional negative pressure wound therapy, INPWT) was included in all models regardless of selection and counted toward the variable limit.</p>
-<p>We attempted to fit three models per outcome: (1) univariate selection, (2) elastic net selection, and (3) consensus (variables selected by both methods). For outcomes where models failed to converge despite appropriate sample size considerations, we concluded the data were insufficient to support that covariate structure and report this limitation explicitly.</p>
+<p>We attempted to fit four models per outcome to assess treatment effects and confounding: (1) unadjusted (treatment only), (2) univariate selection (treatment + univariate covariates), (3) elastic net selection (treatment + elastic net covariates), and (4) consensus (treatment + variables selected by both methods). Comparison of unadjusted and adjusted estimates allowed assessment of confounding. When adjusted models failed to converge despite appropriate sample size considerations, we reported unadjusted estimates with appropriate caveats about unmeasured or unmeasurable confounding.</p>
 <p><strong>Table 1. Variable Selection and Model Convergence by Outcome and Method</strong></p>
 <table>
 <thead>
@@ -9688,6 +9815,13 @@ INPWT_Yes     -0.0235      0.461     -0.051      0.959      -0.927       0.880
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>Surgical Length of Stay</td>
+<td>Unadjusted</td>
+<td>—</td>
+<td>✗</td>
+<td>Failed to converge</td>
+</tr>
 <tr>
 <td>Surgical Length of Stay</td>
 <td>Univariate</td>
@@ -9703,11 +9837,11 @@ INPWT_Yes     -0.0235      0.461     -0.051      0.959      -0.927       0.880
 <td>Failed to converge</td>
 </tr>
 <tr>
-<td>Surgical Length of Stay</td>
-<td>Consensus</td>
+<td>Postop Sepsis Occurrence</td>
+<td>Unadjusted</td>
+<td>0</td>
+<td>✓</td>
 <td>—</td>
-<td>✗</td>
-<td>Failed to converge</td>
 </tr>
 <tr>
 <td>Postop Sepsis Occurrence</td>
@@ -9732,6 +9866,13 @@ INPWT_Yes     -0.0235      0.461     -0.051      0.959      -0.927       0.880
 </tr>
 <tr>
 <td>Postop SSI Occurrence</td>
+<td>Unadjusted</td>
+<td>0</td>
+<td>✓</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Postop SSI Occurrence</td>
 <td>Univariate</td>
 <td>—</td>
 <td>✗</td>
@@ -9745,11 +9886,11 @@ INPWT_Yes     -0.0235      0.461     -0.051      0.959      -0.927       0.880
 <td>Failed to converge</td>
 </tr>
 <tr>
-<td>Postop SSI Occurrence</td>
-<td>Consensus</td>
+<td>Readmission likely related to Primary Procedure</td>
+<td>Unadjusted</td>
+<td>0</td>
+<td>✓</td>
 <td>—</td>
-<td>✗</td>
-<td>Failed to converge</td>
 </tr>
 <tr>
 <td>Readmission likely related to Primary Procedure</td>
@@ -9764,17 +9905,10 @@ INPWT_Yes     -0.0235      0.461     -0.051      0.959      -0.927       0.880
 <td>0</td>
 <td>✓</td>
 <td>—</td>
-</tr>
-<tr>
-<td>Readmission likely related to Primary Procedure</td>
-<td>Consensus</td>
-<td>—</td>
-<td>✗</td>
-<td>Failed to converge</td>
 </tr>
 </tbody>
 </table>
-<h3 id="Surgical-Length-of-Stay">Surgical Length of Stay<a class="anchor-link" href="#Surgical-Length-of-Stay">¶</a></h3><p>The univariate method (p &lt; 0.1) selected 6 covariates, all within the sample size limit of 9 covariates (152 observations / 15 = 10 total variables, minus 1 for treatment). Elastic net selected 13 covariates; we retained the top 9 by coefficient magnitude. However, 6 of these 9 variables exhibited perfect separation (certain predictor levels had 100% of observations at specific outcome values), and the model failed to converge. The consensus approach was not applicable as there was no overlap between univariate and elastic net selections after EPV limiting. Thus, only the univariate model converged successfully.</p>
+<h3 id="Surgical-Length-of-Stay">Surgical Length of Stay<a class="anchor-link" href="#Surgical-Length-of-Stay">¶</a></h3><p>The unadjusted analysis (treatment only) failed to converge, likely due to extreme overdispersion in the full dataset. The univariate method (p &lt; 0.1) selected 6 covariates, all within the sample size limit of 9 covariates (152 observations / 15 = 10 total variables, minus 1 for treatment). This model included 130 patients after excluding those with missing covariate data and converged successfully. Elastic net selected 13 covariates; we retained the top 9 by coefficient magnitude. However, 6 of these 9 variables exhibited perfect separation, and the model failed to converge.</p>
 <p><strong>Variables in Univariate Model</strong></p>
 <table>
 <thead>
@@ -9831,7 +9965,7 @@ INPWT_Yes     -0.0235      0.461     -0.051      0.959      -0.927       0.880
 </tbody>
 </table>
 <p>Two variables exhibited perfect separation (Hospital Discharge Destination: Acute Care Hospital; Duration of Surgical Procedure: 29 minutes), yet the univariate model converged successfully. This suggests these patterns, while extreme, did not prevent parameter estimation in this specific covariate configuration.</p>
-<p><strong>Treatment Effect on Surgical Length of Stay</strong></p>
+<p><strong>Treatment Effect on Surgical Length of Stay (Univariate Model)</strong></p>
 <table>
 <thead>
 <tr>
@@ -9854,7 +9988,7 @@ INPWT_Yes     -0.0235      0.461     -0.051      0.959      -0.927       0.880
 </tr>
 </tbody>
 </table>
-<p>INPWT was associated with a 9% reduction in expected length of stay (IRR 0.91, 95% CI 0.78–1.05), though this did not reach statistical significance (p = 0.190).</p>
+<p>In the adjusted univariate model, INPWT was associated with a 9% reduction in expected length of stay (IRR 0.91, 95% CI 0.78 – 1.05), though this did not reach statistical significance (p = 0.190). The failure of the unadjusted model to converge prevented direct assessment of confounding, though the adjusted estimate suggests a modest protective effect after accounting for discharge destination and diabetes status.</p>
 <p><strong>Key Covariate Effects (Univariate Model)</strong></p>
 <table>
 <thead>
@@ -9939,8 +10073,8 @@ INPWT_Yes     -0.0235      0.461     -0.051      0.959      -0.927       0.880
 </tr>
 </tbody>
 </table>
-<p>Discharge destination was the strongest predictor of length of stay. Patients discharged to other facilities (not home or skilled care) had 42% longer stays (IRR 1.35, 95% CI 1.14–1.75, p = 0.001), and those discharged to skilled care facilities had 33% longer stays (IRR 1.33, 95% CI 1.06–1.67, p = 0.015), compared to discharge home.</p>
-<p>Diabetes status also significantly predicted length of stay. Patients without diabetes had 27% shorter stays compared to insulin-dependent diabetics (IRR 0.73, 95% CI 0.60–0.87, p &lt; 0.001), and those with non-insulin-dependent diabetes had 27% shorter stays (IRR 0.73, 95% CI 0.58–0.90, p = 0.004).</p>
+<p>Discharge destination was the strongest predictor of length of stay. Patients discharged to other facilities (not home or skilled care) had 42% longer stays (IRR 1.42, 95% CI 1.14-1.75, p = 0.001), and those discharged to skilled care facilities had 33% longer stays (IRR 1.33, 95% CI 1.06-1.67, p = 0.015), compared to discharge home.</p>
+<p>Diabetes status also significantly predicted length of stay. Patients without diabetes had 27% shorter stays compared to insulin-dependent diabetics (IRR 0.73, 95% CI 0.61-0.86, p &lt; 0.000), and those with non-insulin-dependent diabetes had 27% shorter stays (IRR 0.73, 95% CI 0.59-0.90, p = 0.004).</p>
 <h3 id="Postoperative-Sepsis">Postoperative Sepsis<a class="anchor-link" href="#Postoperative-Sepsis">¶</a></h3><p>With only 27 sepsis events, the events-per-variable guideline (10 events per variable) permitted a maximum of 2 total variables (treatment + 1 covariate). Neither univariate testing (p &lt; 0.1) nor elastic net regularization identified any covariates. All three models (univariate, elastic net, and consensus) were therefore identical, consisting of the treatment variable only.</p>
 <p><strong>Treatment Effect on Postoperative Sepsis (All Models)</strong></p>
 <table>
@@ -9956,6 +10090,15 @@ INPWT_Yes     -0.0235      0.461     -0.051      0.959      -0.927       0.880
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>Unadjusted</td>
+<td>163</td>
+<td>27</td>
+<td>-1.013</td>
+<td>0.36</td>
+<td>0.16 – 0.85</td>
+<td>0.019</td>
+</tr>
 <tr>
 <td>Univariate</td>
 <td>163</td>
@@ -9985,12 +10128,9 @@ INPWT_Yes     -0.0235      0.461     -0.051      0.959      -0.927       0.880
 </tr>
 </tbody>
 </table>
-<p>INPWT demonstrated a significant protective association with postoperative sepsis. Patients receiving INPWT had 64% lower odds of developing sepsis (OR 0.36, 95% CI 0.16–0.85, p = 0.019). This effect remained robust across all modeling approaches. The absence of selected covariates suggests that, within this dataset and given the statistical power constraints, the treatment effect on sepsis was not confounded by the measured patient or procedural characteristics that were available for analysis.</p>
-<h3 id="Postoperative-Surgical-Site-Infection">Postoperative Surgical Site Infection<a class="anchor-link" href="#Postoperative-Surgical-Site-Infection">¶</a></h3><p>With only 26 SSI events, the events-per-variable guideline permitted a maximum of 2 total variables (treatment + 1 covariate). Both univariate testing and elastic net selection identified the same covariate: number of postoperative organ/space SSIs at time of surgery. However, this variable exhibited perfect separation—all patients with organ/space SSI at surgery also had subsequent SSI. This perfect collinearity prevented model convergence for both univariate and elastic net approaches.</p>
-<p>The elastic net initially selected 14 variables but was limited to the top 1 by coefficient magnitude, which happened to be the same separated variable. No multivariable models could be fit for this outcome due to the separation issue combined with insufficient events for including additional predictors.</p>
-<h3 id="Readmission-Related-to-Primary-Procedure">Readmission Related to Primary Procedure<a class="anchor-link" href="#Readmission-Related-to-Primary-Procedure">¶</a></h3><p>With only 23 readmission events, the sample size permitted a maximum of 2 total variables (treatment + 1 covariate). Univariate testing identified 8 potentially associated covariates but was limited to the top 1 by p-value: number of postoperative organ/space SSIs. This variable exhibited perfect separation, causing the univariate model to fail to converge.</p>
-<p>Elastic net selected no covariates, allowing a treatment-only model to be fit successfully.</p>
-<p><strong>Treatment Effect on Readmission (Elastic Net Model)</strong></p>
+<p>INPWT demonstrated a significant protective association with postoperative sepsis. Patients receiving INPWT had 64% lower odds of developing sepsis (OR 0.36, 95% CI 0.16 – 0.85, p = 0.019). This effect remained robust across all modeling approaches. The absence of selected covariates suggests that, within this dataset and given the statistical power constraints, the treatment effect on sepsis was not confounded by the measured patient or procedural characteristics that were available for analysis.</p>
+<h3 id="Postoperative-Surgical-Site-Infection">Postoperative Surgical Site Infection<a class="anchor-link" href="#Postoperative-Surgical-Site-Infection">¶</a></h3><p>With only 26 SSI events, the events-per-variable guideline permitted a maximum of 2 total variables (treatment + 1 covariate). Both univariate testing and elastic net selection identified the same covariate: number of postoperative organ/space SSIs at time of surgery. However, this variable exhibited perfect separation—all patients with organ/space SSI at surgery also had subsequent SSI. This perfect collinearity prevented convergence for both univariate and elastic net approaches.</p>
+<p><strong>Treatment Effect on SSI (Unadjusted Model Only)</strong></p>
 <table>
 <thead>
 <tr>
@@ -10005,6 +10145,43 @@ INPWT_Yes     -0.0235      0.461     -0.051      0.959      -0.927       0.880
 </thead>
 <tbody>
 <tr>
+<td>Unadjusted</td>
+<td>163</td>
+<td>25</td>
+<td>-0.067</td>
+<td>0.94</td>
+<td>0.39 – 2.23</td>
+<td>0.880</td>
+</tr>
+</tbody>
+</table>
+<p>In unadjusted analysis, INPWT showed no evidence of protective effect against SSI (OR 0.94, 95% CI 0.39-2.23, p = 0.880). Although adjusted models could not be fit due to perfect separation in the selected covariate, the null unadjusted finding suggests adjustment is unlikely to reveal a hidden treatment benefit. The inability to adjust for organ/space SSI at surgery—itself a strong predictor—limits causal interpretation, but the wide confidence interval and null point estimate indicate the data provide little evidence for or against a treatment effect.</p>
+<h3 id="Readmission-Related-to-Primary-Procedure">Readmission Related to Primary Procedure<a class="anchor-link" href="#Readmission-Related-to-Primary-Procedure">¶</a></h3><p>With only 23 readmission events, the sample size permitted a maximum of 2 total variables (treatment + 1 covariate). Univariate testing identified 8 potentially associated covariates but was limited to the top 1 by p-value: number of postoperative organ/space SSIs. This variable exhibited perfect separation, causing the univariate model to fail to converge.</p>
+<p>Elastic net selected no covariates, allowing a treatment-only model to be fit successfully.</p>
+<p><strong>Treatment Effect on Readmission</strong></p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>n</th>
+<th>Events</th>
+<th>Coefficient</th>
+<th>OR</th>
+<th>95% CI</th>
+<th>p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unadjusted</td>
+<td>163</td>
+<td>23</td>
+<td>-0.024</td>
+<td>0.98</td>
+<td>0.40 – 2.41</td>
+<td>0.959</td>
+</tr>
+<tr>
 <td>Elastic Net</td>
 <td>163</td>
 <td>23</td>
@@ -10015,11 +10192,13 @@ INPWT_Yes     -0.0235      0.461     -0.051      0.959      -0.927       0.880
 </tr>
 </tbody>
 </table>
-<p>No evidence of a treatment effect on readmission was observed (OR 0.98, 95% CI 0.40–2.41, p = 0.959). The pseudo R-squared was near zero (0.00002), indicating the treatment explained essentially none of the variation in readmission risk. This null finding should be interpreted cautiously given the small number of events and lack of covariate adjustment.</p>
-<h3 id="Summary">Summary<a class="anchor-link" href="#Summary">¶</a></h3><p>INPWT showed a significant protective association with postoperative sepsis, with a 64% reduction in odds (OR 0.36, 95% CI 0.16–0.85, p = 0.019). This effect was not confounded by measured patient characteristics that could be included given sample size constraints. For surgical length of stay, INPWT demonstrated a modest 9% reduction (IRR 0.91) that did not reach statistical significance (p = 0.190).</p>
-<p>Discharge disposition and diabetes status were the strongest determinants of length of stay in the univariate model. Discharge to non-home settings was associated with 33–42% longer stays, and absence of insulin-dependent diabetes was associated with 27% shorter stays compared to insulin-dependent diabetes.</p>
-<p>Sample size limitations precluded definitive analysis of SSI (26 events) and readmission (23 events) outcomes. The small event counts relative to the number of candidate predictors resulted in models that either could not be fit due to separation issues (SSI, readmission univariate) or had insufficient power for covariate adjustment (readmission elastic net, treatment-only model). The elastic net selection for surgical length of stay identified 13 variables, but including the top 9 by coefficient magnitude resulted in convergence failure due to separation in 6 variables, highlighting the challenge of multivariable modeling with moderate sample sizes and complex covariate patterns.</p>
-<p>These findings underscore the importance of sample size considerations in surgical outcomes research. Future studies of these endpoints may require larger samples or alternative analytical approaches such as penalized regression methods specifically designed to handle separation, propensity score methods to reduce dimensionality, or Bayesian approaches that can incorporate prior information to stabilize estimates with sparse data.</p>
+<p>No evidence of a treatment effect on readmission was observed (OR 0.98, 95% CI 0.40 – 2.41, p = 0.959). The pseudo R-squared was near zero (0.00002), indicating the treatment explained essentially none of the variation in readmission risk. This null finding should be interpreted cautiously given the small number of events and lack of covariate adjustment.</p>
+<h3 id="Summary">Summary<a class="anchor-link" href="#Summary">¶</a></h3><p>INPWT showed a significant protective association with postoperative sepsis in all models (unadjusted and adjusted were identical as no covariates were selected), with a 64% reduction in odds (OR 0.36, 95% CI 0.16 – 0.85, p = 0.019). This effect was robust and was not confounded by measured patient characteristics that could be included given sample size constraints.</p>
+<p>For surgical length of stay, only the adjusted univariate model converged, showing a 9% reduction in expected stay (IRR 0.91, 95% CI 0.78 – 1.05, p = 0.190) that did not reach statistical significance. The unadjusted model failed to converge, likely due to extreme overdispersion in the complete dataset, preventing direct assessment of confounding. The adjusted model identified discharge destination and diabetes status as the strongest predictors of length of stay.</p>
+<p>For SSI and readmission, unadjusted analyses showed null findings (SSI: OR 0.94, 95% CI 0.39 – 2.23, p = 0.880; Readmission: OR 0.98, 95% CI 0.40 – 2.41, p = 0.959). Adjusted models could not be fit due to perfect separation in selected covariates or insufficient events. The null unadjusted estimates with point estimates near 1.0 provide no suggestion that adjustment would reveal substantial treatment benefits.</p>
+<p>Discharge disposition and diabetes status were the strongest determinants of length of stay in adjusted analysis. Discharge to non-home settings was associated with 33-42% longer stays, and absence of insulin-dependent diabetes was associated with 27% shorter stays compared to insulin-dependent diabetes.</p>
+<p>Sample size limitations precluded definitive adjusted analysis of SSI (26 events) and readmission (23 events) outcomes. The small event counts relative to the number of candidate predictors resulted in models that could not be fit due to separation issues. For surgical length of stay, elastic net selection identified 13 variables, but including the top 9 by coefficient magnitude resulted in convergence failure due to separation in 6 variables. Paradoxically, the treatment-only model also failed to converge, highlighting significant overdispersion challenges in count outcome modeling with this dataset.</p>
+<p>These findings underscore the importance of sample size considerations in surgical outcomes research and the value of attempting both unadjusted and adjusted analyses. When unadjusted models converge, they provide important context even when adjustment fails. The SSI and readmission results demonstrate that null unadjusted findings, while limited by potential confounding, can still inform clinical decision-making and future research planning. Future studies of these endpoints may require larger samples, alternative analytical approaches such as penalized regression methods specifically designed to handle separation and overdispersion, propensity score methods to reduce dimensionality, or Bayesian approaches that can incorporate prior information to stabilize estimates with sparse data.</p>
 </div>
 </div>
 </div>
