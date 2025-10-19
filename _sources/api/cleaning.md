@@ -122,7 +122,7 @@ The cleaner distinguishes between:
 
 Only quasi-categorical integers are checked for class imbalance.
 
-## Design Philosophy
+## Design Rationale
 
 The cleaning pipeline emphasizes:
 1. **Explicit decisions**: No silent data modifications
