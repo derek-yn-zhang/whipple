@@ -1,9 +1,12 @@
 import numpy as np
 import pandas as pd
 from scipy import stats
-from typing import List, Union, Optional
+from typing import List, Union, Optional, Dict
 from sklearn.linear_model import ElasticNetCV, LogisticRegressionCV
+from sklearn.model_selection import StratifiedKFold, RepeatedStratifiedKFold
+from sklearn.metrics import roc_auc_score, brier_score_loss
 from pandas.api.types import CategoricalDtype, is_object_dtype, is_numeric_dtype
+import statsmodels.api as sm
 
 from .preparation import DataPreparer
 
@@ -698,3 +701,599 @@ class ElasticNetVariableSelection:
             print(f"Selected variables: {self.selected_explanatory_variables}")
         else:
             print("WARNING: No variables selected - regularization may be too strong")
+
+
+class NestedCVElasticNetVariableSelection:
+    """
+    Nested cross-validation wrapper for elastic net variable selection with stability analysis.
+
+    Provides honest performance estimates and selection stability by wrapping
+    ElasticNetVariableSelection in an outer cross-validation loop. This addresses
+    optimistic bias in single-pass selection and quantifies how reliably variables
+    are selected across different data subsets.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Dataset containing response and explanatory variables.
+    response_variable : str
+        Name of the response/outcome variable.
+    explanatory_variables : list of str
+        List of candidate predictor variable names.
+    outcome_type : str, default 'binary'
+        Type of outcome: 'binary' or 'count'.
+    alpha_ratio : float, default 0.5
+        L1 ratio for elastic net (0=Ridge, 0.5=Elastic Net, 1=Lasso).
+    inner_cv : int, default 5
+        Number of CV folds for hyperparameter tuning (inner loop).
+        Used within ElasticNetVariableSelection to tune regularization strength.
+    outer_cv : int, default 5
+        Number of CV folds for performance estimation (outer loop).
+        Each fold provides independent test set for unbiased evaluation.
+    n_repeats : int, default 1
+        Number of times to repeat the outer CV with different random splits.
+        n_repeats=1 gives standard k-fold CV. n_repeats=10 with outer_cv=5
+        gives 50 total iterations for smoother selection frequency estimates.
+        Recommended: 10 repeats for n<200 to reduce sampling variance.
+    random_state : int, default 42
+        Random seed for reproducibility of CV splits.
+    selection_threshold : float, default 0.5
+        Minimum selection frequency (0 to 1) for a variable to be included
+        in consensus set. Default 0.5 means variable must be selected in
+        ≥50% of outer folds. Common alternatives: 0.7 (70%), 0.8 (80%).
+
+    Attributes
+    ----------
+    selected_explanatory_variables : list of str
+        Consensus variables selected in ≥selection_threshold of outer folds.
+        Sorted by selection frequency (descending).
+    selection_frequencies : dict of {str: float}
+        Selection frequency for each variable across outer folds.
+        Values range from 0.0 (never selected) to 1.0 (always selected).
+    coefficient_distributions : dict of {str: list of float}
+        Distribution of coefficients for each variable across folds where selected.
+        Quantifies coefficient stability and magnitude.
+    performance_metrics : dict
+        Test performance metrics aggregated across outer folds.
+        For binary outcomes: auc_mean, auc_std, auc_min, auc_max, brier_mean, brier_std.
+    fold_results : list of dict
+        Detailed results for each outer fold including selected variables,
+        performance metrics, and sample sizes.
+
+    Examples
+    --------
+    >>> # Standard 5-fold CV
+    >>> selector = NestedCVElasticNetSelection(
+    ...     df=cleaned_df,
+    ...     response_variable='SSI',
+    ...     explanatory_variables=predictors,
+    ...     outcome_type='binary',
+    ...     alpha_ratio=0.5,
+    ...     outer_cv=5,
+    ...     n_repeats=1  # Single 5-fold CV
+    ... )
+    >>>
+    >>> # Repeated 5-fold CV for smoother estimates (RECOMMENDED)
+    >>> selector = NestedCVElasticNetSelection(
+    ...     df=cleaned_df,
+    ...     response_variable='SSI',
+    ...     explanatory_variables=predictors,
+    ...     outcome_type='binary',
+    ...     alpha_ratio=0.5,
+    ...     outer_cv=5,
+    ...     n_repeats=10  # 50 total iterations
+    ... )
+    >>>
+    >>> # Get consensus variables (selected in ≥50% of folds)
+    >>> print(selector.selected_explanatory_variables)
+    ['Diabetes', 'BMI', 'INPWT']
+    >>>
+    >>> # View detailed stability report
+    >>> selector.print_stability_report()
+    >>>
+    >>> # Export results for publication
+    >>> results_df = selector.get_results_dataframe()
+    >>> results_df.to_csv('selection_stability.csv', index=False)
+
+    See Also
+    --------
+    ElasticNetVariableSelection : Single-pass elastic net selection.
+    UnivariateVariableSelection : Univariate statistical testing for selection.
+
+    Notes
+    -----
+    The nested CV process:
+
+    1. **Outer loop (performance estimation)**: Data split into k folds
+       - Each fold: ~80% training, ~20% testing
+       - Test sets are never used for variable selection or training
+
+    2. **Inner loop (variable selection)**: For each training set
+       - Run ElasticNetVariableSelection with cross-validation
+       - Select variables, fit model, predict on test set
+       - Record selected variables and performance
+
+    3. **Aggregation**: Across all outer folds
+       - Calculate selection frequencies
+       - Identify consensus variables (≥threshold)
+       - Aggregate performance metrics (mean, SD, range)
+       - Report coefficient distributions
+
+    **Advantages over single-pass selection:**
+
+    - **Unbiased performance**: Test AUC represents expected performance on
+      new patients, not optimistically biased training performance
+    - **Selection stability**: Quantifies reproducibility of variable selection
+      across different data subsets
+    - **Coefficient uncertainty**: Distribution shows variability in effect sizes
+    - **Robust inference**: Variables selected consistently are more likely to
+      replicate in external validation
+
+    **Selection threshold interpretation:**
+
+    - **0.5 (50%)**: Liberal, includes moderately stable variables
+    - **0.7 (70%)**: Moderate, requires fairly consistent selection
+    - **0.8 (80%)**: Conservative, only highly stable variables
+    - **1.0 (100%)**: Very conservative, only variables selected in every fold
+
+    For small samples (n<200), lower thresholds (0.5) may be necessary to
+    avoid excluding important variables due to sampling variability.
+
+    **Computational cost:**
+
+    With outer_cv=5 and inner_cv=5, this runs ~25x slower than single-pass
+    selection (5 outer folds × ~5 inner folds each). Consider reducing outer_cv
+    to 3 for faster results with reasonable stability estimates.
+
+    References
+    ----------
+    .. [1] Varma S, Simon R. "Bias in error estimation when using
+           cross-validation for model selection." BMC Bioinformatics. 2006;7:91.
+    .. [2] Meinshausen N, Bühlmann P. "Stability selection."
+           J R Stat Soc Series B Stat Methodol. 2010;72(4):417-473.
+    .. [3] Heinze G, Wallisch C, Dunkler D. "Variable selection - A review and
+           recommendations for the practicing statistician."
+           Biom J. 2018;60(3):431-449.
+    """
+
+    def __init__(
+        self,
+        df: pd.DataFrame,
+        response_variable: str,
+        explanatory_variables: List[str],
+        outcome_type: str = "binary",
+        alpha_ratio: float = 0.5,
+        inner_cv: int = 5,
+        outer_cv: int = 5,
+        n_repeats: int = 1,
+        random_state: int = 42,
+        selection_threshold: float = 0.5,
+    ):
+        self.df = df
+        self.response_variable = response_variable
+        self.explanatory_variables = explanatory_variables
+        self.outcome_type = outcome_type
+        self.alpha_ratio = alpha_ratio
+        self.inner_cv = inner_cv
+        self.outer_cv = outer_cv
+        self.n_repeats = n_repeats
+        self.random_state = random_state
+        self.selection_threshold = selection_threshold
+
+        # Validate selection threshold
+        if not 0 < selection_threshold <= 1.0:
+            raise ValueError("selection_threshold must be between 0 and 1")
+
+        # Results storage
+        self.selection_frequencies: Dict[str, float] = {}
+        self.coefficient_distributions: Dict[str, List[float]] = {}
+        self.performance_metrics: Dict[str, float] = {}
+        self.fold_results: List[Dict] = []
+        self.selected_explanatory_variables: List[str] = []
+
+        # Run nested CV
+        self._run_nested_cv()
+        self._aggregate_results()
+
+    def _run_nested_cv(self):
+        """
+        Execute nested cross-validation with outer and inner loops.
+
+        Outer loop: Honest performance estimation on held-out test sets.
+        Inner loop: Variable selection with hyperparameter tuning on training data.
+        """
+        print(f"\n{'='*60}")
+        print(f"Running Nested CV Elastic Net Selection")
+        print(
+            f"Outer CV: {self.outer_cv}-fold × {self.n_repeats} repeats = {self.outer_cv * self.n_repeats} iterations"
+        )
+        print(f"Inner CV: {self.inner_cv}-fold")
+        print(f"Selection threshold: {self.selection_threshold*100:.0f}%")
+        print(f"{'='*60}\n")
+
+        # Prepare data for splitting
+        df_subset = self.df[
+            [self.response_variable] + self.explanatory_variables
+        ].copy()
+        df_subset = df_subset.dropna(subset=[self.response_variable])
+
+        y_all = df_subset[self.response_variable]
+
+        # Outer CV loop with optional repeats
+        if self.n_repeats > 1:
+            outer_cv_splitter = RepeatedStratifiedKFold(
+                n_splits=self.outer_cv,
+                n_repeats=self.n_repeats,
+                random_state=self.random_state,
+            )
+        else:
+            outer_cv_splitter = StratifiedKFold(
+                n_splits=self.outer_cv, shuffle=True, random_state=self.random_state
+            )
+
+        total_folds = self.outer_cv * self.n_repeats
+
+        for fold_idx, (train_idx, test_idx) in enumerate(
+            outer_cv_splitter.split(df_subset, y_all)
+        ):
+            repeat_num = fold_idx // self.outer_cv + 1
+            fold_in_repeat = fold_idx % self.outer_cv + 1
+
+            print(f"\n{'─'*60}")
+            if self.n_repeats > 1:
+                print(
+                    f"Repeat {repeat_num}/{self.n_repeats}, Fold {fold_in_repeat}/{self.outer_cv} (Overall: {fold_idx + 1}/{total_folds})"
+                )
+            else:
+                print(f"Fold {fold_idx + 1}/{self.outer_cv}")
+            print(f"{'─'*60}")
+
+            # Split data
+            df_train = df_subset.iloc[train_idx]
+            df_test = df_subset.iloc[test_idx]
+
+            print(f"Training size: {len(df_train)}, Test size: {len(df_test)}")
+
+            # Variable selection on training data using inner CV
+            selector = ElasticNetVariableSelection(
+                df=df_train,
+                response_variable=self.response_variable,
+                explanatory_variables=self.explanatory_variables,
+                outcome_type=self.outcome_type,
+                alpha_ratio=self.alpha_ratio,
+                cv=self.inner_cv,
+            )
+
+            selected_vars = selector.selected_explanatory_variables
+            print(f"Selected variables ({len(selected_vars)}): {selected_vars}")
+
+            if len(selected_vars) == 0:
+                print("WARNING: No variables selected in this fold!")
+                continue
+
+            # Prepare training data with selected variables
+            preparer_train = DataPreparer(
+                df=df_train,
+                response_variable=self.response_variable,
+                explanatory_variables=selected_vars,
+            )
+
+            try:
+                X_train, y_train = preparer_train.preprocess(
+                    drop_first_category=True,
+                    scale_numeric=False,
+                    check_separation=False,
+                )
+            except ValueError as e:
+                print(f"WARNING: Training set preprocessing failed: {e}")
+                print("Skipping this fold")
+                continue
+
+            # Check if training set is too small
+            if len(X_train) < 10:
+                print(
+                    f"WARNING: Training set too small after preprocessing (n={len(X_train)}). Skipping this fold."
+                )
+                continue
+
+            # Fit model
+            if self.outcome_type == "binary":
+                from .modeling import LogisticRegressionModel
+
+                model = LogisticRegressionModel()
+            else:
+                from .modeling import NegativeBinomialRegressionModel
+
+                model = NegativeBinomialRegressionModel()
+
+            try:
+                model.fit(X_train, y_train)
+            except Exception as e:
+                print(f"WARNING: Model fitting failed: {e}")
+                print(
+                    "Skipping this fold (likely due to perfect separation or multicollinearity)"
+                )
+                continue
+
+            # Check convergence
+            if not model.check_convergence():
+                print("WARNING: Model did not converge. Skipping this fold.")
+                continue
+
+            # Store coefficients
+            for var in selected_vars:
+                if var in X_train.columns:
+                    coef = model.model.params[var]
+                    if var not in self.coefficient_distributions:
+                        self.coefficient_distributions[var] = []
+                    self.coefficient_distributions[var].append(coef)
+
+            # Prepare test data
+            preparer_test = DataPreparer(
+                df=df_test,
+                response_variable=self.response_variable,
+                explanatory_variables=selected_vars,
+            )
+
+            try:
+                X_test, y_test = preparer_test.preprocess(
+                    drop_first_category=True,
+                    scale_numeric=False,
+                    check_separation=False,
+                )
+            except ValueError as e:
+                print(f"WARNING: Test set preprocessing failed: {e}")
+                print(
+                    "Skipping this fold (likely due to rare categories or missing data)"
+                )
+                continue
+
+            # Check if test set is empty after preprocessing
+            if len(X_test) == 0 or len(y_test) == 0:
+                print(
+                    "WARNING: Test set empty after preprocessing. Skipping this fold."
+                )
+                continue
+
+            # Predict on test set
+            X_test_const = sm.add_constant(X_test, has_constant="add")
+            y_pred_proba = model.model.predict(X_test_const)
+
+            # Calculate performance metrics
+            if self.outcome_type == "binary":
+                auc = roc_auc_score(y_test, y_pred_proba)
+                brier = brier_score_loss(y_test, y_pred_proba)
+                print(f"Test AUC: {auc:.3f}, Brier Score: {brier:.3f}")
+
+                fold_result = {
+                    "fold": fold_idx + 1,
+                    "n_train": len(df_train),
+                    "n_test": len(df_test),
+                    "n_selected": len(selected_vars),
+                    "selected_vars": selected_vars,
+                    "auc": auc,
+                    "brier": brier,
+                }
+            else:
+                # For count outcomes, could add other metrics
+                fold_result = {
+                    "fold": fold_idx + 1,
+                    "n_train": len(df_train),
+                    "n_test": len(df_test),
+                    "n_selected": len(selected_vars),
+                    "selected_vars": selected_vars,
+                }
+
+            self.fold_results.append(fold_result)
+
+    def _aggregate_results(self):
+        """
+        Aggregate selection frequencies, coefficients, and performance across folds.
+
+        Identifies consensus variables based on selection_threshold and computes
+        summary statistics for reporting.
+        """
+        print(f"\n{'='*60}")
+        print("Aggregating Results Across Folds")
+        print(f"{'='*60}\n")
+
+        if len(self.fold_results) == 0:
+            print("ERROR: No folds completed successfully!")
+            print("Cannot perform variable selection - all folds failed.")
+            self.selected_explanatory_variables = []
+            return
+
+        print(f"Successfully completed {len(self.fold_results)} folds")
+
+        # Calculate selection frequencies
+        selection_counts = {}
+        for fold_result in self.fold_results:
+            for var in fold_result["selected_vars"]:
+                selection_counts[var] = selection_counts.get(var, 0) + 1
+
+        for var, count in selection_counts.items():
+            self.selection_frequencies[var] = count / len(self.fold_results)
+
+        # Identify consensus variables (selected in ≥threshold of folds)
+        self.selected_explanatory_variables = [
+            var
+            for var, freq in self.selection_frequencies.items()
+            if freq >= self.selection_threshold
+        ]
+
+        # Sort by selection frequency (descending)
+        self.selected_explanatory_variables.sort(
+            key=lambda v: self.selection_frequencies[v], reverse=True
+        )
+
+        # Aggregate performance metrics
+        if self.outcome_type == "binary" and len(self.fold_results) > 0:
+            aucs = [r["auc"] for r in self.fold_results if "auc" in r]
+            briers = [r["brier"] for r in self.fold_results if "brier" in r]
+
+            if aucs:
+                self.performance_metrics = {
+                    "auc_mean": np.mean(aucs),
+                    "auc_std": np.std(aucs),
+                    "auc_min": np.min(aucs),
+                    "auc_max": np.max(aucs),
+                    "brier_mean": np.mean(briers),
+                    "brier_std": np.std(briers),
+                }
+
+                print(f"Test Performance (n={len(aucs)} folds):")
+                print(
+                    f"  AUC: {self.performance_metrics['auc_mean']:.3f} ± "
+                    f"{self.performance_metrics['auc_std']:.3f} "
+                    f"[{self.performance_metrics['auc_min']:.3f}, "
+                    f"{self.performance_metrics['auc_max']:.3f}]"
+                )
+                print(
+                    f"  Brier: {self.performance_metrics['brier_mean']:.3f} ± "
+                    f"{self.performance_metrics['brier_std']:.3f}"
+                )
+
+        print(
+            f"\nConsensus Variables (selected in ≥{self.selection_threshold*100:.0f}% of folds):"
+        )
+        print(
+            f"  {len(self.selected_explanatory_variables)} variables: "
+            f"{self.selected_explanatory_variables}"
+        )
+
+    def print_stability_report(self):
+        """
+        Print comprehensive stability and performance report.
+
+        Displays selection frequencies, coefficient distributions, and test
+        performance metrics in a formatted table for easy interpretation.
+
+        Examples
+        --------
+        >>> selector.print_stability_report()
+        ======================================================================
+        VARIABLE SELECTION STABILITY REPORT
+        ======================================================================
+        ...
+        """
+        print(f"\n{'='*70}")
+        print("VARIABLE SELECTION STABILITY REPORT")
+        print(f"{'='*70}\n")
+
+        print(
+            f"Analysis: {self.response_variable} ~ {len(self.explanatory_variables)} predictors"
+        )
+        print(f"Method: Nested CV Elastic Net (alpha_ratio={self.alpha_ratio})")
+        if self.n_repeats > 1:
+            print(
+                f"Outer CV: {self.outer_cv}-fold × {self.n_repeats} repeats = {self.outer_cv * self.n_repeats} total iterations"
+            )
+        else:
+            print(f"Outer CV: {self.outer_cv}-fold")
+        print(f"Inner CV: {self.inner_cv}-fold\n")
+
+        # Selection frequency table
+        print("Variable Selection Frequency:")
+        print(f"{'─'*70}")
+        print(f"{'Variable':<30} {'Frequency':<15} {'Coefficient (mean±SD)':<25}")
+        print(f"{'─'*70}")
+
+        # Sort by frequency (descending)
+        sorted_vars = sorted(
+            self.selection_frequencies.items(), key=lambda x: (-x[1], x[0])
+        )
+
+        for var, freq in sorted_vars:
+            freq_str = f"{freq*100:.0f}% ({int(freq*len(self.fold_results))}/{len(self.fold_results)})"
+
+            if var in self.coefficient_distributions:
+                coefs = self.coefficient_distributions[var]
+                coef_mean = np.mean(coefs)
+                coef_std = np.std(coefs)
+                coef_str = f"{coef_mean:+.3f} ± {coef_std:.3f}"
+            else:
+                coef_str = "N/A"
+
+            marker = "✓" if freq >= self.selection_threshold else " "
+            print(f"{marker} {var:<28} {freq_str:<15} {coef_str:<25}")
+
+        print(f"{'─'*70}\n")
+
+        # Performance metrics
+        if self.performance_metrics:
+            print("Test Set Performance:")
+            print(f"{'─'*70}")
+            print(
+                f"  AUC:         {self.performance_metrics['auc_mean']:.3f} ± "
+                f"{self.performance_metrics['auc_std']:.3f}"
+            )
+            print(
+                f"  AUC range:   [{self.performance_metrics['auc_min']:.3f}, "
+                f"{self.performance_metrics['auc_max']:.3f}]"
+            )
+            print(
+                f"  Brier score: {self.performance_metrics['brier_mean']:.3f} ± "
+                f"{self.performance_metrics['brier_std']:.3f}"
+            )
+            print(f"{'─'*70}\n")
+
+        # Consensus variables
+        print(f"Consensus Variables (≥{self.selection_threshold*100:.0f}% selection):")
+        print(f"{'─'*70}")
+        if self.selected_explanatory_variables:
+            for var in self.selected_explanatory_variables:
+                freq = self.selection_frequencies[var]
+                print(f"  • {var}: {freq*100:.0f}% of folds")
+        else:
+            print("  None (no variables met threshold)")
+        print(f"{'─'*70}\n")
+
+    def get_results_dataframe(self) -> pd.DataFrame:
+        """
+        Return stability results as pandas DataFrame for export or further analysis.
+
+        Returns
+        -------
+        pd.DataFrame
+            DataFrame with columns:
+            - variable: str, variable name
+            - selection_frequency: float, proportion of folds (0-1)
+            - n_folds_selected: int, number of folds selected
+            - coef_mean: float, mean coefficient across folds
+            - coef_std: float, standard deviation of coefficient
+            - consensus_selected: bool, whether in consensus set
+
+        Examples
+        --------
+        >>> results_df = selector.get_results_dataframe()
+        >>> results_df.to_csv('selection_stability.csv', index=False)
+        >>>
+        >>> # Filter to consensus variables
+        >>> consensus = results_df[results_df['consensus_selected']]
+        """
+        results = []
+        for var in self.explanatory_variables:
+            freq = self.selection_frequencies.get(var, 0.0)
+
+            if var in self.coefficient_distributions:
+                coefs = self.coefficient_distributions[var]
+                coef_mean = np.mean(coefs)
+                coef_std = np.std(coefs)
+            else:
+                coef_mean = np.nan
+                coef_std = np.nan
+
+            results.append(
+                {
+                    "variable": var,
+                    "selection_frequency": freq,
+                    "n_folds_selected": int(freq * len(self.fold_results)),
+                    "coef_mean": coef_mean,
+                    "coef_std": coef_std,
+                    "consensus_selected": freq >= self.selection_threshold,
+                }
+            )
+
+        df = pd.DataFrame(results)
+        df = df.sort_values("selection_frequency", ascending=False)
+        return df

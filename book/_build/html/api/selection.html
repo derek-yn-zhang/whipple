@@ -431,6 +431,20 @@ document.write(`
 </li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nestedcvelasticnetvariableselection">NestedCVElasticNetVariableSelection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.NestedCVElasticNetVariableSelection"><code class="docutils literal notranslate"><span class="pre">NestedCVElasticNetVariableSelection</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.NestedCVElasticNetVariableSelection.selected_explanatory_variables"><code class="docutils literal notranslate"><span class="pre">NestedCVElasticNetVariableSelection.selected_explanatory_variables</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.NestedCVElasticNetVariableSelection.selection_frequencies"><code class="docutils literal notranslate"><span class="pre">NestedCVElasticNetVariableSelection.selection_frequencies</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.NestedCVElasticNetVariableSelection.coefficient_distributions"><code class="docutils literal notranslate"><span class="pre">NestedCVElasticNetVariableSelection.coefficient_distributions</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.NestedCVElasticNetVariableSelection.performance_metrics"><code class="docutils literal notranslate"><span class="pre">NestedCVElasticNetVariableSelection.performance_metrics</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.NestedCVElasticNetVariableSelection.fold_results"><code class="docutils literal notranslate"><span class="pre">NestedCVElasticNetVariableSelection.fold_results</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.NestedCVElasticNetVariableSelection.__init__"><code class="docutils literal notranslate"><span class="pre">NestedCVElasticNetVariableSelection.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.NestedCVElasticNetVariableSelection.print_stability_report"><code class="docutils literal notranslate"><span class="pre">NestedCVElasticNetVariableSelection.print_stability_report()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.NestedCVElasticNetVariableSelection.get_results_dataframe"><code class="docutils literal notranslate"><span class="pre">NestedCVElasticNetVariableSelection.get_results_dataframe()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-examples">Usage Examples</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#univariate-selection">Univariate Selection</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#elastic-net-selection">Elastic Net Selection</a></li>
@@ -944,6 +958,260 @@ linear models via coordinate descent.” J Stat Softw. 2010;33(1):1-22.</p>
 </dd></dl>
 
 </section>
+<section id="nestedcvelasticnetvariableselection">
+<h2>NestedCVElasticNetVariableSelection<a class="headerlink" href="#nestedcvelasticnetvariableselection" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="statwise.selection.NestedCVElasticNetVariableSelection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statwise.selection.</span></span><span class="sig-name descname"><span class="pre">NestedCVElasticNetVariableSelection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">explanatory_variables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outcome_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'binary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_cv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outer_cv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_repeats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selection_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/selection.html#NestedCVElasticNetVariableSelection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.selection.NestedCVElasticNetVariableSelection" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Nested cross-validation wrapper for elastic net variable selection with stability analysis.</p>
+<p>Provides honest performance estimates and selection stability by wrapping
+ElasticNetVariableSelection in an outer cross-validation loop. This addresses
+optimistic bias in single-pass selection and quantifies how reliably variables
+are selected across different data subsets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>) – Dataset containing response and explanatory variables.</p></li>
+<li><p><strong>response_variable</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Name of the response/outcome variable.</p></li>
+<li><p><strong>explanatory_variables</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – List of candidate predictor variable names.</p></li>
+<li><p><strong>outcome_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">'binary'</span></code>) – Type of outcome: ‘binary’ or ‘count’.</p></li>
+<li><p><strong>alpha_ratio</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">0.5</span></code>) – L1 ratio for elastic net (0=Ridge, 0.5=Elastic Net, 1=Lasso).</p></li>
+<li><p><strong>inner_cv</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">5</span></code>) – Number of CV folds for hyperparameter tuning (inner loop).
+Used within ElasticNetVariableSelection to tune regularization strength.</p></li>
+<li><p><strong>outer_cv</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">5</span></code>) – Number of CV folds for performance estimation (outer loop).
+Each fold provides independent test set for unbiased evaluation.</p></li>
+<li><p><strong>n_repeats</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">1</span></code>) – Number of times to repeat the outer CV with different random splits.
+n_repeats=1 gives standard k-fold CV. n_repeats=10 with outer_cv=5
+gives 50 total iterations for smoother selection frequency estimates.
+Recommended: 10 repeats for n&lt;200 to reduce sampling variance.</p></li>
+<li><p><strong>random_state</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">42</span></code>) – Random seed for reproducibility of CV splits.</p></li>
+<li><p><strong>selection_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">0.5</span></code>) – Minimum selection frequency (0 to 1) for a variable to be included
+in consensus set. Default 0.5 means variable must be selected in
+≥50% of outer folds. Common alternatives: 0.7 (70%), 0.8 (80%).</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.NestedCVElasticNetVariableSelection.selected_explanatory_variables">
+<span class="sig-name descname"><span class="pre">selected_explanatory_variables</span></span><a class="headerlink" href="#statwise.selection.NestedCVElasticNetVariableSelection.selected_explanatory_variables" title="Link to this definition">#</a></dt>
+<dd><p>Consensus variables selected in ≥selection_threshold of outer folds.
+Sorted by selection frequency (descending).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.NestedCVElasticNetVariableSelection.selection_frequencies">
+<span class="sig-name descname"><span class="pre">selection_frequencies</span></span><a class="headerlink" href="#statwise.selection.NestedCVElasticNetVariableSelection.selection_frequencies" title="Link to this definition">#</a></dt>
+<dd><p>Selection frequency for each variable across outer folds.
+Values range from 0.0 (never selected) to 1.0 (always selected).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> of <code class="docutils literal notranslate"><span class="pre">{str:</span> <span class="pre">float}</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.NestedCVElasticNetVariableSelection.coefficient_distributions">
+<span class="sig-name descname"><span class="pre">coefficient_distributions</span></span><a class="headerlink" href="#statwise.selection.NestedCVElasticNetVariableSelection.coefficient_distributions" title="Link to this definition">#</a></dt>
+<dd><p>Distribution of coefficients for each variable across folds where selected.
+Quantifies coefficient stability and magnitude.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> of <code class="docutils literal notranslate"><span class="pre">{str:</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">float}</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.NestedCVElasticNetVariableSelection.performance_metrics">
+<span class="sig-name descname"><span class="pre">performance_metrics</span></span><a class="headerlink" href="#statwise.selection.NestedCVElasticNetVariableSelection.performance_metrics" title="Link to this definition">#</a></dt>
+<dd><p>Test performance metrics aggregated across outer folds.
+For binary outcomes: auc_mean, auc_std, auc_min, auc_max, brier_mean, brier_std.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statwise.selection.NestedCVElasticNetVariableSelection.fold_results">
+<span class="sig-name descname"><span class="pre">fold_results</span></span><a class="headerlink" href="#statwise.selection.NestedCVElasticNetVariableSelection.fold_results" title="Link to this definition">#</a></dt>
+<dd><p>Detailed results for each outer fold including selected variables,
+performance metrics, and sample sizes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Standard 5-fold CV</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">selector</span> <span class="o">=</span> <span class="n">NestedCVElasticNetSelection</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">df</span><span class="o">=</span><span class="n">cleaned_df</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">response_variable</span><span class="o">=</span><span class="s1">&#39;SSI&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">explanatory_variables</span><span class="o">=</span><span class="n">predictors</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">outcome_type</span><span class="o">=</span><span class="s1">&#39;binary&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">alpha_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">outer_cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">n_repeats</span><span class="o">=</span><span class="mi">1</span>  <span class="c1"># Single 5-fold CV</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Repeated 5-fold CV for smoother estimates (RECOMMENDED)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">selector</span> <span class="o">=</span> <span class="n">NestedCVElasticNetSelection</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">df</span><span class="o">=</span><span class="n">cleaned_df</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">response_variable</span><span class="o">=</span><span class="s1">&#39;SSI&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">explanatory_variables</span><span class="o">=</span><span class="n">predictors</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">outcome_type</span><span class="o">=</span><span class="s1">&#39;binary&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">alpha_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">outer_cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">n_repeats</span><span class="o">=</span><span class="mi">10</span>  <span class="c1"># 50 total iterations</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get consensus variables (selected in ≥50% of folds)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">selector</span><span class="o">.</span><span class="n">selected_explanatory_variables</span><span class="p">)</span>
+<span class="go">[&#39;Diabetes&#39;, &#39;BMI&#39;, &#39;INPWT&#39;]</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># View detailed stability report</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">selector</span><span class="o">.</span><span class="n">print_stability_report</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Export results for publication</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results_df</span> <span class="o">=</span> <span class="n">selector</span><span class="o">.</span><span class="n">get_results_dataframe</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;selection_stability.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#statwise.selection.ElasticNetVariableSelection" title="statwise.selection.ElasticNetVariableSelection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElasticNetVariableSelection</span></code></a></dt><dd><p>Single-pass elastic net selection.</p>
+</dd>
+<dt><a class="reference internal" href="#statwise.selection.UnivariateVariableSelection" title="statwise.selection.UnivariateVariableSelection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UnivariateVariableSelection</span></code></a></dt><dd><p>Univariate statistical testing for selection.</p>
+</dd>
+</dl>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>The nested CV process:</p>
+<ol class="arabic simple">
+<li><p><strong>Outer loop (performance estimation)</strong>: Data split into k folds
+- Each fold: ~80% training, ~20% testing
+- Test sets are never used for variable selection or training</p></li>
+<li><p><strong>Inner loop (variable selection)</strong>: For each training set
+- Run ElasticNetVariableSelection with cross-validation
+- Select variables, fit model, predict on test set
+- Record selected variables and performance</p></li>
+<li><p><strong>Aggregation</strong>: Across all outer folds
+- Calculate selection frequencies
+- Identify consensus variables (≥threshold)
+- Aggregate performance metrics (mean, SD, range)
+- Report coefficient distributions</p></li>
+</ol>
+<p><strong>Advantages over single-pass selection:</strong></p>
+<ul class="simple">
+<li><p><strong>Unbiased performance</strong>: Test AUC represents expected performance on
+new patients, not optimistically biased training performance</p></li>
+<li><p><strong>Selection stability</strong>: Quantifies reproducibility of variable selection
+across different data subsets</p></li>
+<li><p><strong>Coefficient uncertainty</strong>: Distribution shows variability in effect sizes</p></li>
+<li><p><strong>Robust inference</strong>: Variables selected consistently are more likely to
+replicate in external validation</p></li>
+</ul>
+<p><strong>Selection threshold interpretation:</strong></p>
+<ul class="simple">
+<li><p><strong>0.5 (50%)</strong>: Liberal, includes moderately stable variables</p></li>
+<li><p><strong>0.7 (70%)</strong>: Moderate, requires fairly consistent selection</p></li>
+<li><p><strong>0.8 (80%)</strong>: Conservative, only highly stable variables</p></li>
+<li><p><strong>1.0 (100%)</strong>: Very conservative, only variables selected in every fold</p></li>
+</ul>
+<p>For small samples (n&lt;200), lower thresholds (0.5) may be necessary to
+avoid excluding important variables due to sampling variability.</p>
+<p><strong>Computational cost:</strong></p>
+<p>With outer_cv=5 and inner_cv=5, this runs ~25x slower than single-pass
+selection (5 outer folds × ~5 inner folds each). Consider reducing outer_cv
+to 3 for faster results with reasonable stability estimates.</p>
+</div>
+<div class="admonition-references admonition">
+<p class="admonition-title">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id1" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<p>Varma S, Simon R. “Bias in error estimation when using
+cross-validation for model selection.” BMC Bioinformatics. 2006;7:91.</p>
+</aside>
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<p>Meinshausen N, Bühlmann P. “Stability selection.”
+J R Stat Soc Series B Stat Methodol. 2010;72(4):417-473.</p>
+</aside>
+<aside class="footnote brackets" id="id3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></span>
+<p>Heinze G, Wallisch C, Dunkler D. “Variable selection - A review and
+recommendations for the practicing statistician.”
+Biom J. 2018;60(3):431-449.</p>
+</aside>
+</aside>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.selection.NestedCVElasticNetVariableSelection.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">explanatory_variables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outcome_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'binary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_cv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outer_cv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_repeats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selection_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/selection.html#NestedCVElasticNetVariableSelection.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.selection.NestedCVElasticNetVariableSelection.__init__" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.selection.NestedCVElasticNetVariableSelection.print_stability_report">
+<span class="sig-name descname"><span class="pre">print_stability_report</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/selection.html#NestedCVElasticNetVariableSelection.print_stability_report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.selection.NestedCVElasticNetVariableSelection.print_stability_report" title="Link to this definition">#</a></dt>
+<dd><p>Print comprehensive stability and performance report.</p>
+<p>Displays selection frequencies, coefficient distributions, and test
+performance metrics in a formatted table for easy interpretation.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">selector</span><span class="o">.</span><span class="n">print_stability_report</span><span class="p">()</span>
+<span class="go">======================================================================</span>
+<span class="go">VARIABLE SELECTION STABILITY REPORT</span>
+<span class="go">======================================================================</span>
+<span class="go">...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statwise.selection.NestedCVElasticNetVariableSelection.get_results_dataframe">
+<span class="sig-name descname"><span class="pre">get_results_dataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/statwise/selection.html#NestedCVElasticNetVariableSelection.get_results_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statwise.selection.NestedCVElasticNetVariableSelection.get_results_dataframe" title="Link to this definition">#</a></dt>
+<dd><p>Return stability results as pandas DataFrame for export or further analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame with columns:
+- variable: str, variable name
+- selection_frequency: float, proportion of folds (0-1)
+- n_folds_selected: int, number of folds selected
+- coef_mean: float, mean coefficient across folds
+- coef_std: float, standard deviation of coefficient
+- consensus_selected: bool, whether in consensus set</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">results_df</span> <span class="o">=</span> <span class="n">selector</span><span class="o">.</span><span class="n">get_results_dataframe</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;selection_stability.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Filter to consensus variables</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">consensus</span> <span class="o">=</span> <span class="n">results_df</span><span class="p">[</span><span class="n">results_df</span><span class="p">[</span><span class="s1">&#39;consensus_selected&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="usage-examples">
 <h2>Usage Examples<a class="headerlink" href="#usage-examples" title="Link to this heading">#</a></h2>
 <section id="univariate-selection">
@@ -1301,6 +1569,20 @@ linear models via coordinate descent.” J Stat Softw. 2010;33(1):1-22.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.X_prepared"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.X_prepared</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.y_prepared"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.y_prepared</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.ElasticNetVariableSelection.__init__"><code class="docutils literal notranslate"><span class="pre">ElasticNetVariableSelection.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nestedcvelasticnetvariableselection">NestedCVElasticNetVariableSelection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.NestedCVElasticNetVariableSelection"><code class="docutils literal notranslate"><span class="pre">NestedCVElasticNetVariableSelection</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.NestedCVElasticNetVariableSelection.selected_explanatory_variables"><code class="docutils literal notranslate"><span class="pre">NestedCVElasticNetVariableSelection.selected_explanatory_variables</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.NestedCVElasticNetVariableSelection.selection_frequencies"><code class="docutils literal notranslate"><span class="pre">NestedCVElasticNetVariableSelection.selection_frequencies</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.NestedCVElasticNetVariableSelection.coefficient_distributions"><code class="docutils literal notranslate"><span class="pre">NestedCVElasticNetVariableSelection.coefficient_distributions</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.NestedCVElasticNetVariableSelection.performance_metrics"><code class="docutils literal notranslate"><span class="pre">NestedCVElasticNetVariableSelection.performance_metrics</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.NestedCVElasticNetVariableSelection.fold_results"><code class="docutils literal notranslate"><span class="pre">NestedCVElasticNetVariableSelection.fold_results</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.NestedCVElasticNetVariableSelection.__init__"><code class="docutils literal notranslate"><span class="pre">NestedCVElasticNetVariableSelection.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.NestedCVElasticNetVariableSelection.print_stability_report"><code class="docutils literal notranslate"><span class="pre">NestedCVElasticNetVariableSelection.print_stability_report()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statwise.selection.NestedCVElasticNetVariableSelection.get_results_dataframe"><code class="docutils literal notranslate"><span class="pre">NestedCVElasticNetVariableSelection.get_results_dataframe()</span></code></a></li>
 </ul>
 </li>
 </ul>

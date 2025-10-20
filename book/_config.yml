@@ -91,15 +91,6 @@ parse:
 # cp analysis.ipynb book/analysis.ipynb
 # cp -r statwise book/statwise
 
-# edit _toc.yml
-# format: jb-book
-# root: intro
-# chapters:
-#   - file: analysis
-#     title: INPWT Analysis
-
-# edit intro.md
-
 # cd book
 # jupyter-book clean . --all
 # jupyter-book build .

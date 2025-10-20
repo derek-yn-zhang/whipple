@@ -335,9 +335,12 @@ document.write(`
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">ElasticNetCV</span><span class="p">,</span> <span class="n">LogisticRegressionCV</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">StratifiedKFold</span><span class="p">,</span> <span class="n">RepeatedStratifiedKFold</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">roc_auc_score</span><span class="p">,</span> <span class="n">brier_score_loss</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pandas.api.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">CategoricalDtype</span><span class="p">,</span> <span class="n">is_object_dtype</span><span class="p">,</span> <span class="n">is_numeric_dtype</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.preparation</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataPreparer</span>
 
@@ -1046,6 +1049,614 @@ document.write(`
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Selected variables: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">selected_explanatory_variables</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: No variables selected - regularization may be too strong&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="NestedCVElasticNetVariableSelection">
+<a class="viewcode-back" href="../../api/selection.html#statwise.selection.NestedCVElasticNetVariableSelection">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NestedCVElasticNetVariableSelection</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Nested cross-validation wrapper for elastic net variable selection with stability analysis.</span>
+
+<span class="sd">    Provides honest performance estimates and selection stability by wrapping</span>
+<span class="sd">    ElasticNetVariableSelection in an outer cross-validation loop. This addresses</span>
+<span class="sd">    optimistic bias in single-pass selection and quantifies how reliably variables</span>
+<span class="sd">    are selected across different data subsets.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        Dataset containing response and explanatory variables.</span>
+<span class="sd">    response_variable : str</span>
+<span class="sd">        Name of the response/outcome variable.</span>
+<span class="sd">    explanatory_variables : list of str</span>
+<span class="sd">        List of candidate predictor variable names.</span>
+<span class="sd">    outcome_type : str, default &#39;binary&#39;</span>
+<span class="sd">        Type of outcome: &#39;binary&#39; or &#39;count&#39;.</span>
+<span class="sd">    alpha_ratio : float, default 0.5</span>
+<span class="sd">        L1 ratio for elastic net (0=Ridge, 0.5=Elastic Net, 1=Lasso).</span>
+<span class="sd">    inner_cv : int, default 5</span>
+<span class="sd">        Number of CV folds for hyperparameter tuning (inner loop).</span>
+<span class="sd">        Used within ElasticNetVariableSelection to tune regularization strength.</span>
+<span class="sd">    outer_cv : int, default 5</span>
+<span class="sd">        Number of CV folds for performance estimation (outer loop).</span>
+<span class="sd">        Each fold provides independent test set for unbiased evaluation.</span>
+<span class="sd">    n_repeats : int, default 1</span>
+<span class="sd">        Number of times to repeat the outer CV with different random splits.</span>
+<span class="sd">        n_repeats=1 gives standard k-fold CV. n_repeats=10 with outer_cv=5</span>
+<span class="sd">        gives 50 total iterations for smoother selection frequency estimates.</span>
+<span class="sd">        Recommended: 10 repeats for n&lt;200 to reduce sampling variance.</span>
+<span class="sd">    random_state : int, default 42</span>
+<span class="sd">        Random seed for reproducibility of CV splits.</span>
+<span class="sd">    selection_threshold : float, default 0.5</span>
+<span class="sd">        Minimum selection frequency (0 to 1) for a variable to be included</span>
+<span class="sd">        in consensus set. Default 0.5 means variable must be selected in</span>
+<span class="sd">        ≥50% of outer folds. Common alternatives: 0.7 (70%), 0.8 (80%).</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    selected_explanatory_variables : list of str</span>
+<span class="sd">        Consensus variables selected in ≥selection_threshold of outer folds.</span>
+<span class="sd">        Sorted by selection frequency (descending).</span>
+<span class="sd">    selection_frequencies : dict of {str: float}</span>
+<span class="sd">        Selection frequency for each variable across outer folds.</span>
+<span class="sd">        Values range from 0.0 (never selected) to 1.0 (always selected).</span>
+<span class="sd">    coefficient_distributions : dict of {str: list of float}</span>
+<span class="sd">        Distribution of coefficients for each variable across folds where selected.</span>
+<span class="sd">        Quantifies coefficient stability and magnitude.</span>
+<span class="sd">    performance_metrics : dict</span>
+<span class="sd">        Test performance metrics aggregated across outer folds.</span>
+<span class="sd">        For binary outcomes: auc_mean, auc_std, auc_min, auc_max, brier_mean, brier_std.</span>
+<span class="sd">    fold_results : list of dict</span>
+<span class="sd">        Detailed results for each outer fold including selected variables,</span>
+<span class="sd">        performance metrics, and sample sizes.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # Standard 5-fold CV</span>
+<span class="sd">    &gt;&gt;&gt; selector = NestedCVElasticNetSelection(</span>
+<span class="sd">    ...     df=cleaned_df,</span>
+<span class="sd">    ...     response_variable=&#39;SSI&#39;,</span>
+<span class="sd">    ...     explanatory_variables=predictors,</span>
+<span class="sd">    ...     outcome_type=&#39;binary&#39;,</span>
+<span class="sd">    ...     alpha_ratio=0.5,</span>
+<span class="sd">    ...     outer_cv=5,</span>
+<span class="sd">    ...     n_repeats=1  # Single 5-fold CV</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Repeated 5-fold CV for smoother estimates (RECOMMENDED)</span>
+<span class="sd">    &gt;&gt;&gt; selector = NestedCVElasticNetSelection(</span>
+<span class="sd">    ...     df=cleaned_df,</span>
+<span class="sd">    ...     response_variable=&#39;SSI&#39;,</span>
+<span class="sd">    ...     explanatory_variables=predictors,</span>
+<span class="sd">    ...     outcome_type=&#39;binary&#39;,</span>
+<span class="sd">    ...     alpha_ratio=0.5,</span>
+<span class="sd">    ...     outer_cv=5,</span>
+<span class="sd">    ...     n_repeats=10  # 50 total iterations</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Get consensus variables (selected in ≥50% of folds)</span>
+<span class="sd">    &gt;&gt;&gt; print(selector.selected_explanatory_variables)</span>
+<span class="sd">    [&#39;Diabetes&#39;, &#39;BMI&#39;, &#39;INPWT&#39;]</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # View detailed stability report</span>
+<span class="sd">    &gt;&gt;&gt; selector.print_stability_report()</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Export results for publication</span>
+<span class="sd">    &gt;&gt;&gt; results_df = selector.get_results_dataframe()</span>
+<span class="sd">    &gt;&gt;&gt; results_df.to_csv(&#39;selection_stability.csv&#39;, index=False)</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    ElasticNetVariableSelection : Single-pass elastic net selection.</span>
+<span class="sd">    UnivariateVariableSelection : Univariate statistical testing for selection.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The nested CV process:</span>
+
+<span class="sd">    1. **Outer loop (performance estimation)**: Data split into k folds</span>
+<span class="sd">       - Each fold: ~80% training, ~20% testing</span>
+<span class="sd">       - Test sets are never used for variable selection or training</span>
+
+<span class="sd">    2. **Inner loop (variable selection)**: For each training set</span>
+<span class="sd">       - Run ElasticNetVariableSelection with cross-validation</span>
+<span class="sd">       - Select variables, fit model, predict on test set</span>
+<span class="sd">       - Record selected variables and performance</span>
+
+<span class="sd">    3. **Aggregation**: Across all outer folds</span>
+<span class="sd">       - Calculate selection frequencies</span>
+<span class="sd">       - Identify consensus variables (≥threshold)</span>
+<span class="sd">       - Aggregate performance metrics (mean, SD, range)</span>
+<span class="sd">       - Report coefficient distributions</span>
+
+<span class="sd">    **Advantages over single-pass selection:**</span>
+
+<span class="sd">    - **Unbiased performance**: Test AUC represents expected performance on</span>
+<span class="sd">      new patients, not optimistically biased training performance</span>
+<span class="sd">    - **Selection stability**: Quantifies reproducibility of variable selection</span>
+<span class="sd">      across different data subsets</span>
+<span class="sd">    - **Coefficient uncertainty**: Distribution shows variability in effect sizes</span>
+<span class="sd">    - **Robust inference**: Variables selected consistently are more likely to</span>
+<span class="sd">      replicate in external validation</span>
+
+<span class="sd">    **Selection threshold interpretation:**</span>
+
+<span class="sd">    - **0.5 (50%)**: Liberal, includes moderately stable variables</span>
+<span class="sd">    - **0.7 (70%)**: Moderate, requires fairly consistent selection</span>
+<span class="sd">    - **0.8 (80%)**: Conservative, only highly stable variables</span>
+<span class="sd">    - **1.0 (100%)**: Very conservative, only variables selected in every fold</span>
+
+<span class="sd">    For small samples (n&lt;200), lower thresholds (0.5) may be necessary to</span>
+<span class="sd">    avoid excluding important variables due to sampling variability.</span>
+
+<span class="sd">    **Computational cost:**</span>
+
+<span class="sd">    With outer_cv=5 and inner_cv=5, this runs ~25x slower than single-pass</span>
+<span class="sd">    selection (5 outer folds × ~5 inner folds each). Consider reducing outer_cv</span>
+<span class="sd">    to 3 for faster results with reasonable stability estimates.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Varma S, Simon R. &quot;Bias in error estimation when using</span>
+<span class="sd">           cross-validation for model selection.&quot; BMC Bioinformatics. 2006;7:91.</span>
+<span class="sd">    .. [2] Meinshausen N, Bühlmann P. &quot;Stability selection.&quot;</span>
+<span class="sd">           J R Stat Soc Series B Stat Methodol. 2010;72(4):417-473.</span>
+<span class="sd">    .. [3] Heinze G, Wallisch C, Dunkler D. &quot;Variable selection - A review and</span>
+<span class="sd">           recommendations for the practicing statistician.&quot;</span>
+<span class="sd">           Biom J. 2018;60(3):431-449.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="NestedCVElasticNetVariableSelection.__init__">
+<a class="viewcode-back" href="../../api/selection.html#statwise.selection.NestedCVElasticNetVariableSelection.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+        <span class="n">response_variable</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">explanatory_variables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">outcome_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;binary&quot;</span><span class="p">,</span>
+        <span class="n">alpha_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">inner_cv</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="n">outer_cv</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="n">n_repeats</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">42</span><span class="p">,</span>
+        <span class="n">selection_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">response_variable</span> <span class="o">=</span> <span class="n">response_variable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">explanatory_variables</span> <span class="o">=</span> <span class="n">explanatory_variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outcome_type</span> <span class="o">=</span> <span class="n">outcome_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha_ratio</span> <span class="o">=</span> <span class="n">alpha_ratio</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inner_cv</span> <span class="o">=</span> <span class="n">inner_cv</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outer_cv</span> <span class="o">=</span> <span class="n">outer_cv</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_repeats</span> <span class="o">=</span> <span class="n">n_repeats</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selection_threshold</span> <span class="o">=</span> <span class="n">selection_threshold</span>
+
+        <span class="c1"># Validate selection threshold</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">selection_threshold</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;selection_threshold must be between 0 and 1&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Results storage</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selection_frequencies</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coefficient_distributions</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">performance_metrics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fold_results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selected_explanatory_variables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Run nested CV</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_run_nested_cv</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_aggregate_results</span><span class="p">()</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_run_nested_cv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute nested cross-validation with outer and inner loops.</span>
+
+<span class="sd">        Outer loop: Honest performance estimation on held-out test sets.</span>
+<span class="sd">        Inner loop: Variable selection with hyperparameter tuning on training data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">60</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running Nested CV Elastic Net Selection&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Outer CV: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">outer_cv</span><span class="si">}</span><span class="s2">-fold × </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_repeats</span><span class="si">}</span><span class="s2"> repeats = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">outer_cv</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">n_repeats</span><span class="si">}</span><span class="s2"> iterations&quot;</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Inner CV: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">inner_cv</span><span class="si">}</span><span class="s2">-fold&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Selection threshold: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">selection_threshold</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">60</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Prepare data for splitting</span>
+        <span class="n">df_subset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span>
+            <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">response_variable</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">explanatory_variables</span>
+        <span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">df_subset</span> <span class="o">=</span> <span class="n">df_subset</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">response_variable</span><span class="p">])</span>
+
+        <span class="n">y_all</span> <span class="o">=</span> <span class="n">df_subset</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">response_variable</span><span class="p">]</span>
+
+        <span class="c1"># Outer CV loop with optional repeats</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_repeats</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">outer_cv_splitter</span> <span class="o">=</span> <span class="n">RepeatedStratifiedKFold</span><span class="p">(</span>
+                <span class="n">n_splits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">outer_cv</span><span class="p">,</span>
+                <span class="n">n_repeats</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_repeats</span><span class="p">,</span>
+                <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">outer_cv_splitter</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span>
+                <span class="n">n_splits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">outer_cv</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span>
+            <span class="p">)</span>
+
+        <span class="n">total_folds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outer_cv</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_repeats</span>
+
+        <span class="k">for</span> <span class="n">fold_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+            <span class="n">outer_cv_splitter</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">df_subset</span><span class="p">,</span> <span class="n">y_all</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="n">repeat_num</span> <span class="o">=</span> <span class="n">fold_idx</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">outer_cv</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">fold_in_repeat</span> <span class="o">=</span> <span class="n">fold_idx</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">outer_cv</span> <span class="o">+</span> <span class="mi">1</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;─&#39;</span><span class="o">*</span><span class="mi">60</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_repeats</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Repeat </span><span class="si">{</span><span class="n">repeat_num</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_repeats</span><span class="si">}</span><span class="s2">, Fold </span><span class="si">{</span><span class="n">fold_in_repeat</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">outer_cv</span><span class="si">}</span><span class="s2"> (Overall: </span><span class="si">{</span><span class="n">fold_idx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">total_folds</span><span class="si">}</span><span class="s2">)&quot;</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fold </span><span class="si">{</span><span class="n">fold_idx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">outer_cv</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;─&#39;</span><span class="o">*</span><span class="mi">60</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Split data</span>
+            <span class="n">df_train</span> <span class="o">=</span> <span class="n">df_subset</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">]</span>
+            <span class="n">df_test</span> <span class="o">=</span> <span class="n">df_subset</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training size: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_train</span><span class="p">)</span><span class="si">}</span><span class="s2">, Test size: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_test</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Variable selection on training data using inner CV</span>
+            <span class="n">selector</span> <span class="o">=</span> <span class="n">ElasticNetVariableSelection</span><span class="p">(</span>
+                <span class="n">df</span><span class="o">=</span><span class="n">df_train</span><span class="p">,</span>
+                <span class="n">response_variable</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">response_variable</span><span class="p">,</span>
+                <span class="n">explanatory_variables</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">explanatory_variables</span><span class="p">,</span>
+                <span class="n">outcome_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">outcome_type</span><span class="p">,</span>
+                <span class="n">alpha_ratio</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha_ratio</span><span class="p">,</span>
+                <span class="n">cv</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inner_cv</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">selected_vars</span> <span class="o">=</span> <span class="n">selector</span><span class="o">.</span><span class="n">selected_explanatory_variables</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Selected variables (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">selected_vars</span><span class="p">)</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">selected_vars</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_vars</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: No variables selected in this fold!&quot;</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Prepare training data with selected variables</span>
+            <span class="n">preparer_train</span> <span class="o">=</span> <span class="n">DataPreparer</span><span class="p">(</span>
+                <span class="n">df</span><span class="o">=</span><span class="n">df_train</span><span class="p">,</span>
+                <span class="n">response_variable</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">response_variable</span><span class="p">,</span>
+                <span class="n">explanatory_variables</span><span class="o">=</span><span class="n">selected_vars</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">preparer_train</span><span class="o">.</span><span class="n">preprocess</span><span class="p">(</span>
+                    <span class="n">drop_first_category</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">scale_numeric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">check_separation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;WARNING: Training set preprocessing failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Skipping this fold&quot;</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Check if training set is too small</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;WARNING: Training set too small after preprocessing (n=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span><span class="si">}</span><span class="s2">). Skipping this fold.&quot;</span>
+                <span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Fit model</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">outcome_type</span> <span class="o">==</span> <span class="s2">&quot;binary&quot;</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">.modeling</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegressionModel</span>
+
+                <span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegressionModel</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">.modeling</span><span class="w"> </span><span class="kn">import</span> <span class="n">NegativeBinomialRegressionModel</span>
+
+                <span class="n">model</span> <span class="o">=</span> <span class="n">NegativeBinomialRegressionModel</span><span class="p">()</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;WARNING: Model fitting failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="s2">&quot;Skipping this fold (likely due to perfect separation or multicollinearity)&quot;</span>
+                <span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Check convergence</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">model</span><span class="o">.</span><span class="n">check_convergence</span><span class="p">():</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Model did not converge. Skipping this fold.&quot;</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Store coefficients</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">selected_vars</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                    <span class="n">coef</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefficient_distributions</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">coefficient_distributions</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">coefficient_distributions</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span>
+
+            <span class="c1"># Prepare test data</span>
+            <span class="n">preparer_test</span> <span class="o">=</span> <span class="n">DataPreparer</span><span class="p">(</span>
+                <span class="n">df</span><span class="o">=</span><span class="n">df_test</span><span class="p">,</span>
+                <span class="n">response_variable</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">response_variable</span><span class="p">,</span>
+                <span class="n">explanatory_variables</span><span class="o">=</span><span class="n">selected_vars</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">preparer_test</span><span class="o">.</span><span class="n">preprocess</span><span class="p">(</span>
+                    <span class="n">drop_first_category</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">scale_numeric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">check_separation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;WARNING: Test set preprocessing failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="s2">&quot;Skipping this fold (likely due to rare categories or missing data)&quot;</span>
+                <span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Check if test set is empty after preprocessing</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="s2">&quot;WARNING: Test set empty after preprocessing. Skipping this fold.&quot;</span>
+                <span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Predict on test set</span>
+            <span class="n">X_test_const</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">has_constant</span><span class="o">=</span><span class="s2">&quot;add&quot;</span><span class="p">)</span>
+            <span class="n">y_pred_proba</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_const</span><span class="p">)</span>
+
+            <span class="c1"># Calculate performance metrics</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">outcome_type</span> <span class="o">==</span> <span class="s2">&quot;binary&quot;</span><span class="p">:</span>
+                <span class="n">auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_proba</span><span class="p">)</span>
+                <span class="n">brier</span> <span class="o">=</span> <span class="n">brier_score_loss</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_proba</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test AUC: </span><span class="si">{</span><span class="n">auc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, Brier Score: </span><span class="si">{</span><span class="n">brier</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                <span class="n">fold_result</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;fold&quot;</span><span class="p">:</span> <span class="n">fold_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="s2">&quot;n_train&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_train</span><span class="p">),</span>
+                    <span class="s2">&quot;n_test&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_test</span><span class="p">),</span>
+                    <span class="s2">&quot;n_selected&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_vars</span><span class="p">),</span>
+                    <span class="s2">&quot;selected_vars&quot;</span><span class="p">:</span> <span class="n">selected_vars</span><span class="p">,</span>
+                    <span class="s2">&quot;auc&quot;</span><span class="p">:</span> <span class="n">auc</span><span class="p">,</span>
+                    <span class="s2">&quot;brier&quot;</span><span class="p">:</span> <span class="n">brier</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># For count outcomes, could add other metrics</span>
+                <span class="n">fold_result</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;fold&quot;</span><span class="p">:</span> <span class="n">fold_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="s2">&quot;n_train&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_train</span><span class="p">),</span>
+                    <span class="s2">&quot;n_test&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_test</span><span class="p">),</span>
+                    <span class="s2">&quot;n_selected&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_vars</span><span class="p">),</span>
+                    <span class="s2">&quot;selected_vars&quot;</span><span class="p">:</span> <span class="n">selected_vars</span><span class="p">,</span>
+                <span class="p">}</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">fold_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fold_result</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_aggregate_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Aggregate selection frequencies, coefficients, and performance across folds.</span>
+
+<span class="sd">        Identifies consensus variables based on selection_threshold and computes</span>
+<span class="sd">        summary statistics for reporting.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">60</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Aggregating Results Across Folds&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">60</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fold_results</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: No folds completed successfully!&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cannot perform variable selection - all folds failed.&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">selected_explanatory_variables</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">return</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Successfully completed </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fold_results</span><span class="p">)</span><span class="si">}</span><span class="s2"> folds&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Calculate selection frequencies</span>
+        <span class="n">selection_counts</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">fold_result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fold_results</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">fold_result</span><span class="p">[</span><span class="s2">&quot;selected_vars&quot;</span><span class="p">]:</span>
+                <span class="n">selection_counts</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">selection_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">selection_counts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">selection_frequencies</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">count</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fold_results</span><span class="p">)</span>
+
+        <span class="c1"># Identify consensus variables (selected in ≥threshold of folds)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selected_explanatory_variables</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">var</span>
+            <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">selection_frequencies</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">freq</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">selection_threshold</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Sort by selection frequency (descending)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selected_explanatory_variables</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span>
+            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">selection_frequencies</span><span class="p">[</span><span class="n">v</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Aggregate performance metrics</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">outcome_type</span> <span class="o">==</span> <span class="s2">&quot;binary&quot;</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fold_results</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">aucs</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;auc&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fold_results</span> <span class="k">if</span> <span class="s2">&quot;auc&quot;</span> <span class="ow">in</span> <span class="n">r</span><span class="p">]</span>
+            <span class="n">briers</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;brier&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fold_results</span> <span class="k">if</span> <span class="s2">&quot;brier&quot;</span> <span class="ow">in</span> <span class="n">r</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">aucs</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">performance_metrics</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;auc_mean&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">aucs</span><span class="p">),</span>
+                    <span class="s2">&quot;auc_std&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">aucs</span><span class="p">),</span>
+                    <span class="s2">&quot;auc_min&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">aucs</span><span class="p">),</span>
+                    <span class="s2">&quot;auc_max&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">aucs</span><span class="p">),</span>
+                    <span class="s2">&quot;brier_mean&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">briers</span><span class="p">),</span>
+                    <span class="s2">&quot;brier_std&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">briers</span><span class="p">),</span>
+                <span class="p">}</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test Performance (n=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">aucs</span><span class="p">)</span><span class="si">}</span><span class="s2"> folds):&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;  AUC: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">performance_metrics</span><span class="p">[</span><span class="s1">&#39;auc_mean&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> ± &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">performance_metrics</span><span class="p">[</span><span class="s1">&#39;auc_std&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">performance_metrics</span><span class="p">[</span><span class="s1">&#39;auc_min&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">performance_metrics</span><span class="p">[</span><span class="s1">&#39;auc_max&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">]&quot;</span>
+                <span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;  Brier: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">performance_metrics</span><span class="p">[</span><span class="s1">&#39;brier_mean&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> ± &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">performance_metrics</span><span class="p">[</span><span class="s1">&#39;brier_std&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Consensus Variables (selected in ≥</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">selection_threshold</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">% of folds):&quot;</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selected_explanatory_variables</span><span class="p">)</span><span class="si">}</span><span class="s2"> variables: &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">selected_explanatory_variables</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="NestedCVElasticNetVariableSelection.print_stability_report">
+<a class="viewcode-back" href="../../api/selection.html#statwise.selection.NestedCVElasticNetVariableSelection.print_stability_report">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">print_stability_report</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print comprehensive stability and performance report.</span>
+
+<span class="sd">        Displays selection frequencies, coefficient distributions, and test</span>
+<span class="sd">        performance metrics in a formatted table for easy interpretation.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; selector.print_stability_report()</span>
+<span class="sd">        ======================================================================</span>
+<span class="sd">        VARIABLE SELECTION STABILITY REPORT</span>
+<span class="sd">        ======================================================================</span>
+<span class="sd">        ...</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">70</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;VARIABLE SELECTION STABILITY REPORT&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">70</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Analysis: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">response_variable</span><span class="si">}</span><span class="s2"> ~ </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explanatory_variables</span><span class="p">)</span><span class="si">}</span><span class="s2"> predictors&quot;</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Method: Nested CV Elastic Net (alpha_ratio=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha_ratio</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_repeats</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Outer CV: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">outer_cv</span><span class="si">}</span><span class="s2">-fold × </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_repeats</span><span class="si">}</span><span class="s2"> repeats = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">outer_cv</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">n_repeats</span><span class="si">}</span><span class="s2"> total iterations&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Outer CV: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">outer_cv</span><span class="si">}</span><span class="s2">-fold&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Inner CV: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">inner_cv</span><span class="si">}</span><span class="s2">-fold</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Selection frequency table</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Variable Selection Frequency:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;─&#39;</span><span class="o">*</span><span class="mi">70</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Variable&#39;</span><span class="si">:</span><span class="s2">&lt;30</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Frequency&#39;</span><span class="si">:</span><span class="s2">&lt;15</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Coefficient (mean±SD)&#39;</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;─&#39;</span><span class="o">*</span><span class="mi">70</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Sort by frequency (descending)</span>
+        <span class="n">sorted_vars</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">selection_frequencies</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">sorted_vars</span><span class="p">:</span>
+            <span class="n">freq_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">freq</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">% (</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">freq</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fold_results</span><span class="p">))</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fold_results</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+            <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefficient_distributions</span><span class="p">:</span>
+                <span class="n">coefs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefficient_distributions</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+                <span class="n">coef_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">coefs</span><span class="p">)</span>
+                <span class="n">coef_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">coefs</span><span class="p">)</span>
+                <span class="n">coef_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">coef_mean</span><span class="si">:</span><span class="s2">+.3f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="n">coef_std</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">coef_str</span> <span class="o">=</span> <span class="s2">&quot;N/A&quot;</span>
+
+            <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;✓&quot;</span> <span class="k">if</span> <span class="n">freq</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">selection_threshold</span> <span class="k">else</span> <span class="s2">&quot; &quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">marker</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">var</span><span class="si">:</span><span class="s2">&lt;28</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">freq_str</span><span class="si">:</span><span class="s2">&lt;15</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">coef_str</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;─&#39;</span><span class="o">*</span><span class="mi">70</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Performance metrics</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">performance_metrics</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test Set Performance:&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;─&#39;</span><span class="o">*</span><span class="mi">70</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;  AUC:         </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">performance_metrics</span><span class="p">[</span><span class="s1">&#39;auc_mean&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> ± &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">performance_metrics</span><span class="p">[</span><span class="s1">&#39;auc_std&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;  AUC range:   [</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">performance_metrics</span><span class="p">[</span><span class="s1">&#39;auc_min&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">performance_metrics</span><span class="p">[</span><span class="s1">&#39;auc_max&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">]&quot;</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;  Brier score: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">performance_metrics</span><span class="p">[</span><span class="s1">&#39;brier_mean&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> ± &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">performance_metrics</span><span class="p">[</span><span class="s1">&#39;brier_std&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;─&#39;</span><span class="o">*</span><span class="mi">70</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Consensus variables</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Consensus Variables (≥</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">selection_threshold</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">% selection):&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;─&#39;</span><span class="o">*</span><span class="mi">70</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">selected_explanatory_variables</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">selected_explanatory_variables</span><span class="p">:</span>
+                <span class="n">freq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">selection_frequencies</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  • </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">freq</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">% of folds&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  None (no variables met threshold)&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;─&#39;</span><span class="o">*</span><span class="mi">70</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NestedCVElasticNetVariableSelection.get_results_dataframe">
+<a class="viewcode-back" href="../../api/selection.html#statwise.selection.NestedCVElasticNetVariableSelection.get_results_dataframe">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_results_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return stability results as pandas DataFrame for export or further analysis.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pd.DataFrame</span>
+<span class="sd">            DataFrame with columns:</span>
+<span class="sd">            - variable: str, variable name</span>
+<span class="sd">            - selection_frequency: float, proportion of folds (0-1)</span>
+<span class="sd">            - n_folds_selected: int, number of folds selected</span>
+<span class="sd">            - coef_mean: float, mean coefficient across folds</span>
+<span class="sd">            - coef_std: float, standard deviation of coefficient</span>
+<span class="sd">            - consensus_selected: bool, whether in consensus set</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; results_df = selector.get_results_dataframe()</span>
+<span class="sd">        &gt;&gt;&gt; results_df.to_csv(&#39;selection_stability.csv&#39;, index=False)</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; # Filter to consensus variables</span>
+<span class="sd">        &gt;&gt;&gt; consensus = results_df[results_df[&#39;consensus_selected&#39;]]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">explanatory_variables</span><span class="p">:</span>
+            <span class="n">freq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">selection_frequencies</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefficient_distributions</span><span class="p">:</span>
+                <span class="n">coefs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefficient_distributions</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+                <span class="n">coef_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">coefs</span><span class="p">)</span>
+                <span class="n">coef_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">coefs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">coef_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                <span class="n">coef_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">var</span><span class="p">,</span>
+                    <span class="s2">&quot;selection_frequency&quot;</span><span class="p">:</span> <span class="n">freq</span><span class="p">,</span>
+                    <span class="s2">&quot;n_folds_selected&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">freq</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fold_results</span><span class="p">)),</span>
+                    <span class="s2">&quot;coef_mean&quot;</span><span class="p">:</span> <span class="n">coef_mean</span><span class="p">,</span>
+                    <span class="s2">&quot;coef_std&quot;</span><span class="p">:</span> <span class="n">coef_std</span><span class="p">,</span>
+                    <span class="s2">&quot;consensus_selected&quot;</span><span class="p">:</span> <span class="n">freq</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">selection_threshold</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;selection_frequency&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+</div>
 
 </pre></div>
 
