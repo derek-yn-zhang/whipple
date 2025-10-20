@@ -2,7 +2,7 @@
 
 Statistical analysis of incisional negative pressure wound therapy (INPWT) outcomes in pancreatic surgery (Whipple procedure).
 
-## Quick Start (No Python Knowledge Required!)
+## Quick Start
 
 ### 1. Install UV (one-time setup)
 
@@ -110,32 +110,6 @@ uv run --extra dev pytest  # With dev dependencies
 - **No manual setup required** - UV handles everything
 - Python 3.10+ (automatically installed by UV)
 - ~500MB disk space for dependencies
-
----
-
-## Troubleshooting
-
-### "uv: command not found"
-Restart your terminal after installing UV, or run:
-```bash
-source $HOME/.cargo/env
-```
-
-### Jupyter Lab won't start
-```bash
-# Verify UV installation
-uv --version
-
-# Force reinstall dependencies
-uv sync --reinstall
-```
-
-### Import errors in notebook
-Make sure you're running Jupyter through UV:
-```bash
-uv run jupyter lab  # ✓ Correct
-jupyter lab         # ✗ Wrong (won't use UV environment)
-```
 
 ---
 
