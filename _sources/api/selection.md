@@ -22,6 +22,16 @@ The `selection` module provides two complementary approaches to variable selecti
    :special-members: __init__
 ```
 
+## NestedCVElasticNetVariableSelection
+
+```{eval-rst}
+.. autoclass:: statwise.selection.NestedCVElasticNetVariableSelection
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :special-members: __init__
+```
+
 ## Usage Examples
 
 ### Univariate Selection
